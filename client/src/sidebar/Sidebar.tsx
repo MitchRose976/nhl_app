@@ -15,9 +15,18 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { grey } from '@mui/material/colors';
+import './style.scss';
+import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
+import Groups from '@mui/icons-material/Groups';
+import Person from '@mui/icons-material/Person';
+// import { 
+//   FormatListNumberedIcon, 
+//   Groups,
+//   Person
+// } from '@mui/icons-material';
 
-const bannerColor = grey[800];
+
+import { Icon } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -29,7 +38,7 @@ interface Props {
   window?: () => Window;
 }
 
-export default function ResponsiveDrawer(props: Props) {
+const ResponsiveDrawer = (props: Props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -37,18 +46,26 @@ export default function ResponsiveDrawer(props: Props) {
     setMobileOpen(!mobileOpen);
   };
 
+  const menuItems : {menuKey: string, icon: string}[] = [
+    {menuKey: 'Home', icon: '<FormatListNumberedIcon/>'}, 
+    {menuKey: 'Standings', icon: '<FormatListNumberedIcon/>'}, 
+    {menuKey: 'Team Stats', icon: '<Groups/>'}, 
+    {menuKey: 'Player Stats', icon: '<Person/>'}
+  ];
+
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
+        {menuItems.map((text) => (
+          <ListItem key={text.menuKey} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {/* Need to add Icon here */}
+                {/* <Icon>Person</Icon> */}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={text.menuKey} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -78,7 +95,7 @@ export default function ResponsiveDrawer(props: Props) {
         position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          ml: { sm: `${drawerWidth}px` }, 
         }}
       >
         <Toolbar>
@@ -140,3 +157,5 @@ export default function ResponsiveDrawer(props: Props) {
     </Box>
   );
 }
+
+export default ResponsiveDrawer;
