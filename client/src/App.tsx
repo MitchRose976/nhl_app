@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Home from "./home/Home";
 import Sidebar from "./sidebar/Sidebar";
 import Sidebar2 from "./sidebar/Sidebar2";
@@ -16,6 +16,7 @@ const theme = createTheme({
 });
 
 const App = () => {
+
   const navbarProps = {
     xs: 12,
     sm: 12,
@@ -23,15 +24,15 @@ const App = () => {
     lg: 12,
     xl: 12,
     //style: {border: '1px solid blue'}
-  }
+  };
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container >
+      <Grid container>
         <Grid item {...navbarProps}>
           <Sidebar2 />
         </Grid>
-        
+
         {/* <Grid item style={{ border: "1px solid green" }}>
           <Home />
         </Grid> */}
