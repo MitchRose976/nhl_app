@@ -1,7 +1,6 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import MenuIcon from "@mui/icons-material/Menu";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
@@ -10,17 +9,11 @@ import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import { menuItems } from "../../shared/constants";
-//import { makeStyles } from '@material-ui/core';
-import { GlobalStyles } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import "../style.scss";
 
-// const options = [
-//   "Create a merge commit",
-//   "Squash and merge",
-//   "Rebase and merge",
-// ];
-
 const HamburgerDropdown = () => {
+  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
@@ -48,7 +41,6 @@ const HamburgerDropdown = () => {
     ) {
       return;
     }
-
     setOpen(false);
   };
 
@@ -85,9 +77,8 @@ const HamburgerDropdown = () => {
         variant="contained"
         ref={anchorRef}
         aria-label="split button"
-        className="hamburger-button"
+        sx={{ boxShadow: "none", margin: "0 2rem 0 auto" }}
       >
-        {/* <Button onClick={handleClick}>{options[selectedIndex]}</Button> */}
         <Button
           size="small"
           aria-controls={open ? "split-button-menu" : undefined}
@@ -112,10 +103,9 @@ const HamburgerDropdown = () => {
               sx={{
                 width: "100%",
                 marginTop: "5px",
-                backgroundColor: "#34312D",
+                backgroundColor: theme.palette.primary.main,
                 opacity: "0.8",
                 color: "white",
-                border: '1px solid red'
               }}
             >
               <ClickAwayListener onClickAway={handleClose}>

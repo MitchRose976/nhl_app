@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Home from "./home/Home";
-import Sidebar from "./sidebar/Sidebar";
-import Sidebar2 from "./sidebar/Sidebar2";
+import Navbar from "./sidebar/NavBar";
 import Grid from "@mui/material/Grid/Grid";
-import Paper from "@mui/material/Paper/Paper";
+import LiveScoreBar from './scores/LiveScoreBar';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-// import "./shared/colors.scss";
 
 const theme = createTheme({
   palette: {
@@ -23,14 +21,24 @@ const App = () => {
     md: 12,
     lg: 12,
     xl: 12,
-    //style: {border: '1px solid blue'}
+  };
+
+  const liveScoreBarProps = {
+    xs: 12,
+    sm: 12,
+    md: 12,
+    lg: 12,
+    xl: 12,
   };
 
   return (
     <ThemeProvider theme={theme}>
       <Grid container>
         <Grid item {...navbarProps}>
-          <Sidebar2 />
+          <Navbar />
+        </Grid>
+        <Grid item {...liveScoreBarProps}>
+          <LiveScoreBar />
         </Grid>
 
         {/* <Grid item style={{ border: "1px solid green" }}>

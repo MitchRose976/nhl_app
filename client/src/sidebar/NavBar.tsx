@@ -5,8 +5,7 @@ import HamburgerDropdown from "./components/HamburgerDropdown";
 import { menuItems } from "../shared/constants";
 import "./style.scss";
 
-const Sidebar2 = () => {
-
+const Navbar = () => {
   const getWindowSize = () => {
     const { innerWidth, innerHeight } = window;
     return { innerWidth, innerHeight };
@@ -45,15 +44,20 @@ const Sidebar2 = () => {
 
   return (
     <>
-      <AppBar position="static" sx={{ zIndex: 10, border: "1px solid green" }}>
-        <Toolbar sx={{ display: "grid", gridTemplateColumns: "1fr 5fr" }}>
+      <AppBar position="static" sx={{ zIndex: 10 }}>
+        <Toolbar
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "1fr 5fr",
+            position: "static",
+          }}
+        >
           <Logo />
-          {window.innerWidth > 790 ? renderFullMenu() : <HamburgerDropdown/>}
+          {windowSize.innerWidth > 790 ? renderFullMenu() : <HamburgerDropdown />}
         </Toolbar>
       </AppBar>
-      {console.log('mitch window: ', windowSize)}
     </>
   );
 };
 
-export default Sidebar2;
+export default Navbar;
