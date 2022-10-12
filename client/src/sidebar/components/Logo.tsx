@@ -2,6 +2,7 @@ import { IconButton, Typography } from "@mui/material";
 import SportsHockeyIcon from "@mui/icons-material/SportsHockey";
 
 const Logo = () => {
+  
   return (
     <div className="navbar-logo">
       <IconButton size="large" edge="start" color="inherit" aria-label="logo">

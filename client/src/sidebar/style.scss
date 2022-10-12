@@ -1,16 +1,11 @@
-.navbar {
-    // display: flex;
-    // justify-content: space-between;
-    // align-items: center;
-}
-
 .navbar-logo {
     display: flex;
     justify-content: center;
     align-items: center;
-    float: left;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    min-width: 8rem;
+    height: 100%;
 }
 
-.hamburger-button {
-    margin: 0 auto !important;
-}
+
