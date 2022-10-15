@@ -1,20 +1,27 @@
 import React, { useState, useEffect } from "react";
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
 
 const GameCard = () => {
-    
-    return (
-        <Card >
-            <CardHeader></CardHeader>
-            <CardMedia></CardMedia>
-            <CardContent></CardContent>
-            <CardActions></CardActions>
-        </Card>
-    )
+  return (
+    <Card
+      raised
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <CardHeader title="" subheader="P1 - 16:31" />
+      {/* <CardMedia></CardMedia> */}
+      <CardContent>3 - 1</CardContent>
+      <CardActions></CardActions>
+    </Card>
+  );
 };
 
 export default GameCard;
