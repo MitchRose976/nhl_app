@@ -1,12 +1,66 @@
 import React, { useState, useEffect } from "react";
+import axios, { AxiosResponse } from "axios";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 
+const nhlLogoUrl =
+  "https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/";
+
 const GameCard = () => {
-  return (
+  const [logos, setLogos] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const renderTeamLogo = (svgString: string) => {
+    console.log("mitch svgString: ", svgString);
+    return svgString !== "" ? (
+      <svg width="50" height="50">
+        <image
+          href={`${svgString}`}
+          // src={`${svgString}`}
+          width="50"
+          height="50"
+        />
+      </svg>
+    ) : null;
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    const numOfTeams = 30;
+    let teamLogosUrls = [];
+    for (let i = 0; i < numOfTeams; i++) {
+      // push all team logo urls to array
+      if (i + 1 !== 11 && i + 1 !== 27) {
+        const logoRequest = axios.get(`${nhlLogoUrl}${i + 1}.svg`);
+        teamLogosUrls.push(logoRequest);
+      }
+    }
+    axios
+      .all(teamLogosUrls)
+      .then((response: AxiosResponse<any, any>[]) => {
+        let teamLogos: string[] = [];
+        response.forEach((logo) => {
+          teamLogos.push(logo.config.url ? logo.config.url : "");
+        });
+        setLogos(teamLogos);
+      })
+      .catch((error) => console.log("mitch error: ", error));
+    setLoading(false);
+  }, []);
+
+  const sxFlexBoxProps = {
+    // border: "1px solid blue",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingBottom: "10px",
+    //padding: '0px 8px'
+  };
+
+  return !loading ? (
     <Card
       raised
       sx={{
@@ -16,12 +70,16 @@ const GameCard = () => {
         alignItems: "center",
       }}
     >
-      <CardHeader title="" subheader="P1 - 16:31" />
-      {/* <CardMedia></CardMedia> */}
-      <CardContent>3 - 1</CardContent>
-      <CardActions></CardActions>
+      {/* {console.log('mitch teamLogos: ', logos)} */}
+      <CardHeader title="" subheader="P1 - 16:31" sx={{paddingTop: '10px', paddingBottom: '0'}}/>
+      <CardContent sx={{...sxFlexBoxProps}}>
+        {logos[0] && renderTeamLogo(logos[0])} 3 - 1{" "}
+        {logos[1] && renderTeamLogo(logos[1])}
+      </CardContent>
+      {/* {console.log("mitch logo 1", logos[1])} */}
+      {/* <CardActions></CardActions> */}
     </Card>
-  );
+  ) : null;
 };
 
 export default GameCard;
