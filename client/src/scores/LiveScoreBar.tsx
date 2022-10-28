@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid/Grid";
 import GameCard from "./components/GameCard";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { scoreBarArrowSXProps } from "./styles";
+import Carousel from "react-material-ui-carousel";
+import "./style.scss";
 
 const LiveScoreBar = () => {
-
   const getWindowSize = () => {
     const { innerWidth, innerHeight } = window;
     return { innerWidth, innerHeight };
@@ -14,24 +12,7 @@ const LiveScoreBar = () => {
   // states
   const [windowSize, setWindowSize] = useState(getWindowSize());
   const [maxGameCards, setMaxGameCards] = useState(0);
-  const [gameCardsArray, setGameCardsArray] = useState<JSX.Element[]>([])
-
-  const arrowProps = {
-    xs: 1,
-    sm: 1,
-    md: 1,
-    lg: 1,
-    xl: 1,
-    sx: scoreBarArrowSXProps,
-  };
-
-  const gameBarProps = {
-    xs: 10,
-    sm: 10,
-    md: 10,
-    lg: 10,
-    xl: 10,
-  };
+  const [gameCardsArray, setGameCardsArray] = useState<JSX.Element[]>([]);
 
   useEffect(() => {
     const handleWindowResize = () => {
@@ -45,14 +26,24 @@ const LiveScoreBar = () => {
 
   const renderGameCards = () => {
     // should grab array of GameCards based on how many games are being played, split them to an even amount of rows based on max amount that can be displayed in available space
+
+    // still need to have total amount of cards
+    // parent array
     let gameCardsArray = [];
+    let singleSlideOfGameCardsArray = [];
     for (let i = 0; i < maxGameCards; i++) {
-      gameCardsArray.push(
-        <Grid item>
+      singleSlideOfGameCardsArray.push(
+        <Grid item key={i}>
           <GameCard />
         </Grid>
       );
     }
+    const slide = (
+      <div className="game-card-slide-div">
+        {singleSlideOfGameCardsArray}
+      </div>
+    )
+    gameCardsArray.push(slide);
     setGameCardsArray(gameCardsArray);
   };
 
@@ -64,31 +55,15 @@ const LiveScoreBar = () => {
     else if (window.innerWidth > 450) setMaxGameCards(2);
     else setMaxGameCards(1);
     renderGameCards();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [windowSize]);
 
   return (
-    <Grid container wrap='nowrap' sx={{backgroundColor: '#141414'}}>
-      <Grid item {...arrowProps}>
-        <KeyboardArrowLeftIcon sx={{color: 'white'}}/>
-      </Grid>
-
-      <Grid item {...gameBarProps}>
-        <Grid
-          container
-          item
-          spacing={2}
-          wrap="nowrap"
-          sx={{ padding: "0.5rem", justifyContent: "center" }}
-        >
+      <Carousel
+        className="live-game-carousel"
+      >
           {gameCardsArray.map((gameCard) => gameCard)}
-        </Grid>
-      </Grid>
-
-      <Grid item {...arrowProps}>
-        <KeyboardArrowRightIcon sx={{color: 'white'}}/>
-      </Grid>
-    </Grid>
+      </Carousel>
   );
 };
 
