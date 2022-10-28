@@ -4,12 +4,20 @@ import Navbar from "./sidebar/NavBar";
 import Grid from "@mui/material/Grid/Grid";
 import LiveScoreBar from './scores/LiveScoreBar';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { green } from "@mui/material/colors";
 
+// black: '#090A0B',
+// Eerie Black: '#141414'
+// Smoky Black: '#12100E'
+// Powder Blue: '#ACDDE7'
+// Middle Blue Green: '#9AD5CA'
+// Cerulean Crayola: '#06AED5'
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#34312D",
+      main: "#090A0B",
     },
+    secondary: green,
   },
 });
 
