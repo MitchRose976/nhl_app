@@ -12,6 +12,7 @@ import {
 import { statsTableHeaderCells } from "../constants";
 import "../style.scss";
 import PlayerStats from "../../playerStats/PlayerStats";
+import colors from "../../styles/_variables.module.scss";
 
 const PlayerCard = () => {
   const teamLogoUrl =
@@ -78,7 +79,10 @@ const PlayerCard = () => {
   }) => {
     return statsTableHeaderCells.map((stat) => {
       return (
-        <TableCell key={stat} sx={{ paddingTop: "7.5px", paddingBottom: "13.5px" }}>
+        <TableCell
+          key={stat}
+          sx={{ paddingTop: "7.5px", paddingBottom: "13.5px" }}
+        >
           {playerData[stat]}
         </TableCell>
       );
@@ -87,42 +91,52 @@ const PlayerCard = () => {
 
   return (
     <Paper>
-    <Card className="player-card-container">
-      <div className="player-card-header-container">
-        <div className="player-card-headshot-container">
-          <img src={playerPicUrl} />
-        </div>
-
-        <div className="player-card-info-container">
-          <div className="player-card-number-logo">
-            <span>#34</span>
-            <img src={teamLogoUrl} />
+      <Card className="player-card-container">
+        <div className="player-card-header-container">
+          <div className="player-card-headshot-container">
+            <img src={playerPicUrl} />
           </div>
 
-          <span style={{ fontSize: "0.95rem", fontWeight: "bold" }}>
-            Auston Matthews
-          </span>
-          <div className="player-card-bio">
-            <span>Age: 24 Height: 6'2</span>
-            {/* <span>Height: 6'2</span> */}
-            <span>Weight: 210</span>
+          <div className="player-card-info-container">
+            <div className="player-card-number-logo">
+              <span>#34</span>
+              <img src={teamLogoUrl} />
+            </div>
+
+            <span style={{ fontSize: "0.95rem", fontWeight: "bold" }}>
+              Auston Matthews
+            </span>
+            <div className="player-card-bio">
+              <span>Age: 24 Height: 6'2</span>
+              {/* <span>Height: 6'2</span> */}
+              <span>Weight: 210</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Stats Table */}
-      <div className="player-card-stats-container">
-        <span>2022-2023</span>
-        <TableContainer>
-          <Table size="small">
-            <TableHead>
-              <TableRow>{renderTableHeaderCells()}</TableRow>
-            </TableHead>
-            <TableBody>{renderTableBodyCells(playerData)}</TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    </Card>
+        {/* Stats Table */}
+        <div className="player-card-stats-container">
+          <div
+            style={{
+              backgroundColor: `${colors["tor-first"]}`,
+              padding: "3px 0",
+            }}
+          >
+            <span>2022-2023</span>
+          </div>
+          <TableContainer>
+            <Table size="small">
+              <TableHead>
+                <TableRow>{renderTableHeaderCells()}</TableRow>
+              </TableHead>
+              <TableBody>{renderTableBodyCells(playerData)}</TableBody>
+            </Table>
+          </TableContainer>
+          {/* <div style={{width: '31%', border: '1px solid red'}}> */}
+            {/* <img src={teamLogoUrl} style={{width: '5rem', height: '3rem'}}></img> */}
+          {/* </div> */}
+        </div>
+      </Card>
     </Paper>
   );
 };

@@ -1,3 +1,5 @@
+@import '../styles/variables.module';
+
 .home-page {
     // margin: 0 0 0 50px;
     border: 1px solid red;
@@ -5,12 +7,13 @@
 }
 
 .player-card-container {
-    min-height: 17rem;
+    min-height: 19rem;
     max-height: 19rem;
-    min-width: 13rem;
+    min-width: 16rem;
     max-width: 16rem;
     border: 1px solid black;
     position: relative;
+    // background-color: $tor-first !important;
 }
 
 // Top half of card
@@ -20,6 +23,7 @@
     align-items: center;
     width: 100%;
     height: 50%;
+    z-index: 10;
 }
 
 .player-card-headshot-container {
@@ -80,13 +84,19 @@
 // Bottom half of card
 .player-card-stats-container {
     display: flex;
-    justify-content: center;
+    //justify-content: center;
     align-items: center;
     flex-direction: column;
     border-top: 1.5px solid black;
+    z-index: 10;
+    // border: 1px solid green;
+    height: 11rem;
+    // background-color: $tor-first;
 }
 
-.player-card-stats-container span {
-    text-align: left;
-    margin: 0.5rem 0;
+.player-card-stats-container div {
+    text-align: center;
+    color: #ffffff;
+    width: 100%;
+    margin-bottom: 0.3rem;
 }
