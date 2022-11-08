@@ -21,7 +21,7 @@ const PlayerCard = () => {
 
   const renderTableHeaderCells = () => {
     return statsTableHeaderCells.map((cell) => {
-      return <TableCell>{cell}</TableCell>;
+      return <TableCell key={cell}>{cell}</TableCell>;
     });
   };
 
@@ -78,7 +78,7 @@ const PlayerCard = () => {
   }) => {
     return statsTableHeaderCells.map((stat) => {
       return (
-        <TableCell sx={{ paddingTop: "7.5px", paddingBottom: "13.5px" }}>
+        <TableCell key={stat} sx={{ paddingTop: "7.5px", paddingBottom: "13.5px" }}>
           {playerData[stat]}
         </TableCell>
       );
