@@ -9,7 +9,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import { statsTableHeaderCells } from "../constants";
+import { statsTableHeaderCells, biographyTableHeaderCells } from "../constants";
 import "../style.scss";
 import PlayerStats from "../../playerStats/PlayerStats";
 import colors from "../../styles/_variables.module.scss";
@@ -19,6 +19,19 @@ const PlayerCard = () => {
     "https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/10.svg";
   const playerPicUrl =
     "http://nhl.bamcontent.com/images/headshots/current/168x168/8479318.jpg";
+
+  const renderBioListItems = () => {
+    return biographyTableHeaderCells.map((header) => {
+      return (
+        <li
+          key={header}
+          style={{ listStyleType: "none", display: "inline-block" }}
+        >
+          {header}:
+        </li>
+      );
+    });
+  };
 
   const renderTableHeaderCells = () => {
     return statsTableHeaderCells.map((cell) => {
@@ -81,7 +94,7 @@ const PlayerCard = () => {
       return (
         <TableCell
           key={stat}
-          sx={{ paddingTop: "7.5px", paddingBottom: "13.5px" }}
+          sx={{ paddingTop: "2.5px", paddingBottom: "13.5px" }}
         >
           {playerData[stat]}
         </TableCell>
@@ -103,38 +116,53 @@ const PlayerCard = () => {
               <img src={teamLogoUrl} />
             </div>
 
-            <span style={{ fontSize: "0.95rem", fontWeight: "bold" }}>
+            <span
+              style={{
+                fontSize: "0.95rem",
+                fontWeight: "bold",
+                marginTop: "0.75rem",
+              }}
+            >
               Auston Matthews
             </span>
-            <div className="player-card-bio">
+            {/* <div className="player-card-bio">
               <span>Age: 24 Height: 6'2</span>
-              {/* <span>Height: 6'2</span> */}
               <span>Weight: 210</span>
-            </div>
+            </div> */}
           </div>
         </div>
 
         {/* Stats Table */}
         <div className="player-card-stats-container">
-          <div
-            style={{
-              backgroundColor: `${colors["tor-first"]}`,
-              padding: "3px 0",
-            }}
-          >
+          <div className="player-card-stats-container-child">
+            <span>Biography</span>
+          </div>
+
+          <div className="player-card-bio-list">
+            <ul>
+              <li>Position: C</li>
+              <li>Shoots: L</li>
+              <li>Born: San Ramon, CA</li>
+              <li>Age: 25</li>
+              <li>Height: 6'3</li>
+              <li>Weight: 208</li>
+            </ul>
+          </div>
+
+          <div className="player-card-stats-container-child">
             <span>2022-2023</span>
           </div>
-          <TableContainer>
+
+          <TableContainer style={{minHeight: '10rem'}}>
             <Table size="small">
               <TableHead>
                 <TableRow>{renderTableHeaderCells()}</TableRow>
               </TableHead>
-              <TableBody>{renderTableBodyCells(playerData)}</TableBody>
+              <TableBody style={{ height: "1rem" }}>
+                {renderTableBodyCells(playerData)}
+              </TableBody>
             </Table>
           </TableContainer>
-          {/* <div style={{width: '31%', border: '1px solid red'}}> */}
-            {/* <img src={teamLogoUrl} style={{width: '5rem', height: '3rem'}}></img> */}
-          {/* </div> */}
         </div>
       </Card>
     </Paper>

@@ -7,8 +7,8 @@
 }
 
 .player-card-container {
-    min-height: 19rem;
-    max-height: 19rem;
+    min-height: 20.5rem;
+    max-height: 20.5rem;
     min-width: 16rem;
     max-width: 16rem;
     border: 1px solid black;
@@ -60,7 +60,6 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    // border: 1px solid green;
     width: 100%;
     max-height: 50%;
     min-height: 50%;
@@ -94,9 +93,32 @@
     // background-color: $tor-first;
 }
 
-.player-card-stats-container div {
+.player-card-bio-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.player-card-bio-list ul {
+    color: black;
+    list-style-type: none;
+    padding: 0 !important;
+    margin: 7px 0 !important;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.player-card-bio-list ul li {
+    display: inline-block;
+    margin: 0 7px;
+}
+
+.player-card-stats-container-child {
     text-align: center;
     color: #ffffff;
     width: 100%;
     margin-bottom: 0.3rem;
+    background-color: $tor-first;
+    padding: 3px 0;
 }
