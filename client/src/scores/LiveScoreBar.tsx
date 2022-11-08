@@ -39,10 +39,8 @@ const LiveScoreBar = () => {
       );
     }
     const slide = (
-      <div className="game-card-slide-div">
-        {singleSlideOfGameCardsArray}
-      </div>
-    )
+      <div className="game-card-slide-div">{singleSlideOfGameCardsArray}</div>
+    );
     gameCardsArray.push(slide);
     setGameCardsArray(gameCardsArray);
   };
@@ -59,11 +57,9 @@ const LiveScoreBar = () => {
   }, [windowSize]);
 
   return (
-      <Carousel
-        className="live-game-carousel"
-      >
-          {gameCardsArray.map((gameCard) => gameCard)}
-      </Carousel>
+    <Carousel className="live-game-carousel">
+      {gameCardsArray.map((gameCard) => gameCard)}
+    </Carousel>
   );
 };
 
