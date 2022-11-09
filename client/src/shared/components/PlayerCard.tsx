@@ -11,8 +11,6 @@ import {
 } from "@mui/material";
 import { statsTableHeaderCells, biographyTableHeaderCells } from "../constants";
 import "../style.scss";
-import PlayerStats from "../../playerStats/PlayerStats";
-import colors from "../../styles/_variables.module.scss";
 
 const PlayerCard = () => {
   const teamLogoUrl =
@@ -105,6 +103,7 @@ const PlayerCard = () => {
   return (
     <Paper>
       <Card className="player-card-container">
+        {/* Top Half */}
         <div className="player-card-header-container">
           <div className="player-card-headshot-container">
             <img src={playerPicUrl} />
@@ -115,7 +114,7 @@ const PlayerCard = () => {
               <span>#34</span>
               <img src={teamLogoUrl} />
             </div>
-
+            {/* Player Name */}
             <span
               style={{
                 fontSize: "0.95rem",
@@ -125,19 +124,15 @@ const PlayerCard = () => {
             >
               Auston Matthews
             </span>
-            {/* <div className="player-card-bio">
-              <span>Age: 24 Height: 6'2</span>
-              <span>Weight: 210</span>
-            </div> */}
           </div>
         </div>
 
-        {/* Stats Table */}
+        {/* Bottom Half */}
         <div className="player-card-stats-container">
           <div className="player-card-stats-container-child">
             <span>Biography</span>
           </div>
-
+          {/* Bio */}
           <div className="player-card-bio-list">
             <ul>
               <li>Position: C</li>
@@ -148,12 +143,12 @@ const PlayerCard = () => {
               <li>Weight: 208</li>
             </ul>
           </div>
-
+          {/* Season Year */}
           <div className="player-card-stats-container-child">
             <span>2022-2023</span>
           </div>
-
-          <TableContainer style={{minHeight: '10rem'}}>
+          {/* Stats Table */}
+          <TableContainer>
             <Table size="small">
               <TableHead>
                 <TableRow>{renderTableHeaderCells()}</TableRow>

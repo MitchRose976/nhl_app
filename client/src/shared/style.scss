@@ -13,7 +13,6 @@
     max-width: 16rem;
     border: 1px solid black;
     position: relative;
-    // background-color: $tor-first !important;
 }
 
 // Top half of card
@@ -33,7 +32,6 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    // border-bottom: 1px solid red;
 }
 
 .player-card-headshot-container img {
@@ -48,7 +46,6 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    // border-bottom: 1px solid black;
     text-align: center;
 }
 
@@ -83,14 +80,11 @@
 // Bottom half of card
 .player-card-stats-container {
     display: flex;
-    //justify-content: center;
     align-items: center;
     flex-direction: column;
     border-top: 1.5px solid black;
     z-index: 10;
-    // border: 1px solid green;
-    height: 11rem;
-    // background-color: $tor-first;
+    height: 12.4rem;
 }
 
 .player-card-bio-list {
