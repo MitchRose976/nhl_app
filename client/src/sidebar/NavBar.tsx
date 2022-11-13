@@ -36,7 +36,9 @@ const Navbar = () => {
         }}
       >
         {menuItems.map((menuItem) => (
-          <Button color="inherit">{menuItem}</Button>
+          <Button key={menuItem} color="inherit">
+            {menuItem}
+          </Button>
         ))}
       </Stack>
     );
@@ -44,7 +46,7 @@ const Navbar = () => {
 
   return (
     <>
-      <AppBar position="static" sx={{ zIndex: 10 }}>
+      <AppBar position="static">
         <Toolbar
           sx={{
             display: "grid",
@@ -53,7 +55,11 @@ const Navbar = () => {
           }}
         >
           <Logo />
-          {windowSize.innerWidth > 790 ? renderFullMenu() : <HamburgerDropdown />}
+          {windowSize.innerWidth > 790 ? (
+            renderFullMenu()
+          ) : (
+            <HamburgerDropdown />
+          )}
         </Toolbar>
       </AppBar>
     </>

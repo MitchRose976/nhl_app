@@ -46,7 +46,7 @@ const HamburgerDropdown = () => {
 
   const popperProps = {
     sx: {
-      zIndex: 1,
+      zIndex: 9999,
       width: "100%",
     },
     open: open,

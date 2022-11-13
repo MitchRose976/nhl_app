@@ -1,0 +1,304 @@
+// Anaheim Ducks
+$ana-first: #f47a38;
+$ana-sec: #b9975b;
+
+// Arizona Coyotes
+$azi-first: #8c2633;
+$azi-sec: #e2d6b5;
+
+// Boston Bruins
+$bos-first: #ffb81c;
+$bos-sec: #000000;
+
+// Buffalo Sabres
+$buf-first: #003087;
+$buf-sec: #ffb81c;
+$buf-third: #ffffff;
+
+// Calgary Flames
+$cal-first: #d2001c;
+$cal-sec: #faaf19;
+$cal-third: #ffffff;
+
+// Carolina Hurricanes
+$car-first: #ce1126;
+$car-sec: #ffffff;
+$car-third: #a4a9ad;
+$car-fourth: #111111;
+
+// Chicago Blackhawks
+$chi-first: #ce1126;
+$chi-sec: #ffffff;
+$chi-third: #111111;
+
+// Colorado Avalanche
+$col-first: #6f263d;
+$col-sec: #236192;
+$col-third: #ffffff;
+$col-fourth: #111111;
+
+// Columbus Blue Jackets
+$cbj-first: #002654;
+$cbj-sec: #ce1126;
+$cbj-third: #a4a9ad;
+$cbj-fourth: #ffffff;
+
+// Dallas Stars
+$dal-first: #006847;
+$dal-sec: #111111;
+$dal-third: #8f8f8c;
+$dal-fourth: #ffffff;
+
+// Detroit Red Wings
+$det-first: #ce1126;
+$det-sec: #ffffff;
+
+// Edmonton Oilers
+$edm-first: #041e41;
+$edm-sec: #ff4c00;
+$edm-third: #ffffff;
+
+// Florida Panthers
+$flo-first: #041e42;
+$flo-sec: #c8102e;
+$flo-third: #b9975b;
+
+// Los Angeles Kings
+$lak-first: #111111;
+$lak-sec: #acaea9;
+$lak-third: #ffffff;
+
+// Minnesota Wild
+$min-first: #024930;
+$min-sec: #e2d6b5;
+$min-third: #af1e24;
+$min-fourth: #edaa00;
+
+// Montreal Canadiens
+$mon-first: #af1e2d;
+$mon-sec: #192168;
+$mon-third: #ffffff;
+
+// Nashville Predators
+$nsh-first: #041e42;
+$nsh-sec: #ffb81c;
+$nsh-third: #ffffff;
+
+// New Jersey Devils
+$njd-first: #ce1126;
+$njd-sec: #111111;
+$njd-third: #ffffff;
+
+// New York Islanders
+$nyi-first: #00539b;
+$nyi-sec: #f47d30;
+$nyi-third: #ffffff;
+
+// New York Rangers
+$nyr-first: #0038a8;
+$nyr-sec: #ce1126;
+$nyr-third: #ffffff;
+
+// Ottawa Senators
+$ott-first: #ce1126;
+$ott-sec: #bf910c;
+$ott-third: #111111;
+$ott-fourth: #ffffff;
+
+// Philadelphia Flyers
+$phi-first: #f74902;
+$phi-sec: #111111;
+$phi-third: #ffffff;
+
+// Pittsburgh Penguins
+$pit-first: #fcb514;
+$pit-sec: #111111;
+$pit-third: #ffffff;
+
+// San Jose Sharks
+$sjs-first: #006d75;
+$sjs-sec: #ffffff;
+$sjs-third: #111111;
+$sjs-fourth: #ea7200;
+
+// Seattle Kraken
+$sea-first: #001628;
+$sea-sec: #99d9d9;
+$sea-third: #355464;
+$sea-fourth: #e9072b;
+
+// St.Louis Blues
+$stl-first: #002f87;
+$stl-sec: #002654;
+$stl-third: #fcb514;
+$stl-fourth: #ffffff;
+
+// Tampa Bay Lightning
+$tbl-first: #002868;
+$tbl-second: #ffffff;
+
+// Toronto Maple Leafs
+//$tor-first: #00205b;
+$tor-first: #133e8f;
+$tor-sec: #ffffff;
+
+// Vancouver Canucks
+$van-first: #001f5b;
+$van-sec: #00843d;
+$van-third: #ffffff;
+
+// Vegas Golden Knights
+$veg-first: #333f42;
+$veg-sec: #b4975a;
+$veg-third: #ffffff;
+$veg-fourth: #111111;
+
+// Washington Capitals
+$wsh-first: #041e41;
+$wsh-sec: #c8102e;
+$wsh-third: #ffffff;
+
+// Winnipeg Jets
+$win-first: #041e41;
+$win-sec: #004c97;
+$win-third: #ffffff;
+$win-fourth: #ac162c;
+$win-fifth: #8e9090;
+
+:export {
+  // Anaheim Ducks
+  ana-first: #f47a38;
+  ana-sec: #b9975b;
+  // Arizona Coyotes
+  azi-first: #8c2633;
+  azi-sec: #e2d6b5;
+  // Boston Bruins
+  bos-first: #ffb81c;
+  bos-sec: #000000;
+  // Buffalo Sabres
+  buf-first: #003087;
+  buf-sec: #ffb81c;
+  buf-third: #ffffff;
+  // Calgary Flames
+  cal-first: #d2001c;
+  cal-sec: #faaf19;
+  cal-third: #ffffff;
+  // Carolina Hurricanes
+  car-first: #ce1126;
+  car-sec: #ffffff;
+  car-third: #a4a9ad;
+  car-fourth: #000000;
+  // Chicago Blackhawks
+  chi-first: #ce1126;
+  chi-sec: #ffffff;
+  chi-third: #000000;
+  // Colorado Avalanche
+  col-first: #6f263d;
+  col-sec: #236192;
+  col-third: #ffffff;
+  col-fourth: #111111;
+  // Columbus Blue Jackets
+  cbj-first: #002654;
+  cbj-sec: #ce1126;
+  cbj-third: #a4a9ad;
+  cbj-fourth: #ffffff;
+  // Dallas Stars
+  dal-first: #006847;
+  dal-sec: #111111;
+  dal-third: #8f8f8c;
+  dal-fourth: #ffffff;
+  // Detroit Red Wings
+  det-first: #ce1126;
+  det-sec: #ffffff;
+  // Edmonton Oilers
+  edm-first: #041e41;
+  edm-sec: #ff4c00;
+  edm-third: #ffffff;
+  // Florida Panthers
+  flo-first: #041e42;
+  flo-sec: #c8102e;
+  flo-third: #b9975b;
+  // Los Angeles Kings
+  lak-first: #111111;
+  lak-sec: #acaea9;
+  lak-third: #ffffff;
+  // Minnesota Wild
+  min-first: #024930;
+  min-sec: #e2d6b5;
+  min-third: #af1e24;
+  min-fourth: #edaa00;
+  // Montreal Canadiens
+  mon-first: #af1e2d;
+  mon-sec: #192168;
+  mon-third: #ffffff;
+  // Nashville Predators
+  nsh-first: #041e42;
+  nsh-sec: #ffb81c;
+  nsh-third: #ffffff;
+  // New Jersey Devils
+  njd-first: #ce1126;
+  njd-sec: #111111;
+  njd-third: #ffffff;
+  // New York Islanders
+  nyi-first: #00539b;
+  nyi-sec: #f47d30;
+  nyi-third: #ffffff;
+  // New York Rangers
+  nyr-first: #0038a8;
+  nyr-sec: #ce1126;
+  nyr-third: #ffffff;
+  // Ottawa Senators
+  ott-first: #ce1126;
+  ott-sec: #bf910c;
+  ott-third: #111111;
+  ott-fourth: #ffffff;
+  // Philadelphia Flyers
+  phi-first: #f74902;
+  phi-sec: #111111;
+  phi-third: #ffffff;
+  // Pittsburgh Penguins
+  pit-first: #fcb514;
+  pit-sec: #111111;
+  pit-third: #ffffff;
+  // San Jose Sharks
+  sjs-first: #006d75;
+  sjs-sec: #ffffff;
+  sjs-third: #111111;
+  sjs-fourth: #ea7200;
+  // Seattle Kraken
+  sea-first: #001628;
+  sea-sec: #99d9d9;
+  sea-third: #355464;
+  sea-fourth: #e9072b;
+  // St.Louis Blues
+  stl-first: #002f87;
+  stl-sec: #002654;
+  stl-third: #fcb514;
+  stl-fourth: #ffffff;
+  // Tampa Bay Lightning
+  tbl-first: #002868;
+  tbl-second: #ffffff;
+  // Toronto Maple Leafs
+  //   tor-first: #00205b;
+  tor-first: #133e8f;
+  tor-sec: #ffffff;
+  // Vancouver Canucks
+  van-first: #001f5b;
+  van-sec: #00843d;
+  van-third: #ffffff;
+  // Vegas Golden Knights
+  veg-first: #333f42;
+  veg-sec: #b4975a;
+  veg-third: #ffffff;
+  veg-fourth: #111111;
+  // Washington Capitals
+  wsh-first: #041e41;
+  wsh-sec: #c8102e;
+  wsh-third: #ffffff;
+  // Winnipeg Jets
+  win-first: #041e41;
+  win-sec: #004c97;
+  win-third: #ffffff;
+  win-fourth: #ac162c;
+  win-fifth: #8e9090;
+}
