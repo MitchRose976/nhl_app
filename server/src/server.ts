@@ -17,5 +17,5 @@ server.use('/api/nhl-app', routes);
 
 
 server.listen(port, () => {
-    console.log(`Connected successfully on: http://localhost:${port}`)
+  console.log(`Connected successfully on: http://localhost:${port}`);
 });
