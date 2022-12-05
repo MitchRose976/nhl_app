@@ -33,13 +33,16 @@ const LiveScoreBar = () => {
     let singleSlideOfGameCardsArray = [];
     for (let i = 0; i < maxGameCards; i++) {
       singleSlideOfGameCardsArray.push(
-        <Grid item key={i}>
+        <Grid item>
           <GameCard />
         </Grid>
       );
     }
     const slide = (
-      <div className="game-card-slide-div">{singleSlideOfGameCardsArray}</div>
+      // change key to proper unique key. Maybe numOfGames/maxGameCards = key? or some sort of state to provide keys
+      <div className="game-card-slide-div" key={1}>
+        {singleSlideOfGameCardsArray}
+      </div>
     );
     gameCardsArray.push(slide);
     setGameCardsArray(gameCardsArray);

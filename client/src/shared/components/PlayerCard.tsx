@@ -154,7 +154,7 @@ const PlayerCard = () => {
                 <TableRow>{renderTableHeaderCells()}</TableRow>
               </TableHead>
               <TableBody style={{ height: "1rem" }}>
-                {renderTableBodyCells(playerData)}
+                <TableRow>{renderTableBodyCells(playerData)}</TableRow>
               </TableBody>
             </Table>
           </TableContainer>
