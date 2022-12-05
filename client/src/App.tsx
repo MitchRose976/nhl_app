@@ -7,6 +7,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { green } from "@mui/material/colors";
 import PlayerStats from "./playerStats/PlayerStats";
 import PlayerCard from "./shared/components/PlayerCard";
+import axios, { Axios } from "axios";
 
 // black: '#090A0B',
 // Eerie Black: '#141414'
@@ -24,7 +25,8 @@ const theme = createTheme({
 });
 
 const App = () => {
-  const navbarProps = {
+  // device screen breakpoints for navbar and liveScoreBar
+  const largeBreakPointsProps = {
     xs: 12,
     sm: 12,
     md: 12,
@@ -32,27 +34,25 @@ const App = () => {
     xl: 12,
   };
 
-  const liveScoreBarProps = {
-    xs: 12,
-    sm: 12,
-    md: 12,
-    lg: 12,
-    xl: 12,
-  };
+  // useEffect(() => {
+  //   const fetchTeams = async () => {
+  //     const res = await axios.get(`http://localhost:7000/api/nhl-app`) 
+  //   }
+  // }, [])
 
   return (
     <ThemeProvider theme={theme}>
       <Grid container>
-        <Grid item {...navbarProps}>
+        <Grid item {...largeBreakPointsProps}>
           <Navbar />
         </Grid>
-        <Grid item {...liveScoreBarProps} style={{ marginBottom: "2rem" }}>
+        <Grid item {...largeBreakPointsProps} style={{ marginBottom: "2rem" }}>
           <LiveScoreBar />
         </Grid>
 
         <Grid
           item
-          {...liveScoreBarProps}
+          {...largeBreakPointsProps}
           style={{
             display: "flex",
             justifyContent: "center",
