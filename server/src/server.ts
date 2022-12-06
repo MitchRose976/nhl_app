@@ -3,6 +3,8 @@ import { appendFile } from "fs";
 import * as dotenv from 'dotenv';
 import mongoose from "mongoose";
 import routes from "./routes/routes";
+import { seedTeams } from "./seeds/seedTeams";
+import { deleteTeamsCollection } from "./seeds/deleteTeams";
 // import formatYearMonthDay from '../utils/formatYearMonthDay.ts';
 
 const server: Application = express();
@@ -25,6 +27,8 @@ mongoose
     server.listen(port, () => {
       console.log(`Connected to db successfully and listenting on: http://localhost:${port}`);
     });
+    //seedTeams().catch((err) => console.log('Error: ', err));
+    //deleteTeamsCollection().catch(err => console.log('Error: ', err));
   })
   .catch((error) => {
     console.log(error);
