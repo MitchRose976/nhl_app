@@ -6,7 +6,8 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import LoadingBar from "../../shared/components/LoadingBar";
-import {gameCardSXProps, gameCardContentSXProps} from "../styles";
+import { gameCardSXProps, gameCardContentSXProps } from "../styles";
+import { teamIDs } from "../../shared/constants";
 
 const nhlLogoUrl =
   "https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/";
@@ -31,21 +32,14 @@ const GameCard = () => {
 
   useEffect(() => {
     setLoading(true);
-    const numOfTeams = 30;
-    let teamLogosUrls = [];
-    for (let i = 0; i < numOfTeams; i++) {
-      // push all team logo urls to array
-      if (i + 1 !== 11 && i + 1 !== 27) {
-        const logoRequest = axios.get(`${nhlLogoUrl}${i + 1}.svg`);
-        teamLogosUrls.push(logoRequest);
-      }
-    }
+    const teamLogosUrls = teamIDs.map((teamID) => {
+      return axios.get(`${nhlLogoUrl}${teamID}.svg`);
+    });
     axios
       .all(teamLogosUrls)
       .then((response: AxiosResponse<any, any>[]) => {
-        let teamLogos: string[] = [];
-        response.forEach((logo) => {
-          teamLogos.push(logo.config.url ? logo.config.url : "");
+        const teamLogos: string[] = response.map((logo) => {
+          return logo.config.url ? logo.config.url : "";
         });
         setLogos(teamLogos);
       })
@@ -54,10 +48,7 @@ const GameCard = () => {
   }, []);
 
   return !loading ? (
-    <Card
-      raised
-      sx={gameCardSXProps}
-    >
+    <Card raised sx={gameCardSXProps}>
       <Typography
         sx={{ paddingTop: "10px", paddingBottom: "0" }}
         style={{ fontWeight: "bold" }}
