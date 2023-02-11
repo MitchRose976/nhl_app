@@ -106,13 +106,15 @@ const PlayerCard = () => {
         {/* Top Half */}
         <div className="player-card-header-container">
           <div className="player-card-headshot-container">
-            <img src={playerPicUrl} />
+            {/* change alt tag to be dynamic */}
+            <img src={playerPicUrl} alt={"player"} />
           </div>
 
           <div className="player-card-info-container">
             <div className="player-card-number-logo">
               <span>#34</span>
-              <img src={teamLogoUrl} />
+              {/* change alt tag to be dynamic */}
+              <img src={teamLogoUrl} alt={"team logo"} />
             </div>
             {/* Player Name */}
             <span
