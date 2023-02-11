@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import LoadingBar from "../../shared/components/LoadingBar";
 import { gameCardSXProps, gameCardContentSXProps } from "../styles";
-import { teamIDs } from "../../shared/constants";
+import { TEAM_IDS } from "../../shared/constants";
 
 const nhlLogoUrl =
   "https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/";
@@ -32,7 +32,7 @@ const GameCard = () => {
 
   useEffect(() => {
     setLoading(true);
-    const teamLogosUrls = teamIDs.map((teamID) => {
+    const teamLogosUrls = TEAM_IDS.map((teamID) => {
       return axios.get(`${nhlLogoUrl}${teamID}.svg`);
     });
     axios

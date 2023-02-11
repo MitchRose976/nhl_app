@@ -33,7 +33,7 @@ const LiveScoreBar = () => {
     let singleSlideOfGameCardsArray = [];
     for (let i = 0; i < maxGameCards; i++) {
       singleSlideOfGameCardsArray.push(
-        <Grid item>
+        <Grid item key={i}>
           <GameCard />
         </Grid>
       );

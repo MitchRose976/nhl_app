@@ -1,39 +1,40 @@
 import axios from "axios";
-import { MongoClient } from "mongodb";
+import { Document, MongoClient, OptionalId } from "mongodb";
 import * as dotenv from "dotenv";
-import { TeamModel } from "../models";
-import { TeamDataType } from "../types";
+import { TeamModel } from "../../models";
+import { TeamDataType } from "../../types";
+import { GET_TEAMS_BASE_URL } from "../../constants";
 
 dotenv.config();
-
-const getTeamsUrl = "https://statsapi.web.nhl.com/api/v1/teams";
 
 const client = new MongoClient(`${process.env.MONGO_URI}`);
 const db = client.db(`${process.env.MONGO_DB_NAME}`);
 const coll = db.collection(`${process.env.MONGO_TEAMS_COLLECTION}`);
 
 const getTeams = async () => {
-  return await axios
-    .get(getTeamsUrl)
-    .then((res) => res.data?.teams);
+  return await axios.get(GET_TEAMS_BASE_URL).then((res) => res.data?.teams);
 };
 
-const postDataToMongoDB = async (client: MongoClient, data: TeamDataType[]) => {
+const postTeamsToMongoDB = async (
+  client: MongoClient,
+  data: OptionalId<Document>[]
+) => {
   const results = await coll.insertMany(data);
   console.log(`${results.insertedCount} new teams added`);
 };
 
-export const seedTeams = async () => {
+const seedTeamsCollection = async () => {
   const client = new MongoClient(`${process.env.MONGO_URI}`);
   try {
     // Connect to MongoDB
     await client
       .connect()
       .then(() => console.log("Connected to MongoDB..."))
-      .catch((err) => console.log('Error: ', err));
+      .catch((err) => console.log("Error: ", err));
 
     // get data from NHL api
-    let data: any = await getTeams();
+    let data: TeamDataType[] = await getTeams();
+    console.log("mitch data: ", data, typeof data);
 
     // array to hold model of data based on Team schema for each team
     const teamData = data.map((team: TeamDataType) => {
@@ -49,14 +50,16 @@ export const seedTeams = async () => {
       });
     });
     // Post data to "teams" collection in mongoDB
-    await postDataToMongoDB(client, teamData);
+    await postTeamsToMongoDB(client, teamData);
   } catch (err) {
     console.log(err);
   } finally {
     //await client.close();
-    setTimeout(() => {client.close()}, 1500)
-    console.log('connection closed')
+    setTimeout(() => {
+      client.close();
+    }, 1500);
+    console.log("connection closed");
   }
 };
 
-//seed().catch((err) => console.log('Error: ', err));
+export default seedTeamsCollection;
