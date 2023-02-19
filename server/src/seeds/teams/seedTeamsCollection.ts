@@ -18,7 +18,26 @@ const getTeams = async () => {
 const postTeamsToMongoDB = async (
   client: MongoClient,
   data: OptionalId<Document>[]
-) => await coll.insertMany(data);
+) => {
+  data.forEach((team) => {
+    coll.updateOne(
+      { teamId: team.teamId },
+      {
+        $set: {
+          teamId: team.teamId,
+          teamName: team.teamName,
+          teamAbbreviation: team.teamAbbreviation,
+          teamDivision: team.teamDivision,
+          teamConference: team.teamConference,
+          teamVenue: team.teamVenue,
+          firstYearOfPlay: team.firstYearOfPlay,
+          teamLogoUrl: team.teamLogoUrl,
+        },
+      },
+      { upsert: true }
+    );
+  });
+};
 
 const seedTeamsCollection = async () => {
   const client = new MongoClient(`${process.env.MONGO_URI}`);
@@ -34,7 +53,7 @@ const seedTeamsCollection = async () => {
 
     // array to hold model of data based on Team schema for each team
     const teamData = data.map((team: TeamDataType) => {
-      return new TeamModel({
+      return {
         teamId: team.id,
         teamName: team.name,
         teamAbbreviation: team.abbreviation,
@@ -43,7 +62,7 @@ const seedTeamsCollection = async () => {
         teamVenue: team.venue,
         firstYearOfPlay: team.firstYearOfPlay,
         teamLogoUrl: `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${team.id}.svg`,
-      });
+      };
     });
     // Post data to "teams" collection in mongoDB
     await postTeamsToMongoDB(client, teamData);

@@ -33,11 +33,24 @@ const postPlayersToMongoDB = async (
   client: MongoClient,
   database: string,
   collection: string,
-  data: Document
+  playerData: Document
 ) => {
   try {
     await client.connect();
-    await client.db(database).collection(collection).insertOne(data);
+    await client
+      .db(database)
+      .collection(collection)
+      .updateOne(
+        { "playerInfo.id": playerData.playerInfo.id },
+        {
+          $set: {
+            playerInfo: playerData.playerInfo,
+            playerStats: playerData.playerStats,
+            playerHeadshot: playerData.playerHeadshot,
+          },
+        },
+        { upsert: true }
+      );
   } catch (err) {
     console.log("Error in postPlayersToMongoDB: ", err);
   }
@@ -78,11 +91,11 @@ const seedPlayersCollection = async () => {
           });
 
         // form player model
-        const completePlayer = new PlayerModel({
+        const completePlayer = {
           playerInfo: playerBio,
           playerStats: playerStats,
           playerHeadshot: playerHeadshot,
-        });
+        };
 
         // post player to mongoDB players collection
         postPlayersToMongoDB(
