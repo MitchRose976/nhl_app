@@ -18,10 +18,7 @@ const getTeams = async () => {
 const postTeamsToMongoDB = async (
   client: MongoClient,
   data: OptionalId<Document>[]
-) => {
-  const results = await coll.insertMany(data);
-  console.log(`${results.insertedCount} new teams added`);
-};
+) => await coll.insertMany(data);
 
 const seedTeamsCollection = async () => {
   const client = new MongoClient(`${process.env.MONGO_URI}`);
@@ -34,7 +31,6 @@ const seedTeamsCollection = async () => {
 
     // get data from NHL api
     let data: TeamDataType[] = await getTeams();
-    console.log("mitch data: ", data, typeof data);
 
     // array to hold model of data based on Team schema for each team
     const teamData = data.map((team: TeamDataType) => {
@@ -53,12 +49,6 @@ const seedTeamsCollection = async () => {
     await postTeamsToMongoDB(client, teamData);
   } catch (err) {
     console.log(err);
-  } finally {
-    //await client.close();
-    setTimeout(() => {
-      client.close();
-    }, 1500);
-    console.log("connection closed");
   }
 };
 

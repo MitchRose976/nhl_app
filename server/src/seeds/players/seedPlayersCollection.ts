@@ -37,12 +37,9 @@ const postPlayersToMongoDB = async (
 ) => {
   try {
     await client.connect();
-    //console.log("connection open for player to be posted");
     await client.db(database).collection(collection).insertOne(data);
   } catch (err) {
     console.log("Error in postPlayersToMongoDB: ", err);
-  } finally {
-    console.log("postPlayersToMongoDB successful");
   }
 };
 
