@@ -1,5 +1,5 @@
 import { ToadScheduler, SimpleIntervalJob, AsyncTask } from "toad-scheduler";
-import { seedPlayersCollection, seedTeamsCollection } from "./seeds";
+import { seedPlayersCollection, seedTeamsCollection } from "./seeds/index";
 
 const scheduler = new ToadScheduler();
 

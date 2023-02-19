@@ -6,6 +6,7 @@
   "scripts": {
     "start:ts": "tsc -w",
     "start:js": "nodemon build/server.js",
+    "start:jobs:js": "node build/jobs.js",
     "start": "concurrently npm:start:*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
