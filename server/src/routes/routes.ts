@@ -1,6 +1,8 @@
 import express, { Application, Request, Response } from "express";
 const router = express.Router();
-
+import * as dotenv from "dotenv";
+import { TeamModel } from "../models";
+dotenv.config();
 /* 
 'https://statsapi.web.nhl.com/api/v1/';
 Documentation: Stats and analytics
@@ -44,9 +46,14 @@ use this to set date range: currentDay = formatYearMonthDay(new Date());
 Documentation: team logos
 */
 
+const db = `${process.env.MONGO_DB_NAME}`;
+const teamsCollection = `${process.env.MONGO_TEAMS_COLLECTION}`;
+const playersCollection = `${process.env.MONGO_PLAYERS_COLLECTION}`;
+
 // GET
-router.get("/", (req: Request, res: Response) => {
-    res.json({message: 'GET base url'})
+router.get("/", async (req: Request, res: Response) => {
+    // res.json({message: 'GET base url'})
+    TeamModel.find().then(teams => res.json(teams));
 });
 
 // GET all players

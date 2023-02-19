@@ -1,14 +1,7 @@
 import express, { Application, Request, Response } from "express";
-import { appendFile } from "fs";
 import * as dotenv from "dotenv";
 import mongoose from "mongoose";
 import routes from "./routes/routes";
-import {
-  seedTeamsCollection,
-  seedPlayersCollection,
-  deleteTeamsCollection,
-  deletePlayersCollection,
-} from "./seeds/index";
 // import formatYearMonthDay from '../utils/index.ts';
 
 const server: Application = express();
@@ -33,11 +26,6 @@ mongoose
         `Connected to db successfully and listenting on: http://localhost:${port}`
       );
     });
-    // seedTeamsCollection().catch((err) => console.log('Error: ', err));
-    // deleteTeamsCollection().catch(err => console.log('Error: ', err));
-
-    //seedPlayersCollection().catch((err) => console.log('Error: ', err));
-    //deletePlayersCollection().catch((err) => console.log('Error: ', err));
   })
   .catch((error) => {
     console.log(error);
