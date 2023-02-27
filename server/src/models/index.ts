@@ -1,5 +1,6 @@
-import PlayerModel from "./PlayerModel";
-import TeamModel from "./TeamModel";
-// server\models\PlayerModel.ts
+import PlayerModel from "./player/PlayerModel";
+import PlayerClass from "./player/PlayerClass";
+import TeamModel from "./team/TeamModel";
+import TeamClass from "./team/TeamClass";
 
-export { PlayerModel, TeamModel };
+export { PlayerModel, PlayerClass, TeamModel, TeamClass };
