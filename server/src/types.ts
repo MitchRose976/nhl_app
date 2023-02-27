@@ -1,5 +1,22 @@
 import { Types } from "mongoose";
 
+export type TeamType = {
+  teamId: number;
+  teamName: string;
+  teamAbbreviation: string;
+  teamDivision: object;
+  teamConference: object;
+  teamVenue: object;
+  firstYearOfPlay: string;
+  teamLogoUrl: string;
+};
+
+export type PlayerType = {
+  playerInfo: object;
+  playerStats: object;
+  playerHeadshot: object;
+};
+
 export type TeamDataType = {
   id: number;
   name: string;

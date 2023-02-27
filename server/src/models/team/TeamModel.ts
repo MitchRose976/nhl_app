@@ -1,17 +1,7 @@
-import { model, Schema, Model, Document } from "mongoose";
+import { model, Schema } from "mongoose";
+import { TeamType } from "../../types";
 
-type Team = {
-  teamId: number;
-  teamName: string;
-  teamAbbreviation: string;
-  teamDivision: object;
-  teamConference: object;
-  teamVenue: object;
-  firstYearOfPlay: string;
-  teamLogoUrl: string;
-};
-
-const teamSchema = new Schema<Team>({
+const teamSchema = new Schema<TeamType>({
   teamId: {
     type: "number",
     required: [true, "Team ID is required"],
@@ -46,6 +36,6 @@ const teamSchema = new Schema<Team>({
   },
 });
 
-const TeamModel = model<Team>("Team", teamSchema);
+const TeamModel = model<TeamType>("Team", teamSchema);
 
 export default TeamModel;

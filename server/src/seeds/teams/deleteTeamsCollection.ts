@@ -9,10 +9,10 @@ const coll = db.collection(`${process.env.MONGO_TEAMS_COLLECTION}`);
 
 const deleteTeamsCollection = async () => {
   try {
-    await client
-      .connect()
-      .then(() => console.log("Connected to MongoDB..."))
-      .catch((err) => console.log("Error: ", err));
+    // await client
+    //   .connect()
+    //   .then(() => console.log("Connected to MongoDB..."))
+    //   .catch((err) => console.log("Error: ", err));
 
     try {
       coll.deleteMany({});

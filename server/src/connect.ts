@@ -8,10 +8,8 @@ export const collections: {
 } = {};
 
 // Initialize Connection
-const connectToDatabase = async () => {
+export const connectToDatabase = async () => {
   dotenv.config();
-
-  const port: number = 7000;
 
   const client: mongoDB.MongoClient = new mongoDB.MongoClient(
     `${process.env.MONGO_URI}`
@@ -33,8 +31,6 @@ const connectToDatabase = async () => {
   collections.players = playersCollection;
 
   console.log(
-    `Successfully connected to database: ${process.env.MONGO_DB_NAME} and collections: ${process.env.MONGO_TEAMS_COLLECTION}, ${process.env.MONGO_PLAYERS_COLLECTION} and listening on: http://localhost:${port}`
+    `Successfully connected to database: ${process.env.MONGO_DB_NAME} and collections: ${process.env.MONGO_TEAMS_COLLECTION}, ${process.env.MONGO_PLAYERS_COLLECTION}`
   );
 };
-
-export default connectToDatabase;

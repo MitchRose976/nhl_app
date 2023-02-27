@@ -1,12 +1,7 @@
 import { model, Schema } from "mongoose";
+import { PlayerType } from "../../types";
 
-type Player = {
-  playerInfo: object;
-  playerStats: object;
-  playerHeadshot: object;
-};
-
-const playerSchema = new Schema<Player>({
+const playerSchema = new Schema<PlayerType>({
   playerInfo: {
     type: "object",
     required: [true, "Player info is required"],
@@ -21,6 +16,6 @@ const playerSchema = new Schema<Player>({
   },
 });
 
-const PlayerModel = model<Player>("Player", playerSchema);
+const PlayerModel = model<PlayerType>("Player", playerSchema);
 
 export default PlayerModel;

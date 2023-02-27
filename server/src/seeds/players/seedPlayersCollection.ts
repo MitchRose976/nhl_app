@@ -1,7 +1,6 @@
 import axios from "axios";
 import { Document, MongoClient } from "mongodb";
 import * as dotenv from "dotenv";
-import { PlayerModel } from "../../models";
 import {
   PlayerBioFormattedType,
   PlayerBioFromApiType,
@@ -16,6 +15,7 @@ import {
   formGetPlayerStatsUrlString,
   formGetPlayerHeadshotUrlString,
 } from "../../utils";
+import { collections } from "../../connect";
 
 dotenv.config();
 
@@ -29,18 +29,10 @@ if (newSeasonStart === `7/15/${currentYear}`) {
   currentSeason = currentYear.toString().concat((currentYear + 1).toString());
 }
 
-const postPlayersToMongoDB = async (
-  client: MongoClient,
-  database: string,
-  collection: string,
-  playerData: Document
-) => {
+const postPlayersToMongoDB = async (playerData: Document) => {
   try {
-    await client.connect();
-    await client
-      .db(database)
-      .collection(collection)
-      .updateOne(
+    if (collections.players) {
+      await collections.players.updateOne(
         { "playerInfo.id": playerData.playerInfo.id },
         {
           $set: {
@@ -51,6 +43,7 @@ const postPlayersToMongoDB = async (
         },
         { upsert: true }
       );
+    }
   } catch (err) {
     console.log("Error in postPlayersToMongoDB: ", err);
   }
@@ -59,12 +52,6 @@ const postPlayersToMongoDB = async (
 const seedPlayersCollection = async () => {
   const client = new MongoClient(`${process.env.MONGO_URI}`);
   try {
-    // Connect to MongoDB
-    await client
-      .connect()
-      .then(() => console.log("Connected to MongoDB..."))
-      .catch((err) => console.log("Error: ", err));
-
     TEAM_IDS.forEach(async (teamID) => {
       // get team roster
       const teamRoster = await axios
@@ -98,12 +85,7 @@ const seedPlayersCollection = async () => {
         };
 
         // post player to mongoDB players collection
-        postPlayersToMongoDB(
-          client,
-          `${process.env.MONGO_DB_NAME}`,
-          `${process.env.MONGO_PLAYERS_COLLECTION}`,
-          completePlayer
-        );
+        postPlayersToMongoDB(completePlayer);
       });
     });
   } catch (err) {
