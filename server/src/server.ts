@@ -16,14 +16,15 @@ server.use((req: Request, res: Response, next) => {
 server.use("/api/routes", router);
 
 // connect to database
-connectToDatabase().then(() => {
-  server.use("/nhl-app", router);
+connectToDatabase()
+  .then(() => {
+    server.use("/nhl-app", router);
 
-  server.listen(port, () => {
-    console.log(`Server started at http://localhost:${port}`);
+    server.listen(port, () => {
+      console.log(`Server started at http://localhost:${port}`);
+    });
+  })
+  .catch((error: Error) => {
+    console.error("Database connection failed", error);
+    process.exit();
   });
-})
-.catch((error: Error) => {
-  console.error("Database connection failed", error);
-        process.exit();
-});

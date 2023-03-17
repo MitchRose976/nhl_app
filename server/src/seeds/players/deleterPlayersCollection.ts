@@ -9,11 +9,6 @@ const coll = db.collection(`${process.env.MONGO_PLAYERS_COLLECTION}`);
 
 const deletePlayersCollection = async () => {
   try {
-    // await client
-    //   .connect()
-    //   .then(() => console.log("Connected to MongoDB..."))
-    //   .catch((err) => console.log("Error: ", err));
-
     try {
       coll.deleteMany({});
       console.log("Successfully deleted players collection");

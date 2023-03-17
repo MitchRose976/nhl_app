@@ -23,13 +23,13 @@ const seedPlayersTask = new AsyncTask("Seed Players", async () => {
 });
 
 const seedPlayersJob = new SimpleIntervalJob(
-  { hours: 6, runImmediately: false },
+  { hours: 1, runImmediately: false },
   seedPlayersTask,
   { id: "id_1" }
 );
 
 const seedTeamsJob = new SimpleIntervalJob(
-  { hours: 12, runImmediately: false },
+  { hours: 6, runImmediately: false },
   seedTeamsTask,
   { id: "id_2" }
 );
