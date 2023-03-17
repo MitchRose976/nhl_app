@@ -3,7 +3,7 @@ import { Document, OptionalId } from "mongodb";
 import * as dotenv from "dotenv";
 import { TeamDataType } from "../../types";
 import { GET_TEAMS_BASE_URL } from "../../constants";
-import { collections } from "../../connect";
+import { collections, connectToDatabase } from "../../connect";
 
 dotenv.config();
 
@@ -35,6 +35,9 @@ const postTeamsToMongoDB = async (data: OptionalId<Document>[]) => {
 };
 
 const seedTeamsCollection = async () => {
+  // Connect to MongoDb
+  await connectToDatabase();
+
   try {
     // get data from NHL api
     let data: TeamDataType[] = await getTeams();
@@ -52,6 +55,7 @@ const seedTeamsCollection = async () => {
         teamLogoUrl: `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${team.id}.svg`,
       };
     });
+    
     // Post data to "teams" collection in mongoDB
     await postTeamsToMongoDB(teamData);
   } catch (err) {

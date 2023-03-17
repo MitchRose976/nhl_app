@@ -34,3 +34,17 @@ export const connectToDatabase = async () => {
     `Successfully connected to database: ${process.env.MONGO_DB_NAME} and collections: ${process.env.MONGO_TEAMS_COLLECTION}, ${process.env.MONGO_PLAYERS_COLLECTION}`
   );
 };
+
+export const closeConnection = async () => {
+  dotenv.config();
+
+  const client: mongoDB.MongoClient = new mongoDB.MongoClient(
+    `${process.env.MONGO_URI}`
+  );
+
+  await client.close();
+
+  console.log(
+    `Successfully closed connection to database: ${process.env.MONGO_DB_NAME}`
+  );
+};

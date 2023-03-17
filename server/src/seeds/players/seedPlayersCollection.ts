@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Document, MongoClient } from "mongodb";
+import { Document } from "mongodb";
 import * as dotenv from "dotenv";
 import {
   PlayerBioFormattedType,
@@ -15,7 +15,7 @@ import {
   formGetPlayerStatsUrlString,
   formGetPlayerHeadshotUrlString,
 } from "../../utils";
-import { collections } from "../../connect";
+import { collections, connectToDatabase, closeConnection } from "../../connect";
 
 dotenv.config();
 
@@ -32,34 +32,53 @@ if (newSeasonStart === `7/15/${currentYear}`) {
 const postPlayersToMongoDB = async (playerData: Document) => {
   try {
     if (collections.players) {
-      await collections.players.updateOne(
-        { "playerInfo.id": playerData.playerInfo.id },
-        {
-          $set: {
-            playerInfo: playerData.playerInfo,
-            playerStats: playerData.playerStats,
-            playerHeadshot: playerData.playerHeadshot,
-          },
+      const filterQuery = { "playerInfo.id": playerData.playerInfo.id };
+      const updateDoc = {
+        $set: {
+          playerInfo: playerData.playerInfo,
+          playerStats: playerData.playerStats,
+          playerHeadshot: playerData.playerHeadshot,
         },
-        { upsert: true }
+      };
+      const options = { upsert: true };
+
+      const result = await collections.players.updateOne(
+        filterQuery,
+        updateDoc,
+        options
+      );
+
+      result
+        ? console.log(
+            `${result?.matchedCount} document(s) matched the filter, updated ${result?.modifiedCount} document(s)`
+          )
+        : console.log("Error in postPlayersToMongoDb: result is undefined");
+        
+    } else {
+      console.log(
+        "Error in postPlayersToMongoDb: collections.players is false"
       );
     }
   } catch (err) {
     console.log("Error in postPlayersToMongoDB: ", err);
+  } finally {
+    await closeConnection();
   }
 };
 
 const seedPlayersCollection = async () => {
-  const client = new MongoClient(`${process.env.MONGO_URI}`);
+  // Connect to MongoDb
+  await connectToDatabase();
+
   try {
+    // get team roster using teamIDs
     TEAM_IDS.forEach(async (teamID) => {
-      // get team roster
       const teamRoster = await axios
         .get<RosterType>(formGetTeamRosterUrlString(teamID))
         .then(({ data }) => data.roster);
       // loop through team roster
+      // for each player, get: playerID, playerHeadshot, playerBio, playerStats
       teamRoster.forEach(async (player) => {
-        // for each player, get: playerID, playerHeadshot, playerBio, playerStats
         const playerID: string = player.person.id.toString();
         const playerHeadshot: string = formGetPlayerHeadshotUrlString(playerID);
 
