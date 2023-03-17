@@ -61,8 +61,6 @@ const postPlayersToMongoDB = async (playerData: Document) => {
     }
   } catch (err) {
     console.log("Error in postPlayersToMongoDB: ", err);
-  } finally {
-    await closeConnection();
   }
 };
 
@@ -104,11 +102,13 @@ const seedPlayersCollection = async () => {
         };
 
         // post player to mongoDB players collection
-        postPlayersToMongoDB(completePlayer);
+        await postPlayersToMongoDB(completePlayer);
       });
     });
   } catch (err) {
     console.log("Error in seedPlayersCollection.ts: ", err);
+  } finally {
+    await closeConnection();
   }
 };
 

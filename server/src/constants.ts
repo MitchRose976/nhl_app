@@ -5,8 +5,7 @@ const TEAM_IDS = [
 // base url to grab all teams in the league
 const GET_TEAMS_BASE_URL = "https://statsapi.web.nhl.com/api/v1/teams";
 
-const formGetTeamRosterUrlString = (teamId: number) => {
-  return `https://statsapi.web.nhl.com/api/v1/teams/${teamId}/roster`;
-}
+// origin url for cors
+const CLIENT_URL = 'http://localhost:3000';
 
-export { TEAM_IDS, GET_TEAMS_BASE_URL };
+export { TEAM_IDS, GET_TEAMS_BASE_URL, CLIENT_URL };
