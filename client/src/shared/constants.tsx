@@ -62,3 +62,57 @@ export const TOP_10_SAVE_PERCENTAGE_PATH = "/players/top10SavePercentage";
 export const TOP_10_WINS_PATH = "/players/top10Wins";
 export const TOP_10_GOALS_AGAINST_AVERAGE_PATH =
   "/players/top10GoalsAgainstAverage";
+export const GET_PLAYER_STATS_PATH = "/players/getPlayer";
+
+export const TOP_10_STATS_CATEGORIES: {
+  [key: string]: { label: string; name: string }[];
+} = {
+  skater: [
+    { label: "Points", name: "Points" },
+    { label: "Goals", name: "Goals" },
+    { label: "Assists", name: "Assists" },
+    { label: "+/-", name: "Plus Minus" },
+    { label: "PiM", name: "Penalty Minutes" },
+    { label: "Hits", name: "Hits" },
+    { label: "Total ToI", name: "Total Time on Ice" },
+    { label: "ToI/Game", name: "Time on Ice Per Game" },
+    { label: "ToI SH", name: "Time on Ice Short Handed" },
+    { label: "ToI PP", name: "Time on Ice Powerplay" },
+    { label: "PP Goals", name: "Powerplay Goals" },
+    { label: "SH Goals", name: "Shorthanded Goals" },
+    { label: "PP Points", name: "Powerplay Points" },
+    { label: "SH Points", name: "Shorthanded Points" },
+    { label: "FO %", name: "Faceoff Percentage" },
+  ],
+  goalie: [
+    { label: "Save %", name: "Save Percentage" },
+    { label: "Wins", name: "Wins" },
+    { label: "GAA", name: "Goals Against Average" },
+  ],
+};
+
+export const nhlSeasons = [
+  "2022/2023",
+  "2021/2022",
+  "2020/2021",
+  "2019/2020",
+  "2018/2019",
+  "2017/2018",
+  "2016/2017",
+  "2015/2016",
+  "2014/2015",
+  "2013/2014",
+  "2012/2013",
+  "2011/2012",
+  "2010/2011",
+  "2009/2010",
+  "2008/2009",
+  "2007/2008",
+  "2006/2007",
+  "2005/2006",
+  "2004/2005",
+  "2003/2004",
+  "2002/2003",
+  "2001/2002",
+  "2000/2001",
+];
