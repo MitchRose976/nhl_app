@@ -19,7 +19,6 @@ import {
   TOP_10_SAVE_PERCENTAGE_PATH,
   TOP_10_WINS_PATH,
   TOP_10_GOALS_AGAINST_AVERAGE_PATH,
-  //GET_PLAYER_STATS_PATH,
 } from "../../shared/constants";
 import type { PlayerDataType } from "../../../../server/src/types";
 

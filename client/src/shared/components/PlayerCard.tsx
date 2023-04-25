@@ -9,7 +9,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import { statsTableHeaderCells, biographyTableHeaderCells } from "../constants";
+import { statsTableHeaderCells } from "../constants";
 import "../style.scss";
 
 const PlayerCard = () => {
@@ -18,48 +18,35 @@ const PlayerCard = () => {
   const playerPicUrl =
     "http://nhl.bamcontent.com/images/headshots/current/168x168/8479318.jpg";
 
-  const renderBioListItems = () => {
-    return biographyTableHeaderCells.map((header) => {
-      return (
-        <li
-          key={header}
-          style={{ listStyleType: "none", display: "inline-block" }}
-        >
-          {header}:
-        </li>
-      );
-    });
-  };
-
   const renderTableHeaderCells = () => {
     return statsTableHeaderCells.map((cell) => {
       return <TableCell key={cell}>{cell}</TableCell>;
     });
   };
 
-  type PlayerData = {
-    Gp: number | string;
-    G: number | string;
-    A: number | string;
-    Pts: number | string;
-    Pim: number | string;
-    "+/-": number | string;
-    Hits: number | string;
-    Ppg: number | string;
-    Ppp: number | string;
-    Shg: number | string;
-    Shp: number | string;
-    Shots: number | string;
-    "Fo%": number | string;
-    "Shot%": number | string;
-    Blocked: number | string;
-    "Toi/total": string;
-    "Toi/game": string;
-    "Toi/pp/total": string;
-    "Toi/pp/game": string;
-    "Toi/sh/total": string;
-    "Toi/sh/game": string;
-  };
+  // type PlayerData = {
+  //   Gp: number | string;
+  //   G: number | string;
+  //   A: number | string;
+  //   Pts: number | string;
+  //   Pim: number | string;
+  //   "+/-": number | string;
+  //   Hits: number | string;
+  //   Ppg: number | string;
+  //   Ppp: number | string;
+  //   Shg: number | string;
+  //   Shp: number | string;
+  //   Shots: number | string;
+  //   "Fo%": number | string;
+  //   "Shot%": number | string;
+  //   Blocked: number | string;
+  //   "Toi/total": string;
+  //   "Toi/game": string;
+  //   "Toi/pp/total": string;
+  //   "Toi/pp/game": string;
+  //   "Toi/sh/total": string;
+  //   "Toi/sh/game": string;
+  // };
 
   const playerData = {
     Gp: 13,

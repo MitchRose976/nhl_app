@@ -99,7 +99,8 @@ export type RosterType = {
   link: string;
 };
 
-export type PlayerBioFormattedType = {
+export interface PlayerBioFormattedType {
+  [key: string]: string | boolean | number | object;
   id: number;
   fullName: string;
   link: string;
@@ -131,9 +132,41 @@ export type PlayerBioFormattedType = {
     type: string;
     abbreviation: string;
   };
-};
+}
 
-export type PlayerStatsFormattedType = {
+export interface SeasonStatsType {
+  [key: string]: number | string;
+  timeOnIce: string;
+  assists: number;
+  goals: number;
+  pim: number;
+  shots: number;
+  games: number;
+  hits: number;
+  powerPlayGoals: number;
+  powerPlayPoints: number;
+  powerPlayTimeOnIce: string;
+  evenTimeOnIce: string;
+  penaltyMinutes: string;
+  faceOffPct: number;
+  shotPct: number;
+  gameWinningGoals: number;
+  overTimeGoals: number;
+  shortHandedGoals: number;
+  shortHandedPoints: number;
+  shortHandedTimeOnIce: string;
+  blocked: number;
+  plusMinus: number;
+  points: number;
+  shifts: number;
+  timeOnIcePerGame: string;
+  evenTimeOnIcePerGame: string;
+  shortHandedTimeOnIcePerGame: string;
+  powerPlayTimeOnIcePerGame: string;
+}
+
+export interface PlayerStatsFormattedType {
+  [key: string]: object | string | number;
   type: {
     displayName: string;
     gameType: {
@@ -145,38 +178,10 @@ export type PlayerStatsFormattedType = {
   splits: [
     {
       season: string;
-      stat: {
-        timeOnIce: string;
-        assists: number;
-        goals: number;
-        pim: number;
-        shots: number;
-        games: number;
-        hits: number;
-        powerPlayGoals: number;
-        powerPlayPoints: number;
-        powerPlayTimeOnIce: string;
-        evenTimeOnIce: string;
-        penaltyMinutes: string;
-        faceOffPct: number;
-        shotPct: number;
-        gameWinningGoals: number;
-        overTimeGoals: number;
-        shortHandedGoals: number;
-        shortHandedPoints: number;
-        shortHandedTimeOnIce: string;
-        blocked: number;
-        plusMinus: number;
-        points: number;
-        shifts: number;
-        timeOnIcePerGame: string;
-        evenTimeOnIcePerGame: string;
-        shortHandedTimeOnIcePerGame: string;
-        powerPlayTimeOnIcePerGame: string;
-      };
+      stat: SeasonStatsType;
     }
   ];
-};
+}
 
 // this is the returned from call to:
 // https://statsapi.web.nhl.com/api/v1/people/${playerID}
