@@ -91,6 +91,164 @@ export const TOP_10_STATS_CATEGORIES: {
   ],
 };
 
+export const statTypeMapping: {
+  [key: string]: {
+    type: string;
+    label: string;
+    stat: string;
+    queryName: string;
+    tableType: string;
+  };
+} = {
+  points: {
+    type: "points",
+    label: "Points",
+    stat: "playerStats.splits[0].stat.points",
+    queryName: "getTop10Points",
+    tableType: "skater",
+  },
+  goals: {
+    type: "goals",
+    label: "Goals",
+    stat: "playerStats.splits[0].stat.goals",
+    queryName: "getTop10Goals",
+    tableType: "skater",
+  },
+  assists: {
+    type: "assists",
+    label: "Assists",
+    stat: "playerStats.splits[0].stat.assists",
+    queryName: "getTop10Assists",
+    tableType: "skater",
+  },
+  plusMinus: {
+    type: "plusMinus",
+    label: "+/-",
+    stat: "playerStats.splits[0].stat.plusMinus",
+    queryName: "getTop10PlusMinus",
+    tableType: "skater",
+  },
+  penaltyMinutes: {
+    type: "penaltyMinutes",
+    label: "PiM",
+    stat: "playerStats.splits[0].stat.penaltyMinutes",
+    queryName: "getTop10PenaltyMinutes",
+    tableType: "skater",
+  },
+  hits: {
+    type: "hits",
+    label: "Hits",
+    stat: "playerStats.splits[0].stat.hits",
+    queryName: "getTop10Hits",
+    tableType: "skater",
+  },
+  timeOnIce: {
+    type: "timeOnIce",
+    label: "Total ToI",
+    stat: "playerStats.splits[0].stat.timeOnIce",
+    queryName: "getTop10TotalTimeOnIce",
+    tableType: "skater",
+  },
+  timeOnIcePerGame: {
+    type: "timeOnIcePerGame",
+    label: "ToI/Game",
+    stat: "playerStats.splits[0].stat.timeOnIcePerGame",
+    queryName: "getTop10TimeOnIcePerGame",
+    tableType: "skater",
+  },
+  shortHandedTimeOnIce: {
+    type: "shortHandedTimeOnIce",
+    label: "ToI SH",
+    stat: "playerStats.splits[0].stat.shortHandedTimeOnIce",
+    queryName: "getTop10TimeOnIceShortHanded",
+    tableType: "skater",
+  },
+  powerPlayTimeOnIce: {
+    type: "powerPlayTimeOnIce",
+    label: "ToI PP",
+    stat: "playerStats.splits[0].stat.powerPlayTimeOnIce",
+    queryName: "getTop10TimeOnIcePowerplay",
+    tableType: "skater",
+  },
+  powerPlayGoals: {
+    type: "powerPlayGoals",
+    label: "PP Goals",
+    stat: "playerStats.splits[0].stat.powerPlayGoals",
+    queryName: "getTop10PowerplayGoals",
+    tableType: "skater",
+  },
+  shortHandedGoals: {
+    type: "shortHandedGoals",
+    label: "SH Goals",
+    stat: "playerStats.splits[0].stat.shortHandedGoals",
+    queryName: "getTop10ShortHandedGoals",
+    tableType: "skater",
+  },
+  powerPlayPoints: {
+    type: "powerPlayPoints",
+    label: "PP Points",
+    stat: "playerStats.splits[0].stat.powerPlayPoints",
+    queryName: "getTop10PowerplayPoints",
+    tableType: "skater",
+  },
+  shortHandedPoints: {
+    type: "shortHandedPoints",
+    label: "SH Points",
+    stat: "playerStats.splits[0].stat.shortHandedPoints",
+    queryName: "getTop10ShortHandedPoints",
+    tableType: "skater",
+  },
+  faceOffPct: {
+    type: "faceOffPct",
+    label: "FO %",
+    stat: "playerStats.splits[0].stat.faceOffPct",
+    queryName: "getTop10FaceOffPercentage",
+    tableType: "skater",
+  },
+  savePercentage: {
+    type: "savePercentage",
+    label: "Save %",
+    stat: "playerStats.splits[0].stat.savePercentage",
+    queryName: "getTop10SavePercentage",
+    tableType: "goalie",
+  },
+  wins: {
+    type: "wins",
+    label: "Wins",
+    stat: "playerStats.splits[0].stat.wins",
+    queryName: "getTop10Wins",
+    tableType: "goalie",
+  },
+  goalsAgainstAverage: {
+    type: "goalsAgainstAverage",
+    label: "GAA",
+    stat: "playerStats.splits[0].stat.goalAgainstAverage",
+    queryName: "getTop10GoalsAgainstAverage",
+    tableType: "goalie",
+  },
+};
+
+export enum statTypes {
+  points = "points",
+  goals = "goals",
+  assists = "assists",
+  plusMinus = "plusMinus",
+  penaltyMinutes = "penaltyMinutes",
+  hits = "hits",
+  totalTOI = "totalTOI",
+  toiPerGame = "toiPerGame",
+  toiShortHanded = "toiShortHanded",
+  toiPowerplay = "toiPowerplay",
+  powerplayGoals = "powerplayGoals",
+  shortHandedGoals = "shortHandedGoals",
+  powerplayPoints = "powerplayPoints",
+  shortHandedPoints = "shortHandedPoints",
+  faceOffPercentage = "faceOffPercentage",
+  savePercentage = "savePercentage",
+  wins = "wins",
+  goalsAgainstAverage = "goalsAgainstAverage",
+}
+
 export const nhlSeasons = [
   "2022/2023",
   "2021/2022",
