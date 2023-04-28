@@ -64,32 +64,26 @@ export const TOP_10_GOALS_AGAINST_AVERAGE_PATH =
   "/players/top10GoalsAgainstAverage";
 export const GET_PLAYER_STATS_PATH = "/players/getPlayer";
 
-export const TOP_10_STATS_CATEGORIES: {
-  [key: string]: { label: string; name: string }[];
-} = {
-  skater: [
-    { label: "Points", name: "Points" },
-    { label: "Goals", name: "Goals" },
-    { label: "Assists", name: "Assists" },
-    { label: "+/-", name: "Plus Minus" },
-    { label: "PiM", name: "Penalty Minutes" },
-    { label: "Hits", name: "Hits" },
-    { label: "Total ToI", name: "Total Time on Ice" },
-    { label: "ToI/Game", name: "Time on Ice Per Game" },
-    { label: "ToI SH", name: "Time on Ice Short Handed" },
-    { label: "ToI PP", name: "Time on Ice Powerplay" },
-    { label: "PP Goals", name: "Powerplay Goals" },
-    { label: "SH Goals", name: "Shorthanded Goals" },
-    { label: "PP Points", name: "Powerplay Points" },
-    { label: "SH Points", name: "Shorthanded Points" },
-    { label: "FO %", name: "Faceoff Percentage" },
-  ],
-  goalie: [
-    { label: "Save %", name: "Save Percentage" },
-    { label: "Wins", name: "Wins" },
-    { label: "GAA", name: "Goals Against Average" },
-  ],
-};
+export const TOP_10_STATS_CATEGORIES = [
+  { label: "Points", name: "Points" },
+  { label: "Goals", name: "Goals" },
+  { label: "Assists", name: "Assists" },
+  { label: "+/-", name: "Plus Minus" },
+  { label: "PiM", name: "Penalty Minutes" },
+  { label: "Hits", name: "Hits" },
+  { label: "Total ToI", name: "Total Time on Ice" },
+  { label: "ToI/Game", name: "Time on Ice Per Game" },
+  { label: "ToI SH", name: "Time on Ice Short Handed" },
+  { label: "ToI PP", name: "Time on Ice Powerplay" },
+  { label: "PP Goals", name: "Powerplay Goals" },
+  { label: "SH Goals", name: "Shorthanded Goals" },
+  { label: "PP Points", name: "Powerplay Points" },
+  { label: "SH Points", name: "Shorthanded Points" },
+  { label: "FO %", name: "Faceoff Percentage" },
+  { label: "Save %", name: "Save Percentage" },
+  { label: "Wins", name: "Wins" },
+  { label: "GAA", name: "Goals Against Average" },
+];
 
 export const statTypeMapping: {
   [key: string]: {
@@ -219,8 +213,8 @@ export const statTypeMapping: {
     queryName: "getTop10Wins",
     tableType: "goalie",
   },
-  goalsAgainstAverage: {
-    type: "goalsAgainstAverage",
+  goalAgainstAverage: {
+    type: "goalAgainstAverage",
     label: "GAA",
     stat: "playerStats.splits[0].stat.goalAgainstAverage",
     queryName: "getTop10GoalsAgainstAverage",
