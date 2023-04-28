@@ -22,6 +22,7 @@ import {
 import MiniPlayerCard from "../../shared/components/MiniPlayerCard";
 import { apiSlice } from "../api/apiSlice";
 import { PlayerDataType } from "../../../../server/src/types";
+import { formatStat } from "../../shared/utils";
 
 const Top10Chart = () => {
   const queryHooks: { [key: string]: any } = {
@@ -61,29 +62,23 @@ const Top10Chart = () => {
   const [queryType, setQueryType] = useState<string>(
     statTypeMapping.points.queryName
   );
-  // skater, goalie, or team stats
-  const [tableType, setTableType] = useState<string>(
-    statTypeMapping.points.tableType
-  );
   const windowSize = useRef([window.innerWidth, window.innerHeight]);
   const [activeCard, setActiveCard] = useState(0);
   const [statType, setStatType] = useState<string>(statTypes.points);
 
   let chartData = queryHooks[queryType];
-  //console.log(statType)
 
   useEffect(() => {
     const newStat = Object.values(statTypeMapping).find(
       ({ type }) => statType === type
     );
     if (newStat) {
-      setTableType(newStat.tableType);
       setQueryType(newStat.queryName);
     }
   }, [statType]);
 
   const renderTabs = () => {
-    return TOP_10_STATS_CATEGORIES[tableType].map((category, index) => {
+    return TOP_10_STATS_CATEGORIES.map((category, index) => {
       return <Tab key={index} label={category.label} value={category.label} />;
     });
   };
@@ -93,7 +88,6 @@ const Top10Chart = () => {
       ({ label }) => value === label
     );
     if (newStatType) {
-      console.log(newStatType);
       setStatType(newStatType.type);
     }
   };
@@ -110,7 +104,7 @@ const Top10Chart = () => {
       {chartData.isSuccess && (
         <Container maxWidth="md" sx={{ border: "1px solid black" }}>
           <Tabs
-            value={false} // needs to change
+            value={false}
             onChange={handleTabChange}
             variant="scrollable"
             scrollButtons="auto"
@@ -133,30 +127,31 @@ const Top10Chart = () => {
             <TableContainer
               sx={{
                 maxWidth: windowSize.current[0] < 500 ? "45%" : "40%",
-                // border: "1px solid black",
               }}
             >
               <Table size="small">
                 <TableBody>
-                  {chartData.data.map((item: PlayerDataType, index: number) => (
-                    <TableRow
-                      key={index}
-                      onMouseEnter={() => setActiveCard(index)}
-                    >
-                      <TableCell
-                        size={"small"}
-                        sx={{
-                          fontSize:
-                            windowSize.current[0] < 500 ? "0.65rem" : "0.85rem",
-                        }}
+                  {chartData.data.map(
+                    (player: PlayerDataType, index: number) => (
+                      <TableRow
+                        key={index}
+                        onMouseEnter={() => setActiveCard(index)}
                       >
-                        {item.playerInfo.fullName}
-                      </TableCell>
-                      <TableCell>
-                        {item.playerStats.splits[0].stat[statType]}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                        <TableCell
+                          size={"small"}
+                          sx={{
+                            fontSize:
+                              windowSize.current[0] < 500
+                                ? "0.65rem"
+                                : "0.85rem",
+                          }}
+                        >
+                          {player.playerInfo.fullName}
+                        </TableCell>
+                        <TableCell>{formatStat(player, statType)}</TableCell>
+                      </TableRow>
+                    )
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>
