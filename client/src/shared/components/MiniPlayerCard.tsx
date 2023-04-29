@@ -10,15 +10,15 @@ import {
   Typography,
 } from "@mui/material";
 import { PlayerDataType } from "../../../../server/src/types";
-import { formGetTeamLogoUrl } from "../utils";
+import { formGetTeamLogoUrl, formatStat } from "../utils";
 import { statTypeMapping } from "../constants";
 
-interface miniPlayerCardProps {
+interface MiniPlayerCardProps {
   player: PlayerDataType;
   statType: string;
 }
 
-const MiniPlayerCard = ({ player, statType }: miniPlayerCardProps) => {
+const MiniPlayerCard = ({ player, statType }: MiniPlayerCardProps) => {
   const renderPlayerPic = () => {
     return (
       <AvatarGroup total={2} spacing={"small"}>
@@ -119,11 +119,6 @@ const MiniPlayerCard = ({ player, statType }: miniPlayerCardProps) => {
   };
 
   const renderStat = () => {
-    // this variable allows me to index the PlayerStatsFormattedType
-    // that is passed in for the player by string
-    const playerStatsIndexable: { [key: string]: string | boolean | number } =
-      player.playerStats.splits[0].stat;
-    const statKey: string = `${playerStatsIndexable[statType]}`;
     return (
       <CardContent
         sx={{
@@ -138,7 +133,7 @@ const MiniPlayerCard = ({ player, statType }: miniPlayerCardProps) => {
           {statTypeMapping[statType].label}
         </Typography>
         <Typography sx={{ fontSize: "1.2rem", fontWeight: "700" }}>
-          {statKey}
+          {formatStat(player, statType)}
         </Typography>
       </CardContent>
     );
