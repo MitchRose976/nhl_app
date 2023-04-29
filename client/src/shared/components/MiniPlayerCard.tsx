@@ -119,11 +119,10 @@ const MiniPlayerCard = ({ player, statType }: miniPlayerCardProps) => {
   };
 
   const renderStat = () => {
-    // this variable allows me to index the PlayerStatsFormattedType 
+    // this variable allows me to index the PlayerStatsFormattedType
     // that is passed in for the player by string
     const playerStatsIndexable: { [key: string]: string | boolean | number } =
       player.playerStats.splits[0].stat;
-    console.log('MiniCard', playerStatsIndexable, statType);
     const statKey: string = `${playerStatsIndexable[statType]}`;
     return (
       <CardContent

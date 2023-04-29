@@ -70,7 +70,6 @@ const Top10Chart = () => {
   const [statType, setStatType] = useState<string>(statTypes.points);
 
   let chartData = queryHooks[queryType];
-  //console.log(statType)
 
   useEffect(() => {
     const newStat = Object.values(statTypeMapping).find(
@@ -93,7 +92,6 @@ const Top10Chart = () => {
       ({ label }) => value === label
     );
     if (newStatType) {
-      console.log(newStatType);
       setStatType(newStatType.type);
     }
   };
