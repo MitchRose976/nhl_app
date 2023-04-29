@@ -1,9 +1,9 @@
-export const menuItems: string[] = [
-  "Home",
-  "Standings",
-  "League Stats",
-  "Team Stats",
-  "Player Stats",
+export const menuItems = [
+  {label: "Home", path: '/'},
+  {label: "Standings", path: '/standings'},
+  {label: "League Stats", path: '/leagueStats'},
+  {label: "Team Stats", path: '/leagueStats'},
+  {label: "Player Stats", path: '/playerStats'},
 ];
 
 export const statsTableHeaderCells = [

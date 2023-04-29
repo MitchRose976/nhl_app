@@ -4,8 +4,10 @@ import Logo from "./components/Logo";
 import HamburgerDropdown from "./components/HamburgerDropdown";
 import { menuItems } from "../shared/constants";
 import "./style.scss";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const getWindowSize = () => {
     const { innerWidth, innerHeight } = window;
     return { innerWidth, innerHeight };
@@ -36,8 +38,12 @@ const Navbar = () => {
         }}
       >
         {menuItems.map((menuItem) => (
-          <Button key={menuItem} color="inherit">
-            {menuItem}
+          <Button
+            key={menuItem.label}
+            color="inherit"
+            onClick={() => navigate(menuItem.path)}
+          >
+            {menuItem.label}
           </Button>
         ))}
       </Stack>

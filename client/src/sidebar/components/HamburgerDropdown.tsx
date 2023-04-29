@@ -9,18 +9,16 @@ import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import { menuItems } from "../../shared/constants";
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 import "../style.scss";
+import { useNavigate } from "react-router-dom";
 
 const HamburgerDropdown = () => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
-
-  const handleClick = () => {
-    console.info(`You clicked ${menuItems[selectedIndex]}`);
-  };
 
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
@@ -28,6 +26,7 @@ const HamburgerDropdown = () => {
   ) => {
     setSelectedIndex(index);
     setOpen(false);
+    navigate(menuItems[index].path);
   };
 
   const handleToggle = () => {
@@ -112,13 +111,12 @@ const HamburgerDropdown = () => {
                 <MenuList {...menuListProps} autoFocusItem>
                   {menuItems.map((option, index) => (
                     <MenuItem
-                      key={option}
+                      key={option.label}
                       {...menuItemProps}
-                      // disabled={index === 2}
                       selected={index === selectedIndex}
                       onClick={(event) => handleMenuItemClick(event, index)}
                     >
-                      {option}
+                      {option.label}
                     </MenuItem>
                   ))}
                 </MenuList>
