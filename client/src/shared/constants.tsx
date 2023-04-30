@@ -63,6 +63,7 @@ export const TOP_10_WINS_PATH = "/players/top10Wins";
 export const TOP_10_GOALS_AGAINST_AVERAGE_PATH =
   "/players/top10GoalsAgainstAverage";
 export const GET_PLAYER_STATS_PATH = "/players/getPlayer";
+export const GET_STANDINGS_PATH = '/teams/standings';
 
 export const TOP_10_STATS_CATEGORIES = [
   { label: "Points", name: "Points" },

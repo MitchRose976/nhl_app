@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import { ObjectId } from "mongodb";
 import { TeamModel, PlayerModel, PlayerClass } from "../models";
 import { collections } from "../connect";
+import axios from "axios";
 
 dotenv.config();
 const router = express.Router();
@@ -377,6 +378,19 @@ router.get(
     }
   }
 );
+
+router.get("/teams/standings", async (req: Request, res: Response) => {
+  try {
+    await axios
+      .get("https://statsapi.web.nhl.com/api/v1/standings")
+      .then((response) => res.status(200).send(response.data))
+      .catch((error) => {
+        console.log(error);
+      });
+  } catch (error) {
+    console.log("Error @ /teams/standings: ", error);
+  }
+});
 
 // GET all players
 router.get("/players", (req: Request, res: Response) => {

@@ -19,8 +19,9 @@ import {
   TOP_10_SAVE_PERCENTAGE_PATH,
   TOP_10_WINS_PATH,
   TOP_10_GOALS_AGAINST_AVERAGE_PATH,
+  GET_STANDINGS_PATH,
 } from "../../shared/constants";
-import type { PlayerDataType } from "../../../../server/src/types";
+import type { PlayerDataType, StandingsDataInterface } from "../../../../server/src/types";
 
 export const apiSlice = createApi({
   reducerPath: "api",
@@ -80,6 +81,9 @@ export const apiSlice = createApi({
     getTop10GoalsAgainstAverage: builder.query<PlayerDataType[], void>({
       query: () => TOP_10_GOALS_AGAINST_AVERAGE_PATH,
     }),
+    getStandings: builder.query<StandingsDataInterface, void>({
+      query: () => GET_STANDINGS_PATH,
+    }) 
   }),
 });
 
@@ -102,4 +106,5 @@ export const {
   useGetTop10SavePercentageQuery,
   useGetTop10WinsQuery,
   useGetTop10GoalsAgainstAverageQuery,
+  useGetStandingsQuery,
 } = apiSlice;

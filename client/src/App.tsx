@@ -4,6 +4,7 @@ import Top10Chart from "./features/top10Chart/Top10Chart";
 import { colors } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PageTemplate from "./views/PageTemplate";
+import StandingsChart from "./features/standingsChart/StandingsChart";
 
 // black: '#090A0B',
 // Eerie Black: '#141414'
@@ -41,11 +42,12 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <Routes>
           <Route path="/" element={<PageTemplate child={<h1>Hello</h1>} />} />
+          <Route path="/standings" element={<PageTemplate child={<StandingsChart/>} />} />
           <Route
             path="/playerStats"
             element={<PageTemplate child={<Top10Chart />} />}
           />
-          <Route/>
+          
           <Route/>
         </Routes>
       </ThemeProvider>

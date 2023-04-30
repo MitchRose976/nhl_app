@@ -94,21 +94,21 @@ const Top10Chart = () => {
 
   return (
     <>
-      {chartData.isLoading && <CircularProgress />}
-      {chartData.isError && (
+      {chartData.isLoading ? <CircularProgress /> : null}
+      {chartData.isError ? (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
           <strong>Error while fetching data</strong>
         </Alert>
-      )}
-      {chartData.isSuccess && (
+      ) : null}
+      {chartData.isSuccess ? (
         <Container maxWidth="md" sx={{ border: "1px solid black" }}>
           <Tabs
             value={false}
             onChange={handleTabChange}
             variant="scrollable"
             scrollButtons="auto"
-            aria-label="scrollable auto tabs example"
+            aria-label="Tabs for player stat types"
           >
             {renderTabs()}
           </Tabs>
@@ -157,7 +157,7 @@ const Top10Chart = () => {
             </TableContainer>
           </Box>
         </Container>
-      )}
+      ) : null}
     </>
   );
 };

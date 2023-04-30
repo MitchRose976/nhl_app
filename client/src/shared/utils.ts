@@ -1,4 +1,4 @@
-import { PlayerDataType } from "../../../server/src/types";
+import { PlayerDataType, TeamRecordInterface } from "../../../server/src/types";
 import { statTypeMapping } from "./constants";
 
 export const formGetTeamLogoUrl = (teamID: number) =>
@@ -17,5 +17,52 @@ export const formatStat = (player: PlayerDataType, statType: string) => {
     return `${player.playerStats.splits[0].stat[statType]}%`;
   } else {
     return player.playerStats.splits[0].stat[statType];
+  }
+};
+
+export const getTeamStat = (
+  team: TeamRecordInterface,
+  stat: { label: string; stat: string; type: string }
+) => {
+  const statLabel = stat.label;
+  switch (statLabel) {
+    case "Team":
+      return team.team.name;
+    case "GP":
+      return team.gamesPlayed;
+    case "W":
+      return team.leagueRecord.wins;
+    case "L":
+      return team.leagueRecord.losses;
+    case "OTL":
+      return team.leagueRecord.ot;
+    case "Pts":
+      return team.points;
+    case "GF":
+      return team.goalsScored;
+    case "GA":
+      return team.goalsAgainst;
+    case "Diff":
+      return team.goalsScored - team.goalsAgainst;
+    case "L10":
+      return "placeholder";
+    case "Strk":
+      return team.streak.streakCode;
+    case "P%":
+      return `${team.pointsPercentage.toFixed(2)}%`;
+    case "ConfHomeRank":
+      return team.conferenceHomeRank;
+    case "ConfRoadRank":
+      return team.conferenceRoadRank;
+    case "DivHomeRank":
+      return team.divisionHomeRank;
+    case "PPLeagueRank":
+      return team.ppLeagueRank;
+    case "PPConfRank":
+      return team.ppConferenceRank;
+    case "PPDivRank":
+      return team.ppDivisionRank;
+    default:
+      return "";
   }
 };
