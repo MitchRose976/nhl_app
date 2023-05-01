@@ -3,7 +3,6 @@ import { useGetStandingsQuery } from "../api/apiSlice";
 import {
   Alert,
   AlertTitle,
-  Avatar,
   Box,
   CircularProgress,
   Container,
@@ -93,7 +92,6 @@ const StandingsChart = () => {
     isSuccess,
     isError,
   } = useGetStandingsQuery();
-  const windowSize = useRef([window.innerWidth, window.innerHeight]);
   const [conference, setConference] = useState<string>(
     standingsMapping["Eastern Conference"].label
   );
@@ -104,7 +102,7 @@ const StandingsChart = () => {
     backgroundColor: "#fff",
   };
 
-  const getLast10GamesRecord = () => {};
+  //const getLast10GamesRecord = () => {};
 
   const renderDivisionTable = (selectedDivision: string) => {
     const divisionStandingsData = standingsData
@@ -150,14 +148,13 @@ const StandingsChart = () => {
                               fontSize: "0.75rem",
                             }}
                           >
-                            <Avatar
+                            <img
                               alt={`${team.team.name} logo`}
-                              variant="rounded"
-                              srcSet={formGetTeamLogoUrl(team.team.id)}
-                              sx={{
-                                width: 30,
-                                height: 30,
+                              src={formGetTeamLogoUrl(team.team.id)}
+                              style={{
                                 marginRight: "0.5rem",
+                                width: "3rem",
+                                height: "3rem",
                               }}
                             />
                             {getTeamStat(team, statType)}
@@ -200,13 +197,17 @@ const StandingsChart = () => {
               key={standingsMapping["Eastern Conference"].label}
               label={standingsMapping["Eastern Conference"].label}
               value={standingsMapping["Eastern Conference"].label}
-              onClick={() => setConference(standingsMapping["Eastern Conference"].label)}
+              onClick={() =>
+                setConference(standingsMapping["Eastern Conference"].label)
+              }
             />
             <Tab
               key={standingsMapping["Western Conference"].label}
               label={standingsMapping["Western Conference"].label}
               value={standingsMapping["Western Conference"].label}
-              onClick={() => setConference(standingsMapping["Western Conference"].label)}
+              onClick={() =>
+                setConference(standingsMapping["Western Conference"].label)
+              }
             />
           </Tabs>
           <Divider />
@@ -215,7 +216,7 @@ const StandingsChart = () => {
               display: "flex",
               justifyContent: "space-around",
               alignItems: "center",
-              flexDirection: 'column'
+              flexDirection: "column",
             }}
           >
             {standingsMapping[conference].divisions.map((division: string) =>
