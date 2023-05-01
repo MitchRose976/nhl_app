@@ -49,13 +49,15 @@ export const getTeamStat = (
     case "Strk":
       return team.streak.streakCode;
     case "P%":
-      return `${team.pointsPercentage.toFixed(2)}%`;
+      return `${team.pointsPercentage.toFixed(2).substring(2)}%`;
     case "ConfHomeRank":
       return team.conferenceHomeRank;
     case "ConfRoadRank":
       return team.conferenceRoadRank;
     case "DivHomeRank":
       return team.divisionHomeRank;
+    case 'DivRoadRank':
+      return team.divisionRoadRank;
     case "PPLeagueRank":
       return team.ppLeagueRank;
     case "PPConfRank":
