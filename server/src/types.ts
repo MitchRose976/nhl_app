@@ -278,3 +278,70 @@ export interface StandingsDataInterface {
   copyright: string;
   records: StandingsRecordInterface[];
 }
+
+export interface GameInterface {
+  [key: string]: object | string | number | string[];
+  status: {
+    state: string;
+    progress?: {
+      currentPeriod: number;
+      currentPeriodOrdinal: string;
+      currentPeriodTimeRemaining: {
+        pretty: string;
+        min: number;
+        sec: number;
+      }
+    }
+  };
+  startTime: string;
+  goals: [];
+  scores: {
+    [key: string]: number;
+  };
+  teams: {
+    away: {
+      abbreviation: string;
+      id: 3;
+      locationName: string;
+      shortName: string;
+      teamName: string;
+    };
+    home: {
+      abbreviation: string;
+      id: 1;
+      locationName: string;
+      shortName: string;
+      teamName: string;
+    };
+  };
+  currentStats: {
+    records: {
+      [key: string]: {
+        wins: number;
+        losses: number;
+      };
+    };
+    standings: {
+      [key: string]: {
+        divisionRank: string;
+        leagueRank: string;
+        pointsFromPlayoffSpot: string;
+      };
+    };
+    playoffSeries: {
+      round: number;
+      wins: {
+        [key: string]: number;
+      };
+    };
+  };
+}
+
+export interface TodaysGamesInterface {
+  [key: string]: object | object[];
+  date: {
+    raw: string;
+    pretty: string;
+  };
+  games: GameInterface[];
+}

@@ -56,7 +56,7 @@ export const getTeamStat = (
       return team.conferenceRoadRank;
     case "DivHomeRank":
       return team.divisionHomeRank;
-    case 'DivRoadRank':
+    case "DivRoadRank":
       return team.divisionRoadRank;
     case "PPLeagueRank":
       return team.ppLeagueRank;
@@ -67,4 +67,36 @@ export const getTeamStat = (
     default:
       return "";
   }
+};
+
+export const getTimeZoneOffset = () => {
+  const currentDate = new Date();
+  const month = currentDate.getMonth();
+  const day = currentDate.getDay();
+  // EDT = march 12th - November 5th
+  if (month >= 3 && day >= 12 && month <= 11 && day <= 5) {
+    return { timezone: "EST", offset: -Math.abs(5) };
+  } else {
+    return { timezone: "EDT", offset: -Math.abs(4) };
+  }
+};
+
+export const formatHour = (hour: number) => {
+  let formattedHour = "0:00";
+  if (hour > 0 && hour <= 12) {
+    formattedHour = "" + hour;
+  } else if (hour > 12) {
+    formattedHour = "" + (hour - 12);
+  } else if (hour === 0) {
+    formattedHour = "12";
+  }
+  return formattedHour;
+};
+
+export const formatMinutes = (minutes: number) => {
+  let formattedMinute = "0";
+  if (minutes < 10) {
+    formattedMinute += "0";
+  }
+  return minutes < 10 ? formattedMinute : minutes;
 };
