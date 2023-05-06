@@ -20,6 +20,7 @@ import {
   TOP_10_WINS_PATH,
   TOP_10_GOALS_AGAINST_AVERAGE_PATH,
   GET_STANDINGS_PATH,
+  GET_SCORES_PATH,
 } from "../../shared/constants";
 import type { PlayerDataType, StandingsDataInterface } from "../../../../server/src/types";
 
@@ -83,6 +84,9 @@ export const apiSlice = createApi({
     }),
     getStandings: builder.query<StandingsDataInterface, void>({
       query: () => GET_STANDINGS_PATH,
+    }),
+    getScores: builder.query<any, void>({
+      query: () => GET_SCORES_PATH,
     }) 
   }),
 });
@@ -107,4 +111,5 @@ export const {
   useGetTop10WinsQuery,
   useGetTop10GoalsAgainstAverageQuery,
   useGetStandingsQuery,
+  useGetScoresQuery,
 } = apiSlice;

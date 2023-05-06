@@ -379,10 +379,26 @@ router.get(
   }
 );
 
+// GET league standings
 router.get("/teams/standings", async (req: Request, res: Response) => {
   try {
     await axios
       .get("https://statsapi.web.nhl.com/api/v1/standings")
+      .then((response) => res.status(200).send(response.data))
+      .catch((error) => {
+        console.log(error);
+      });
+  } catch (error) {
+    console.log("Error @ /teams/standings: ", error);
+  }
+});
+
+// GET todays scores
+router.get("/games/scores", async (req: Request, res: Response) => {
+  const todaysDate = new Date().toISOString().slice(0, 10);
+  try {
+    await axios
+      .get(`https://nhl-score-api.herokuapp.com/api/scores?startDate=${todaysDate}&endDate=${todaysDate}`)
       .then((response) => res.status(200).send(response.data))
       .catch((error) => {
         console.log(error);
