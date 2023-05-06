@@ -100,3 +100,10 @@ export const formatMinutes = (minutes: number) => {
   }
   return minutes < 10 ? formattedMinute : minutes;
 };
+
+export const splitArrayIntoEqualParts = (arr: any[], n: number) => {
+  const size = Math.ceil(arr.length / n);
+  return Array.from({ length: n }, (v, i) =>
+    arr.slice(i * size, i * size + size)
+  );
+}

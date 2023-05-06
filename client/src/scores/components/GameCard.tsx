@@ -20,7 +20,6 @@ interface GameCardProps {
 }
 
 const GameCard = ({ game }: GameCardProps) => {
-  console.log("mitch game: ", game);
   const [gameStatus, setGameStatus] = useState({
     status: "PREVIEW",
     component: "PREVIEW",
@@ -28,7 +27,6 @@ const GameCard = ({ game }: GameCardProps) => {
 
   const getStartTime = () => {
     const date = new Date(game.startTime);
-    console.log(date)
     const hour = formatHour(date.getHours());
     const amOrPm = date.getHours() >= 12 ? 'pm' : 'am';
     const minute = formatMinutes(date.getMinutes());
