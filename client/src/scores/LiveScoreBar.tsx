@@ -33,7 +33,7 @@ const LiveScoreBar = () => {
   }, []);
 
   useEffect(() => {
-    if (window.innerWidth > 1200) setMaxGameCards(1);
+    if (window.innerWidth > 1466) setMaxGameCards(1);
     else if (window.innerWidth > 990) setMaxGameCards(2);
     else if (window.innerWidth > 800) setMaxGameCards(3);
     else if (window.innerWidth > 600) setMaxGameCards(4);

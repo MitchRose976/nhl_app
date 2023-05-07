@@ -6,7 +6,7 @@ const LoadingBar = () => {
   return (
     <Box sx={{ width: "65%" }}>
       <LinearProgress
-        color="secondary"
+        color='success'
       />
     </Box>
   );
