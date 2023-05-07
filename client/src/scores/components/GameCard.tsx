@@ -28,34 +28,11 @@ const GameCard = ({ game }: GameCardProps) => {
   const getStartTime = () => {
     const date = new Date(game.startTime);
     const hour = formatHour(date.getHours());
-    const amOrPm = date.getHours() >= 12 ? 'pm' : 'am';
+    const amOrPm = date.getHours() >= 12 ? "pm" : "am";
     const minute = formatMinutes(date.getMinutes());
     const timeZone = getTimeZoneOffset().timezone;
     return `${hour}:${minute}${amOrPm} ${timeZone}`;
   };
-
-  // const getGameStatus = () => {
-  //   const currentGameStatus = game.status.state;
-  //   if (currentGameStatus === "PREVIEW") {
-  //     // setGameStatus('PREVIEW');
-  //     // return getStartTime();
-  //     setGameStatus({ status: "PREVIEW", component: getStartTime() });
-  //   } else if (currentGameStatus === "LIVE") {
-  //     // setGameStatus('LIVE');
-  //     // return `${game.status.progress?.currentPeriodOrdinal} - ${game.status.progress?.currentPeriodTimeRemaining.pretty}`;
-  //     setGameStatus({
-  //       status: "LIVE",
-  //       component: `${game.status.progress?.currentPeriodOrdinal} - ${game.status.progress?.currentPeriodTimeRemaining.pretty}`,
-  //     });
-  //   } else if (currentGameStatus === "FINAL") {
-  //     // setGameStatus('FINAL');
-  //     // return `FINAL`;
-  //     setGameStatus({ status: "FINAL", component: "FINAL" });
-  //   } else {
-  //     setGameStatus({ status: "POSTPONED", component: "POSTPONED" });
-  //     //return "POSTPONED";
-  //   }
-  // };
 
   useEffect(() => {
     const currentGameStatus = game.status.state;
@@ -82,11 +59,7 @@ const GameCard = ({ game }: GameCardProps) => {
   const renderTeamLogo = (svgString: string) => {
     return svgString !== "" ? (
       <svg width="40" height="40">
-        <image
-          href={`${svgString}`}
-          width="40"
-          height="40"
-        />
+        <image href={`${svgString}`} width="40" height="40" />
       </svg>
     ) : null;
   };
@@ -104,6 +77,57 @@ const GameCard = ({ game }: GameCardProps) => {
     );
   };
 
+  const renderMatchupInfo = () => {
+    const headToHeadStats = game.currentStats;
+    if (headToHeadStats.playoffSeries) {
+      return (
+        <Typography sx={{ fontSize: "0.7rem", fontWeight: "500" }}>
+          {`Rd ${game.currentStats.playoffSeries.round} - ${
+            game.teams.home.abbreviation
+          }:${
+            game.currentStats.playoffSeries.wins[game.teams.home.abbreviation]
+          }   ${game.teams.away.abbreviation}:${
+            game.currentStats.playoffSeries.wins[game.teams.away.abbreviation]
+          }`}
+        </Typography>
+      );
+    } else {
+      return (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: "0.65rem",
+              fontWeight: "500",
+              paddingRight: "0.5rem",
+            }}
+          >
+            {`(${headToHeadStats.records[game.teams.home.abbreviation].wins}-${
+              headToHeadStats.records[game.teams.home.abbreviation].losses
+            }-${headToHeadStats.records[game.teams.home.abbreviation].ot})`}
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: "0.65rem",
+              fontWeight: "500",
+              paddingLeft: "0.5rem",
+            }}
+          >
+            {`(${headToHeadStats.records[game.teams.away.abbreviation].wins}-${
+              headToHeadStats.records[game.teams.away.abbreviation].losses
+            }-${headToHeadStats.records[game.teams.away.abbreviation].ot})`}
+          </Typography>
+        </div>
+      );
+    }
+  };
+
+  console.log(game);
   return game ? (
     <Card raised sx={gameCardSXProps}>
       <Typography
@@ -113,10 +137,15 @@ const GameCard = ({ game }: GameCardProps) => {
         {gameStatus.component}
       </Typography>
       {/* Need a redux variable to read if it is intermission or not */}
-      {gameStatus.status === "LIVE" ? <LoadingBar /> : <Divider sx={{ width:'100%', margin: '0.5rem 0' }}/>}
+      {gameStatus.status === "LIVE" ? (
+        <LoadingBar />
+      ) : (
+        <Divider sx={{ width: "100%", margin: "0.5rem 0" }} />
+      )}
       <CardContent sx={gameCardContentSXProps} style={{ padding: 0 }}>
         {renderScoreLine()}
       </CardContent>
+      <CardContent style={{ padding: 0 }}>{renderMatchupInfo()}</CardContent>
       <CardActions>
         <Button
           variant="contained"

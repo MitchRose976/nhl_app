@@ -33,6 +33,9 @@ const theme = createTheme({
       // dark: '',
       // contrastText: '',
     },
+    success: {
+      main: colors.blue[500]
+    }
   },
 });
 
