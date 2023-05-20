@@ -270,3 +270,15 @@ export const nhlSeasons = [
   "2001/2002",
   "2000/2001",
 ];
+
+export const GAME_STATS_TYPES = [
+  {statType: 'shots', label: 'Shots'},
+  {statType: 'blocked', label: 'Shots Blocked'},
+  {statType: 'faceOffWinPercentage', label: 'Faceoff %'},
+  {statType: 'giveaways', label: 'Giveaways'},
+  {statType: 'hits', label: 'Hits'},
+  {statType: 'pim', label: 'Penalty Minutes'},
+  {statType: 'powerPlay', label: 'Powerplay Goals'},
+  {statType: 'takeaways', label: 'Takeaways'},
+]
+

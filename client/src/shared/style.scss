@@ -116,3 +116,9 @@
     background-color: $tor-first;
     padding: 3px 0;
 }
+
+.flex-box-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

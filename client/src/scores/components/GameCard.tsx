@@ -13,7 +13,9 @@ import {
   formGetTeamLogoUrl,
   getTimeZoneOffset,
 } from "../../shared/utils";
-import { Divider } from "@mui/material";
+import { Divider, Modal } from "@mui/material";
+import GameModal from "../../features/gameModal/GameModal";
+import "../../shared/style.scss";
 
 interface GameCardProps {
   game: GameInterface;
@@ -24,6 +26,7 @@ const GameCard = ({ game }: GameCardProps) => {
     status: "PREVIEW",
     component: "PREVIEW",
   });
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const getStartTime = () => {
     const date = new Date(game.startTime);
@@ -36,6 +39,8 @@ const GameCard = ({ game }: GameCardProps) => {
 
   useEffect(() => {
     const currentGameStatus = game.status.state;
+    const isOT = game.scores.overtime;
+    const isShootout = game.scores.shootout;
     switch (currentGameStatus) {
       case "PREVIEW":
         setGameStatus({ status: "PREVIEW", component: getStartTime() });
@@ -47,7 +52,10 @@ const GameCard = ({ game }: GameCardProps) => {
         });
         break;
       case "FINAL":
-        setGameStatus({ status: "FINAL", component: "FINAL" });
+        setGameStatus({
+          status: "FINAL",
+          component: `${isOT ? "FINAL (OT)" : isShootout ? "FINAL (SO)" : "FINAL"}`,
+        });
         break;
       default:
         setGameStatus({ status: "POSTPONED", component: "POSTPONED" });
@@ -56,10 +64,10 @@ const GameCard = ({ game }: GameCardProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const renderTeamLogo = (svgString: string) => {
+  const renderTeamLogo = (svgString: string, width: number, height: number) => {
     return svgString !== "" ? (
-      <svg width="40" height="40">
-        <image href={`${svgString}`} width="40" height="40" />
+      <svg width={width} height={height}>
+        <image href={`${svgString}`} width={width} height={height} />
       </svg>
     ) : null;
   };
@@ -67,12 +75,12 @@ const GameCard = ({ game }: GameCardProps) => {
   const renderScoreLine = () => {
     return (
       <>
-        {renderTeamLogo(formGetTeamLogoUrl(game.teams.home.id))}
+        {renderTeamLogo(formGetTeamLogoUrl(game.teams.home.id), 40, 40)}
         <strong>
           {game.scores[game.teams.home.abbreviation]} :{" "}
           {game.scores[game.teams.away.abbreviation]}
         </strong>{" "}
-        {renderTeamLogo(formGetTeamLogoUrl(game.teams.away.id))}
+        {renderTeamLogo(formGetTeamLogoUrl(game.teams.away.id), 40, 40)}
       </>
     );
   };
@@ -93,13 +101,7 @@ const GameCard = ({ game }: GameCardProps) => {
       );
     } else {
       return (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex-box-center">
           <Typography
             sx={{
               fontSize: "0.65rem",
@@ -127,6 +129,14 @@ const GameCard = ({ game }: GameCardProps) => {
     }
   };
 
+  const handleClick = () => {
+    setOpenModal(true);
+  };
+
+  const handleClose = () => {
+    setOpenModal(false);
+  };
+
   console.log(game);
   return game ? (
     <Card raised sx={gameCardSXProps}>
@@ -148,6 +158,7 @@ const GameCard = ({ game }: GameCardProps) => {
       <CardContent style={{ padding: 0 }}>{renderMatchupInfo()}</CardContent>
       <CardActions>
         <Button
+          onClick={handleClick}
           variant="contained"
           color="primary"
           size="small"
@@ -155,6 +166,9 @@ const GameCard = ({ game }: GameCardProps) => {
         >
           More
         </Button>
+        <Modal open={openModal} onClose={handleClose} sx={{overflow: 'scroll'}}>
+          <GameModal game={game} status={gameStatus} />
+        </Modal>
       </CardActions>
     </Card>
   ) : null;

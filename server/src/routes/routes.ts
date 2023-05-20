@@ -395,9 +395,10 @@ router.get("/teams/standings", async (req: Request, res: Response) => {
 
 // GET todays scores
 router.get("/games/scores", async (req: Request, res: Response) => {
-  const todaysDate = new Date().toISOString().slice(0, 10);
+  const todaysDate = new Date().toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
   try {
     await axios
+      //.get(`https://nhl-score-api.herokuapp.com/api/scores?startDate=${'2023-04-10'}&endDate=${'2023-04-10'}`)
       .get(`https://nhl-score-api.herokuapp.com/api/scores?startDate=${todaysDate}&endDate=${todaysDate}`)
       .then((response) => res.status(200).send(response.data))
       .catch((error) => {

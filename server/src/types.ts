@@ -280,7 +280,7 @@ export interface StandingsDataInterface {
 }
 
 export interface GameInterface {
-  [key: string]: object | string | number | string[];
+  [key: string]: any;
   status: {
     state: string;
     progress?: {
@@ -301,14 +301,14 @@ export interface GameInterface {
   teams: {
     away: {
       abbreviation: string;
-      id: 3;
+      id: number;
       locationName: string;
       shortName: string;
       teamName: string;
     };
     home: {
       abbreviation: string;
-      id: 1;
+      id: number;
       locationName: string;
       shortName: string;
       teamName: string;
@@ -319,6 +319,7 @@ export interface GameInterface {
       [key: string]: {
         wins: number;
         losses: number;
+        ot: number;
       };
     };
     standings: {
