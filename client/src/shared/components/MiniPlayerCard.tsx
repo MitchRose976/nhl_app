@@ -12,6 +12,7 @@ import {
 import { PlayerDataType } from "../../../../server/src/types";
 import { formGetTeamLogoUrl, formatStat } from "../utils";
 import { statTypeMapping } from "../constants";
+import "../../shared/style.scss";
 
 interface MiniPlayerCardProps {
   player: PlayerDataType;
@@ -141,7 +142,16 @@ const MiniPlayerCard = ({ player, statType }: MiniPlayerCardProps) => {
 
   return (
     <Paper>
-      <Card raised={true} sx={{ maxWidth: "13rem" }}>
+      <Card
+        raised={true}
+        sx={{
+          maxWidth: "13rem",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <CardHeader avatar={renderPlayerPic()} />
         {renderPlayerInfo()}
         {renderStat()}
