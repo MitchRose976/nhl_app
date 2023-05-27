@@ -22,7 +22,10 @@ import {
   GET_STANDINGS_PATH,
   GET_SCORES_PATH,
 } from "../../shared/constants";
-import type { PlayerDataType, StandingsDataInterface } from "../../../../server/src/types";
+import type {
+  PlayerDataType,
+  StandingsDataInterface,
+} from "../../../../server/src/types";
 
 export const apiSlice = createApi({
   reducerPath: "api",
@@ -87,7 +90,16 @@ export const apiSlice = createApi({
     }),
     getScores: builder.query<any, void>({
       query: () => GET_SCORES_PATH,
-    }) 
+    }),
+    getTeamStatsByID: builder.query<any, { teamID: number }>({
+      query: (args) => {
+        const { teamID } = args;
+        return {
+          url: `/teams/stats/${teamID}`,
+          params: { teamID },
+        };
+      },
+    }),
   }),
 });
 
@@ -112,4 +124,5 @@ export const {
   useGetTop10GoalsAgainstAverageQuery,
   useGetStandingsQuery,
   useGetScoresQuery,
+  useGetTeamStatsByIDQuery,
 } = apiSlice;

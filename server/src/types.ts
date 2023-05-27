@@ -346,3 +346,20 @@ export interface TodaysGamesInterface {
   };
   games: GameInterface[];
 }
+
+export type PlayerInfoType = {
+  player: string;
+  playerId: number;
+  seasonTotal?: number;
+};
+
+export type GoalType = {
+  team: string;
+  period: string;
+  scorer: PlayerInfoType;
+  sec: number;
+  min: number;
+  assists: PlayerInfoType[];
+  strength?: string;
+  emptyNet?: boolean;
+};

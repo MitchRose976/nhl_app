@@ -106,4 +106,39 @@ export const splitArrayIntoEqualParts = (arr: any[], n: number) => {
   return Array.from({ length: n }, (v, i) =>
     arr.slice(i * size, i * size + size)
   );
-}
+};
+
+export const addNumberSuffix = (number: number) => {
+  if (number > 3 && number < 21) return "th";
+  switch (number % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+};
+
+export const formatBarLabelStatsForGameModal = (
+  statType: string,
+  number: number
+) => {
+  switch (statType) {
+    case "Win% - Opponent Scores First":
+    case "Win% - Leading 2nd Period":
+    case "Win% - Outshot By Opponent":
+    case "Win% - Outshoot Opponent":
+    case "Win% - Leading 1st Period":
+    case "Win% - Scoring First":
+    case "PP%":
+    case "PK%":
+    case "Faceoff %":
+    case "Point %":
+      return `${number.toFixed(1)}%`;
+    default:
+      return `${number.toFixed(1)}`;
+  }
+};

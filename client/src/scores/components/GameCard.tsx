@@ -92,9 +92,9 @@ const GameCard = ({ game }: GameCardProps) => {
         <Typography sx={{ fontSize: "0.7rem", fontWeight: "500" }}>
           {`Rd ${game.currentStats.playoffSeries.round} - ${
             game.teams.home.abbreviation
-          }:${
+          }: ${
             game.currentStats.playoffSeries.wins[game.teams.home.abbreviation]
-          }   ${game.teams.away.abbreviation}:${
+          }   ${game.teams.away.abbreviation}: ${
             game.currentStats.playoffSeries.wins[game.teams.away.abbreviation]
           }`}
         </Typography>
@@ -137,7 +137,6 @@ const GameCard = ({ game }: GameCardProps) => {
     setOpenModal(false);
   };
 
-  console.log(game);
   return game ? (
     <Card raised sx={gameCardSXProps}>
       <Typography

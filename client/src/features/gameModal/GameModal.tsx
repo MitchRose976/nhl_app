@@ -1,6 +1,9 @@
 import React from "react";
 import {
+  Alert,
+  AlertTitle,
   Box,
+  CircularProgress,
   Divider,
   Table,
   TableBody,
@@ -8,10 +11,29 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { GameInterface } from "../../../../server/src/types";
-import { formGetTeamLogoUrl } from "../../shared/utils";
+import {
+  GameInterface,
+  GoalType,
+  PlayerInfoType,
+} from "../../../../server/src/types";
+import {
+  addNumberSuffix,
+  formGetTeamLogoUrl,
+  formatBarLabelStatsForGameModal,
+} from "../../shared/utils";
 import "../../shared/style.scss";
-import { GAME_STATS_TYPES } from "../../shared/constants";
+import {
+  LIVE_GAME_STATS_TYPES,
+  PRE_GAME_STATS_TYPES,
+} from "../../shared/constants";
+import { useGetTeamStatsByIDQuery } from "../api/apiSlice";
+import {
+  VictoryChart,
+  VictoryStack,
+  VictoryBar,
+  VictoryAxis,
+  VictoryLabel,
+} from "victory";
 
 interface GameModalProps {
   game: GameInterface;
@@ -21,7 +43,23 @@ interface GameModalProps {
 const GameModal = ({ game, status }: GameModalProps) => {
   const awayTeam = game.teams.away.abbreviation;
   const homeTeam = game.teams.home.abbreviation;
-  
+  const awayTeamID = game.teams.away.id;
+  const homeTeamID = game.teams.home.id;
+
+  const {
+    data: awayTeamStats,
+    isLoading: awayIsLoading,
+    isSuccess: awayIsSuccess,
+    isError: awayIsError,
+  } = useGetTeamStatsByIDQuery({ teamID: awayTeamID });
+
+  const {
+    data: homeTeamStats,
+    isLoading: homeIsLoading,
+    isSuccess: homeIsSuccess,
+    isError: homeIsError,
+  } = useGetTeamStatsByIDQuery({ teamID: homeTeamID });
+
   const renderTeamLogo = (svgString: string, width: number, height: number) => {
     return svgString !== "" ? (
       <svg width={width} height={height}>
@@ -35,17 +73,21 @@ const GameModal = ({ game, status }: GameModalProps) => {
       <div className="flex-box-center">
         <div className="flex-box-center" style={{ padding: "0 1rem" }}>
           {renderTeamLogo(formGetTeamLogoUrl(game.teams.home.id), 60, 60)}
-          <Typography sx={{ fontSize: "2rem", paddingLeft: "2rem" }}>
-            {game.scores[homeTeam]}
-          </Typography>
+          {status.status === "FINAL" || status.status === "LIVE" ? (
+            <Typography sx={{ fontSize: "2rem", paddingLeft: "2rem" }}>
+              {game.scores[homeTeam]}
+            </Typography>
+          ) : null}
         </div>
         <div>
           <Typography sx={{ fontSize: "2rem" }}>:</Typography>
         </div>
         <div className="flex-box-center" style={{ padding: "0 1rem" }}>
-          <Typography sx={{ fontSize: "2rem", paddingRight: "2rem" }}>
-            {game.scores[awayTeam]}
-          </Typography>
+          {status.status === "FINAL" || status.status === "LIVE" ? (
+            <Typography sx={{ fontSize: "2rem", paddingRight: "2rem" }}>
+              {game.scores[awayTeam]}
+            </Typography>
+          ) : null}
           {renderTeamLogo(formGetTeamLogoUrl(game.teams.away.id), 60, 60)}
         </div>
       </div>
@@ -86,8 +128,58 @@ const GameModal = ({ game, status }: GameModalProps) => {
     }
   };
 
-  const renderGameStatsInfo = () => {
-    return GAME_STATS_TYPES.map(({ statType, label }, index) => {
+  const formatHeadToHeadStatsInfo = () => {
+    let formattedData: {
+      home: {
+        x: string; // statType label
+        y: number; // percentage
+        z: number; // league rank
+      }[];
+      away: {
+        x: string; // statType label
+        y: number; // percentage
+        z: number; // league rank
+      }[];
+    } = { home: [], away: [] };
+
+    // array of statTypes to be formatted
+    const statTypesRequiringFormatting = [
+      "winScoreFirst",
+      "winLeadFirstPer",
+      "winLeadSecondPer",
+      "winOppScoreFirst",
+      "winOutshootOpp",
+      "winOutshotByOpp",
+    ];
+
+    if (awayTeamStats && homeTeamStats && awayIsSuccess && homeIsSuccess) {
+      const awayTeamStatPercentages = awayTeamStats.stats[0].splits[0].stat;
+      const awayTeamStatRanks = awayTeamStats.stats[1].splits[0].stat;
+      const homeTeamStatPercentages = homeTeamStats.stats[0].splits[0].stat;
+      const homeTeamStatRanks = homeTeamStats.stats[1].splits[0].stat;
+      PRE_GAME_STATS_TYPES.forEach(({ statType, label }) => {
+        formattedData.home.push({
+          x: label,
+          y: statTypesRequiringFormatting.includes(statType)
+            ? homeTeamStatPercentages[statType] * 100
+            : parseFloat(homeTeamStatPercentages[statType]),
+          z: parseInt(homeTeamStatRanks[statType]),
+        });
+
+        formattedData.away.push({
+          x: label,
+          y: statTypesRequiringFormatting.includes(statType)
+            ? awayTeamStatPercentages[statType] * 100
+            : parseFloat(awayTeamStatPercentages[statType]),
+          z: parseInt(awayTeamStatRanks[statType]),
+        });
+      });
+    }
+    return formattedData;
+  };
+
+  const renderLiveGameStatsInfo = () => {
+    return LIVE_GAME_STATS_TYPES.map(({ statType, label }, index) => {
       return (
         <TableRow
           key={statType}
@@ -117,23 +209,11 @@ const GameModal = ({ game, status }: GameModalProps) => {
     });
   };
 
-  const renderGoalsScored = () => {
-    type PlayerInfoType = {
-      player: string;
-      playerId: number;
-      seasonTotal?: number;
-    };
-    type GoalType = {
-      team: string;
-      period: string;
-      scorer: PlayerInfoType;
-      sec: number;
-      min: number;
-      assists: PlayerInfoType[];
-      strength?: string;
-      emptyNet?: boolean;
-    };
+  const getTimeOfGoal = (goal: GoalType) => {
+    return `${goal.min}:${goal.sec > 9 ? goal.sec : "0" + goal.sec}`;
+  };
 
+  const renderGoalsScored = () => {
     const renderGoalDetails = (goal: GoalType) => {
       const scoringTeamAbbreviation = goal.team;
       const scoringTeamID =
@@ -150,9 +230,8 @@ const GameModal = ({ game, status }: GameModalProps) => {
         >
           <div>{renderTeamLogo(formGetTeamLogoUrl(scoringTeamID), 30, 30)}</div>
           <Typography sx={{ fontSize: "0.75rem", marginLeft: "0.3rem" }}>
-            {`${goal.min}:${goal.sec > 9 ? goal.sec : "0" + goal.sec} - ${
-              goal.scorer.player
-            } (${goal.scorer.seasonTotal}) ${
+            {`${getTimeOfGoal(goal)}
+             - ${goal.scorer.player} (${goal.scorer.seasonTotal}) ${
               goal.assists.length > 0 ? "assisted by: " : ""
             } ${
               goal.assists.length > 0
@@ -232,12 +311,73 @@ const GameModal = ({ game, status }: GameModalProps) => {
     );
   };
 
+  const headToHeadData = formatHeadToHeadStatsInfo();
+
+  const renderHeadToHeadStatsChart = () => {
+    const width = 600;
+    const height = 700;
+    return (
+      <VictoryChart
+        horizontal
+        height={height}
+        width={width}
+        padding={{ top: 40, right: 70, left: 70, bottom: 30 }}
+      >
+        <VictoryStack
+          style={{ data: { width: 18 }, labels: { fontSize: 15 } }}
+          padding={{ top: 40 }}
+        >
+          <VictoryBar
+            style={{ data: { fill: "#12EAEA" } }}
+            data={headToHeadData.home.reverse()}
+            y={(data) => -Math.abs(data.y)}
+            labels={headToHeadData.home.map(({ x, y, z }) => {
+              return `${formatBarLabelStatsForGameModal(
+                x,
+                y
+              )} (${z}${addNumberSuffix(z)})`;
+            })}
+            animate={{
+              duration: 2000,
+              onLoad: { duration: 1000 },
+            }}
+          />
+          <VictoryBar
+            style={{ data: { fill: "#F36868" } }}
+            data={headToHeadData.away.reverse()}
+            y={(data) => Math.abs(data.y)}
+            labels={headToHeadData.away.map(({ x, y, z }) => {
+              return `${formatBarLabelStatsForGameModal(
+                x,
+                y
+              )} (${z}${addNumberSuffix(z)})`;
+            })}
+            animate={{
+              duration: 2000,
+              onLoad: { duration: 1000 },
+            }}
+          />
+        </VictoryStack>
+        <VictoryAxis
+          style={{
+            axis: { stroke: "transparent" },
+            ticks: { stroke: "transparent" },
+            tickLabels: { fontSize: 18, fill: "black" },
+          }}
+          tickLabelComponent={
+            <VictoryLabel x={width / 2} textAnchor="middle" dy={-22} />
+          }
+          tickValues={headToHeadData.home.map((point) => point.x).reverse()}
+        />
+      </VictoryChart>
+    );
+  };
+
   const gameModalBoxStyle = {
     position: "absolute" as "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    //width: 400,
     bgcolor: "secondary.main",
     border: "2px solid #000",
     boxShadow: 24,
@@ -249,31 +389,52 @@ const GameModal = ({ game, status }: GameModalProps) => {
     padding: "1rem",
   };
 
-  //Head to head matchups and any relevant stats
-  //goal scorers by period
-
   return (
-    <Box sx={gameModalBoxStyle}>
-      <Typography
-        sx={{ paddingTop: "-10px", paddingBottom: "0" }}
-        style={{ fontWeight: "bold" }}
-      >
-        {status.component}
-      </Typography>
-      <Divider sx={{ width: "100%", margin: "0.5rem 0" }} />
-      <div className="flex-box-center" style={{ flexDirection: "column" }}>
-        {renderScoreLine()}
-        {renderMatchupInfo()}
-      </div>
-      <div>
-        <TableContainer>
-          <Table style={{ minWidth: "16rem", marginTop: "1rem" }}>
-            <TableBody>{renderGameStatsInfo()}</TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-      <div style={{ marginTop: "0.7rem" }}>{renderGoalsScored()}</div>
-    </Box>
+    <>
+      {awayIsLoading || homeIsLoading ? <CircularProgress /> : null}
+      {awayIsError || homeIsError ? (
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          <strong>Error while fetching data</strong>
+        </Alert>
+      ) : null}
+      {homeTeamStats && awayTeamStats && headToHeadData ? (
+        <Box sx={gameModalBoxStyle}>
+          <Typography
+            sx={{ paddingTop: "-10px", paddingBottom: "0" }}
+            style={{ fontWeight: "bold" }}
+          >
+            {status.component}
+          </Typography>
+          <Divider sx={{ width: "100%", margin: "0.5rem 0" }} />
+
+          {renderScoreLine()}
+          {renderMatchupInfo()}
+          {status.status === "FINAL" || status.status === "LIVE" ? (
+            <>
+              {/* Live stats */}
+              <div
+                className="flex-box-center"
+                style={{ flexDirection: "column" }}
+              ></div>
+              <div>
+                <TableContainer>
+                  <Table style={{ minWidth: "16rem", marginTop: "1rem" }}>
+                    <TableBody>{renderLiveGameStatsInfo()}</TableBody>
+                  </Table>
+                </TableContainer>
+              </div>
+              <div style={{ marginTop: "0.7rem" }}>{renderGoalsScored()}</div>
+            </>
+          ) : (
+            <>
+              {/* Head to Head Stats */}
+              {renderHeadToHeadStatsChart()}
+            </>
+          )}
+        </Box>
+      ) : null}
+    </>
   );
 };
 
