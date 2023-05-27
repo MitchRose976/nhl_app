@@ -114,7 +114,9 @@ const StandingsChart = () => {
 
     return (
       <TableContainer>
-        <h2 style={{ fontFamily: "roboto" }}>{selectedDivision} Division</h2>
+        <h2 style={{ position: "sticky", left: 0, fontFamily: "roboto" }}>
+          {selectedDivision} Division
+        </h2>
         <Table>
           <TableHead>
             <TableRow>
@@ -131,9 +133,9 @@ const StandingsChart = () => {
           </TableHead>
           <TableBody>
             {divisionStandingsData?.teamRecords.map(
-              (team: TeamRecordInterface) => {
+              (team: TeamRecordInterface, index) => {
                 return (
-                  <TableRow>
+                  <TableRow key={index}>
                     {standingsTableHeaders.map((statType, index) => {
                       return index === 0 ? (
                         <TableCell

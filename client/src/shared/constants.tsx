@@ -271,7 +271,7 @@ export const nhlSeasons = [
   "2000/2001",
 ];
 
-export const GAME_STATS_TYPES = [
+export const LIVE_GAME_STATS_TYPES = [
   {statType: 'shots', label: 'Shots'},
   {statType: 'blocked', label: 'Shots Blocked'},
   {statType: 'faceOffWinPercentage', label: 'Faceoff %'},
@@ -280,5 +280,22 @@ export const GAME_STATS_TYPES = [
   {statType: 'pim', label: 'Penalty Minutes'},
   {statType: 'powerPlay', label: 'Powerplay Goals'},
   {statType: 'takeaways', label: 'Takeaways'},
+]
+
+export const PRE_GAME_STATS_TYPES = [
+  {statType: 'ptPctg', label: 'Point %'},
+  {statType: 'faceOffWinPercentage', label: 'Faceoff %'},
+  {statType: 'goalsPerGame', label: 'Goals/Game'},
+  {statType: 'goalsAgainstPerGame', label: 'Goals Against/Game'},
+  {statType: 'penaltyKillPercentage', label: 'PK%'},
+  {statType: 'powerPlayPercentage', label: 'PP%'},
+  {statType: 'shotsPerGame', label: 'Shots/Game'},
+  {statType: 'shotsAllowed', label: 'Shots Against/Game'},
+  {statType: 'winScoreFirst', label: 'Win% - Scoring First'},
+  {statType: 'winLeadFirstPer', label: 'Win% - Leading 1st Period'},
+  {statType: 'winLeadSecondPer', label: 'Win% - Leading 2nd Period'},
+  {statType: 'winOppScoreFirst', label: 'Win% - Opponent Scores First'},
+  {statType: 'winOutshootOpp', label: 'Win% - Outshoot Opponent'},
+  {statType: 'winOutshotByOpp', label: 'Win% - Outshot By Opponent'},
 ]
 

@@ -8,6 +8,7 @@ import axios from "axios";
 dotenv.config();
 const router = express.Router();
 router.use(express.json());
+router.use(express.urlencoded({ extended: true }));
 
 // GET
 router.get("/", async (req: Request, res: Response) => {
@@ -395,11 +396,17 @@ router.get("/teams/standings", async (req: Request, res: Response) => {
 
 // GET todays scores
 router.get("/games/scores", async (req: Request, res: Response) => {
-  const todaysDate = new Date().toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
+  const todaysDate = new Date()
+    .toLocaleDateString("pt-br")
+    .split("/")
+    .reverse()
+    .join("-");
   try {
     await axios
       //.get(`https://nhl-score-api.herokuapp.com/api/scores?startDate=${'2023-04-10'}&endDate=${'2023-04-10'}`)
-      .get(`https://nhl-score-api.herokuapp.com/api/scores?startDate=${todaysDate}&endDate=${todaysDate}`)
+      .get(
+        `https://nhl-score-api.herokuapp.com/api/scores?startDate=${todaysDate}&endDate=${todaysDate}`
+      )
       .then((response) => res.status(200).send(response.data))
       .catch((error) => {
         console.log(error);
@@ -409,19 +416,20 @@ router.get("/games/scores", async (req: Request, res: Response) => {
   }
 });
 
-// GET all players
-router.get("/players", (req: Request, res: Response) => {
-  res.json({ message: "GET all players" });
-});
-
-// GET all teams
-router.get("/teams", (req: Request, res: Response) => {
-  res.json({ message: "GET all teams" });
-});
-
-// POST players
-router.post("/teams", (req: Request, res: Response) => {
-  res.json({ message: "GET all teams" });
+// POST team stats by id
+router.get("/teams/stats/:teamID", async (req: Request, res: Response) => {
+  try {
+    await axios
+      .get(
+        `https://statsapi.web.nhl.com/api/v1/teams/${req.params.teamID}/stats`
+      )
+      .then((response) => res.status(200).send(response.data))
+      .catch((error) => {
+        console.log(error);
+      });
+  } catch (error) {
+    console.log("Error @ /teams/stats: ", error);
+  }
 });
 
 // POST Player by full name
