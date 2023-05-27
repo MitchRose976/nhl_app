@@ -2,6 +2,7 @@ import React from "react";
 import LiveScoreBar from "../scores/LiveScoreBar";
 import Navbar from "../sidebar/NavBar";
 import { Grid } from "@mui/material";
+import Footer from "../features/footer/Footer";
 
 interface PageTemplateProps {
   child: React.ReactNode;
@@ -18,7 +19,7 @@ const PageTemplate = ({ child }: PageTemplateProps) => {
   };
 
   return (
-    <Grid container>
+    <Grid container style={{position: 'relative'}}>
       <Grid item {...largeBreakPointsProps}>
         <Navbar />
       </Grid>
@@ -35,9 +36,14 @@ const PageTemplate = ({ child }: PageTemplateProps) => {
           alignItems: "center",
           border: "1px solid blue",
           padding: "1rem",
+          backgroundColor: 'primary.main',
+          paddingBottom: '13rem'
         }}
       >
         {child}
+      </Grid>
+      <Grid item style={{width: '100%', position: 'absolute', bottom: 0, height: '10rem'}}>
+        <Footer/>
       </Grid>
     </Grid>
   );
