@@ -49,6 +49,7 @@ const LiveScoreBar = () => {
       scoresData[0].games.forEach((game: GameInterface, index: number) => {
         cardsArray.push(<GameCard key={index} game={game} />);
       });
+
     // split array into equal parts based on maxGameCards and form a slide
     const arrayOfGameCardSlides = splitArrayIntoEqualParts(
       cardsArray,
@@ -58,7 +59,12 @@ const LiveScoreBar = () => {
         {arrayOfGames}
       </div>
     ));
-    setGameCardsArray(arrayOfGameCardSlides);
+
+    setGameCardsArray(
+      arrayOfGameCardSlides.filter(
+        (gameCard) => gameCard.props.children.length > 0
+      )
+    );
   };
 
   useEffect(() => {
