@@ -14,11 +14,12 @@ const Footer = () => {
         backgroundColor: "primary.main",
         color: "secondary.main",
         flexDirection: "column",
-        borderRadius: 0
+        borderRadius: 0,
+        borderTop: '1rem solid #C60C30',
       }}
     >
       <Typography sx={{ marginTop: "1.5rem", fontSize: "1.6rem" }}>
-        NHL App
+        NHL Hub
       </Typography>
       <Typography sx={{opacity: '0.6'}}>Mitchell Rose</Typography>
       <Typography sx={{opacity: '0.6'}}>mitch.j.rose@outlook.com</Typography>
