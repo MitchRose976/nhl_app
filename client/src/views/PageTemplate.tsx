@@ -1,14 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import LiveScoreBar from "../scores/LiveScoreBar";
 import Navbar from "../sidebar/NavBar";
 import { Grid } from "@mui/material";
 import Footer from "../features/footer/Footer";
+import { getWindowSize } from "../shared/utils";
 
 interface PageTemplateProps {
   child: React.ReactNode;
+  isHomePage: boolean;
 }
 
-const PageTemplate = ({ child }: PageTemplateProps) => {
+const PageTemplate = ({ isHomePage, child }: PageTemplateProps) => {
+  const [windowSize, setWindowSize] = useState(getWindowSize());
+
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setWindowSize(getWindowSize());
+    };
+    window.addEventListener("resize", handleWindowResize);
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
+
   // device screen breakpoints for navbar and liveScoreBar
   const largeBreakPointsProps = {
     xs: 12,
@@ -19,7 +33,13 @@ const PageTemplate = ({ child }: PageTemplateProps) => {
   };
 
   return (
-    <Grid container style={{position: 'relative'}}>
+    <Grid
+      container
+      sx={{ backgroundColor: isHomePage ? "primary.light" : "" }}
+      style={{
+        position: "relative",
+      }}
+    >
       <Grid item {...largeBreakPointsProps}>
         <Navbar />
       </Grid>
@@ -34,16 +54,34 @@ const PageTemplate = ({ child }: PageTemplateProps) => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          border: "1px solid blue",
-          padding: "1rem",
-          backgroundColor: 'primary.main',
-          paddingBottom: '13rem'
+          paddingRight:
+            isHomePage && windowSize.innerWidth > 1000
+              ? "10rem"
+              : isHomePage && windowSize.innerWidth > 500
+              ? "3rem"
+              : "1rem",
+          paddingLeft:
+            isHomePage && windowSize.innerWidth > 1000
+              ? "10rem"
+              : isHomePage && windowSize.innerWidth > 500
+              ? "3rem"
+              : "1rem",
+          backgroundColor: "primary.main",
+          paddingBottom: "13rem",
         }}
       >
         {child}
       </Grid>
-      <Grid item style={{width: '100%', position: 'absolute', bottom: 0, height: '10rem'}}>
-        <Footer/>
+      <Grid
+        item
+        style={{
+          width: "100%",
+          position: "absolute",
+          bottom: 0,
+          height: "10rem",
+        }}
+      >
+        <Footer />
       </Grid>
     </Grid>
   );

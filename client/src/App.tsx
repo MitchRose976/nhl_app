@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Top10Chart from "./features/top10Chart/Top10Chart";
 import { colors } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PageTemplate from "./views/PageTemplate";
 import StandingsChart from "./features/standingsChart/StandingsChart";
+import HomePage from "./features/home/HomePage";
+import TeamStats from "./features/teamStats/TeamStats";
 
 // black: '#090A0B',
 // Eerie Black: '#141414'
@@ -23,19 +25,19 @@ const theme = createTheme({
   palette: {
     primary: {
       main: "#090A0B",
-      light: '#141414',
+      light: "#141414",
       // dark: '#',
       // contrastText: '#',
     },
     secondary: {
       main: "#fff",
       // light: '',
-      // dark: '',
+      dark: "#F4F5F4",
       // contrastText: '',
     },
     success: {
-      main: colors.blue[500]
-    }
+      main: colors.blue[500],
+    },
   },
 });
 
@@ -44,14 +46,25 @@ const App = () => {
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <Routes>
-          <Route path="/" element={<PageTemplate child={<h1>Hello</h1>} />} />
-          <Route path="/standings" element={<PageTemplate child={<StandingsChart/>} />} />
+          <Route
+            path="/"
+            element={<PageTemplate isHomePage={true} child={<HomePage />} />}
+          />
+          <Route
+            path="/standings"
+            element={
+              <PageTemplate isHomePage={false} child={<StandingsChart />} />
+            }
+          />
           <Route
             path="/playerStats"
-            element={<PageTemplate child={<Top10Chart />} />}
+            element={<PageTemplate isHomePage={false} child={<Top10Chart />} />}
           />
-          
-          <Route/>
+          <Route
+            path="/teamStats"
+            element={<PageTemplate isHomePage={false} child={<TeamStats />} />}
+          />
+          <Route />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

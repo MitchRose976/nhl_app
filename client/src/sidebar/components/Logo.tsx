@@ -9,7 +9,7 @@ const Logo = () => {
         <SportsHockeyIcon />
       </IconButton>
       <Typography variant="h6" component="div" sx={{ flexgrow: 1 }}>
-        NHL App
+        NHL Hub
       </Typography>
     </div>
   );

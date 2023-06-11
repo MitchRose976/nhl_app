@@ -142,3 +142,8 @@ export const formatBarLabelStatsForGameModal = (
       return `${number.toFixed(1)}`;
   }
 };
+
+export const getWindowSize = () => {
+  const { innerWidth, innerHeight } = window;
+  return { innerWidth, innerHeight };
+};

@@ -4,8 +4,13 @@ import Carousel from "react-material-ui-carousel";
 import "./style.scss";
 import { useGetScoresQuery } from "../features/api/apiSlice";
 import { GameInterface } from "../../../server/src/types";
-import { Alert, AlertTitle, CircularProgress } from "@mui/material";
-import { splitArrayIntoEqualParts } from "../shared/utils";
+import {
+  Alert,
+  AlertTitle,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
+import { getWindowSize, splitArrayIntoEqualParts } from "../shared/utils";
 
 const LiveScoreBar = () => {
   const {
@@ -14,13 +19,12 @@ const LiveScoreBar = () => {
     isSuccess,
     isError,
   } = useGetScoresQuery();
-  const getWindowSize = () => {
-    const { innerWidth, innerHeight } = window;
-    return { innerWidth, innerHeight };
-  };
+
   const [windowSize, setWindowSize] = useState(getWindowSize());
   const [maxGameCards, setMaxGameCards] = useState(1);
-  const [gameCardsArray, setGameCardsArray] = useState<JSX.Element[]>([]);
+  const [gameCardsArray, setGameCardsArray] = useState<
+    JSX.Element[] | JSX.Element
+  >([]);
 
   useEffect(() => {
     const handleWindowResize = () => {
@@ -44,27 +48,44 @@ const LiveScoreBar = () => {
 
   const getGameCardSlides = () => {
     // make a game card for each game of the day
-    let cardsArray: JSX.Element[] = [];
-    scoresData &&
+    if (isSuccess && scoresData && scoresData.length > 0) {
+      let cardsArray: JSX.Element[] = [];
       scoresData[0].games.forEach((game: GameInterface, index: number) => {
         cardsArray.push(<GameCard key={index} game={game} />);
       });
 
-    // split array into equal parts based on maxGameCards and form a slide
-    const arrayOfGameCardSlides = splitArrayIntoEqualParts(
-      cardsArray,
-      maxGameCards
-    ).map((arrayOfGames, index) => (
-      <div className="game-card-slide-div" key={index}>
-        {arrayOfGames}
-      </div>
-    ));
+      // split array into equal parts based on maxGameCards and form a slide
+      const arrayOfGameCardSlides = splitArrayIntoEqualParts(
+        cardsArray,
+        maxGameCards
+      ).map((arrayOfGames, index) => (
+        <div className="game-card-slide-div" key={index}>
+          {arrayOfGames}
+        </div>
+      ));
 
-    setGameCardsArray(
-      arrayOfGameCardSlides.filter(
-        (gameCard) => gameCard.props.children.length > 0
-      )
-    );
+      setGameCardsArray(
+        arrayOfGameCardSlides.filter(
+          (gameCard) => gameCard.props.children.length > 0
+        )
+      );
+    } else {
+      setGameCardsArray(
+        <div
+          className="game-card-slide-div"
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            flexDirection: "row",
+            marginTop: "1rem",
+            height: "9rem",
+          }}
+        >
+          <Typography sx={{ color: "#fff" }}>No Games Today</Typography>
+        </div>
+      );
+    }
   };
 
   useEffect(() => {
