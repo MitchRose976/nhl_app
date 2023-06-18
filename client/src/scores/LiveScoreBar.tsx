@@ -4,12 +4,7 @@ import Carousel from "react-material-ui-carousel";
 import "./style.scss";
 import { useGetScoresQuery } from "../features/api/apiSlice";
 import { GameInterface } from "../../../server/src/types";
-import {
-  Alert,
-  AlertTitle,
-  CircularProgress,
-  Typography,
-} from "@mui/material";
+import { Alert, AlertTitle, CircularProgress, Typography } from "@mui/material";
 import { getWindowSize, splitArrayIntoEqualParts } from "../shared/utils";
 
 const LiveScoreBar = () => {
@@ -96,8 +91,17 @@ const LiveScoreBar = () => {
   return (
     <>
       {isLoading ? (
-        <div className="game-card-slide-div">
-          <CircularProgress />
+        <div
+          className="game-card-slide-div"
+          style={{
+            borderBottom: "1rem solid #c60c30",
+            height: "12.5rem",
+            backgroundColor: "#141414",
+            padding: "0.5rem, 0.5rem, 0, 0.5rem",
+            marginTop: "0",
+          }}
+        >
+          <CircularProgress sx={{color: 'secondary.main'}}/>
         </div>
       ) : null}
       {isError ? (
