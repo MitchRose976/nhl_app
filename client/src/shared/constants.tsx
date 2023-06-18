@@ -1,8 +1,8 @@
 export const menuItems = [
   {label: "Home", path: '/'},
   {label: "Standings", path: '/standings'},
-  {label: "League Stats", path: '/leagueStats'},
-  {label: "Team Stats", path: '/leagueStats'},
+  // {label: "League Stats", path: '/leagueStats'},
+  {label: "Team Stats", path: '/teamStats'},
   {label: "Player Stats", path: '/playerStats'},
 ];
 
@@ -33,8 +33,38 @@ export const statsTableHeaderCells = [
 export const biographyTableHeaderCells = ["Born", "Age", "Height", "Weight"];
 
 export const TEAM_IDS = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
-  24, 25, 26, 28, 29, 30, 52, 53, 54, 55,
+  {teamID: 1, name: "New Jersey Devils"},
+  {teamID: 2, name: "New York Islanders"}, 
+  {teamID: 3, name: "New York Rangers"}, 
+  {teamID: 4, name: "Philadelphia Flyers"}, 
+  {teamID: 5, name: "Pittsburgh Penguins"}, 
+  {teamID: 6, name: "Boston Bruins"}, 
+  {teamID: 7, name: "Buffalo Sabres"}, 
+  {teamID: 8, name: "Montréal Canadiens"}, 
+  {teamID: 9, name: "Ottawa Senators"}, 
+  {teamID: 10, name: "Toronto Maple Leafs"}, 
+  {teamID: 12, name: "Carolina Hurricanes"}, 
+  {teamID: 13, name: "Florida Panthers"}, 
+  {teamID: 14, name: "Tampa Bay Lightning"}, 
+  {teamID: 15, name: "Washington Capitals"}, 
+  {teamID: 16, name: "Chicago Blackhawks"}, 
+  {teamID: 17, name: "Detroit Red Wings"}, 
+  {teamID: 18, name: "Nashville Predators"},
+  {teamID: 19, name: "St. Louis Blues"}, 
+  {teamID: 20, name: "Calgary Flames"}, 
+  {teamID: 21, name: "Colorado Avalanche"}, 
+  {teamID: 22, name: "Edmonton Oilers"}, 
+  {teamID: 23, name: "Vancouver Canucks"}, 
+  {teamID: 24, name: "Anaheim Ducks"}, 
+  {teamID: 25, name: "Dallas Stars"}, 
+  {teamID: 26, name: "Los Angeles Kings"}, 
+  {teamID: 28, name: "San Jose Sharks"}, 
+  {teamID: 29, name: "Columbus Blue Jackets"}, 
+  {teamID: 30, name: "Minnesota Wild"}, 
+  {teamID: 52, name: "Winnipeg Jets"}, 
+  {teamID: 53, name: "Arizona Coyotes"}, 
+  {teamID: 54, name: "Vegas Golden Knights"}, 
+  {teamID: 55, name: "Seattle Kraken"},
 ];
 
 export const BASE_URL = "http://localhost:7000/nhl-app";
@@ -299,3 +329,14 @@ export const PRE_GAME_STATS_TYPES = [
   {statType: 'winOutshotByOpp', label: 'Win% - Outshot By Opponent'},
 ]
 
+// array of statTypes to be formatted
+export const statTypesRequiringFormatting = [
+  "winScoreFirst",
+  "winLeadFirstPer",
+  "winLeadSecondPer",
+  "winOppScoreFirst",
+  "winOutshootOpp",
+  "winOutshotByOpp",
+];
+
+export const TEAM_STATS_BAR_COLORS = ["#1BE7FF", "#6EEB83", "#E4FF1A", "#E8AA14", "#FF5714"]

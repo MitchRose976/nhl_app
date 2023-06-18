@@ -25,6 +25,7 @@ import "../../shared/style.scss";
 import {
   LIVE_GAME_STATS_TYPES,
   PRE_GAME_STATS_TYPES,
+  statTypesRequiringFormatting,
 } from "../../shared/constants";
 import { useGetTeamStatsByIDQuery } from "../api/apiSlice";
 import {
@@ -141,16 +142,6 @@ const GameModal = ({ game, status }: GameModalProps) => {
         z: number; // league rank
       }[];
     } = { home: [], away: [] };
-
-    // array of statTypes to be formatted
-    const statTypesRequiringFormatting = [
-      "winScoreFirst",
-      "winLeadFirstPer",
-      "winLeadSecondPer",
-      "winOppScoreFirst",
-      "winOutshootOpp",
-      "winOutshotByOpp",
-    ];
 
     if (awayTeamStats && homeTeamStats && awayIsSuccess && homeIsSuccess) {
       const awayTeamStatPercentages = awayTeamStats.stats[0].splits[0].stat;
