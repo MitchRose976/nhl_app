@@ -4,8 +4,8 @@ import React from "react";
 interface FeatureVideoProps {
   videoSrc: string;
   windowWidth: number;
-  featureDescription: string;
-  featureTitle: string;
+  featureDescription?: string;
+  featureTitle?: string;
 }
 
 const FeatureVideo = ({

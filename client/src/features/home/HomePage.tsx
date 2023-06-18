@@ -5,6 +5,7 @@ import PageDivider from "./components/PageDivider";
 import MernLogo from "./components/MernLogo";
 import NHL_Hub_Head_to_Head from "../../shared/assets/NHL_Hub_Head_to_Head.mp4";
 import NHL_Hub_Live_Stats from "../../shared/assets/NHL_Hub_Live_Stats.mp4";
+import NHL_Hub_Live_Stats_2 from "../../shared/assets/NHL_Hub_Live_Stats_2.mp4";
 import FeatureVideo from "./components/FeatureVideo";
 
 const HomePage = () => {
@@ -22,16 +23,22 @@ const HomePage = () => {
 
   const featureItems = [
     {
+      title: "Final Scores",
+      src: NHL_Hub_Live_Stats,
+      description:
+        "See the final scores and statistics from today's games. Check who scored, analyze game statistics and see if your bet came through or not.",
+    },
+    {
+      title: "Games In Progress",
+      src: NHL_Hub_Live_Stats_2,
+      description:
+        "Track live game stats and goals. Stay updated on shots, faceoff wins, penalties more. Get real-time goal scoring details, including player names, goal times, and assists. Never miss a moment with accurate and comprehensive data.",
+    },
+    {
       title: "Head-to-Head Stats",
       src: NHL_Hub_Head_to_Head,
       description:
         "See head-to-head stats and view in-depth team analysis for todays games and gain valuable insights into team performance before the puck drops.",
-    },
-    {
-      title: "Live Game Stats",
-      src: NHL_Hub_Live_Stats,
-      description:
-        "Track live game stats and goals. Stay updated on shots, faceoff wins, penalties more. Get real-time goal scoring details, including player names, goal times, and assists. Never miss a moment with accurate and comprehensive data.",
     },
   ];
 
@@ -126,6 +133,15 @@ const HomePage = () => {
               windowWidth={windowSize.innerWidth}
               featureDescription={featureItems[1].description}
               featureTitle={featureItems[1].title}
+            />
+          </div>
+          {/* Feature #3 */}
+          <div style={featureSectionDivProps}>
+            <FeatureVideo
+              videoSrc={featureItems[2].src}
+              windowWidth={windowSize.innerWidth}
+              featureDescription={featureItems[2].description}
+              featureTitle={featureItems[2].title}
             />
           </div>
         </div>
