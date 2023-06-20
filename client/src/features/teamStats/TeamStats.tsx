@@ -112,18 +112,17 @@ const TeamStats = () => {
     teamID: number,
     teamName: string
   ) => {
-    // console.log("mitch fetchTeamsData teamNumber: ", teamNumber);
-    // console.log("mitch fetchTeamsData teamName: ", teamName);
-    // console.log("mitch fetchTeamsData teamData: ", teamData);
     setLoadingData(true);
     /* 
-      this is to make sure the correct index inside the teamData state 
-      correctly corresponds with the order of the team in the select menu
+      teamNumber is the order of the select dropdown (1, 2, or 3)
+      subtracting 1 to correctly target the corresponding index in teamsData
     */
     const teamDataIndex = teamNumber - 1;
-    let oldData = teamsData;
-    oldData[teamDataIndex] = { teamName: teamName, data: teamData };
-    setTeamsData(oldData);
+    setTeamsData((prevTeamsData) => {
+      let newData = [...prevTeamsData];
+      newData[teamDataIndex] = { teamName: teamName, data: teamData };
+      return newData;
+    });
     setLoadingData(false);
   };
 
@@ -144,16 +143,10 @@ const TeamStats = () => {
   };
 
   useEffect(() => {
-    //console.log("mitch useEffect");
     handleVisibleDataChange();
     setChartKey((prevKey) => prevKey + 1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teamsData, numOfTeamsToCompare, sliderValues, loadingData]);
-
-  console.log("mitch teamsData: ", teamsData);
-  //console.log("mitch allCategories: ", allCategories);
-  //console.log("mitch sliderValues: ", sliderValues);
-  //console.log("mitch visibleData: ", visibleData);
 
   return (
     <div>
