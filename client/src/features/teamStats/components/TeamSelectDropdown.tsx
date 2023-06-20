@@ -4,23 +4,26 @@ import TeamInput from "./TeamInput";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 interface TeamSelectDropdownProps {
-    fetchTeamData: any
-    setNumOfTeamsToCompare: any,
-    numOfTeamsToCompare: number,
+  fetchTeamData: any;
+  setNumOfTeamsToCompare: any;
+  numOfTeamsToCompare: number;
 }
 
 const TeamSelectDropdown = ({
-    fetchTeamData,
-    setNumOfTeamsToCompare,
-    numOfTeamsToCompare
+  fetchTeamData,
+  setNumOfTeamsToCompare,
+  numOfTeamsToCompare,
 }: TeamSelectDropdownProps) => {
-
   const addTeamToCompare = () => {
-      setNumOfTeamsToCompare((state: number) => state < 3 ? (state += 1) : state);
+    setNumOfTeamsToCompare((state: number) =>
+      state < 3 ? (state += 1) : state
+    );
   };
 
   const subtractTeamToCompare = () => {
-    setNumOfTeamsToCompare((state: number) => state > 1 ? (state -= 1) : state);
+    setNumOfTeamsToCompare((state: number) =>
+      state > 1 ? (state -= 1) : state
+    );
   };
 
   const gridItemSizeProps = {
@@ -42,17 +45,11 @@ const TeamSelectDropdown = ({
         flexDirection: "row",
         justifyContent: "left",
         alignItems: "center",
-        border: "1px solid red",
+        marginTop: "2rem",
         width: "90%",
       }}
     >
-      <Grid
-        container
-        sx={{
-          border: "1px solid green",
-        }}
-        columns={10}
-      >
+      <Grid container columns={10}>
         {/* FIRST TEAM */}
         <Grid item {...gridItemSizeProps} sx={gridItemSxProps}>
           <TeamInput

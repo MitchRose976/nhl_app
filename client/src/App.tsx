@@ -8,13 +8,11 @@ import StandingsChart from "./features/standingsChart/StandingsChart";
 import HomePage from "./features/home/HomePage";
 import TeamStats from "./features/teamStats/TeamStats";
 
-// black: '#090A0B',
-// Eerie Black: '#141414'
-// Smoky Black: '#12100E'
-// Powder Blue: '#ACDDE7'
-// Middle Blue Green: '#9AD5CA'
-// Cerulean Crayola: '#06AED5'
-// Powder Blue: #92AFD7
+/*
+  dark-grey: #141414
+  red-line-red: #c60c30
+  dark-blue: #1B486A
+*/
 const theme = createTheme({
   custom: {
     blue: colors.blue[800],

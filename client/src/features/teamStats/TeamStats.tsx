@@ -6,9 +6,11 @@ import {
   TEAM_STATS_BAR_COLORS,
 } from "../../shared/constants";
 import styled from "@emotion/styled";
-import { Alert, AlertTitle, CircularProgress, Slider } from "@mui/material";
+import { Alert, AlertTitle, Slider } from "@mui/material";
 import CustomLegend from "./components/CustomLegend";
 import { formattedTeamStatType } from "../../../../server/src/types";
+import "../../shared/style.scss";
+import Loader from "../../shared/components/Loader";
 
 const TeamStats = () => {
   // variables
@@ -160,7 +162,7 @@ const TeamStats = () => {
         setNumOfTeamsToCompare={setNumOfTeamsToCompare}
         numOfTeamsToCompare={numOfTeamsToCompare}
       />
-      {loadingData ? <CircularProgress /> : null}
+      {loadingData ? <Loader /> : null}
       {/* {!loadingData && teamsData? (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
@@ -243,7 +245,7 @@ const TeamStats = () => {
 
 const StyledSlider = styled(Slider)`
   margin-top: 20px;
-  color: #4caf50;
+  color: #1b486a;
 `;
 
 export default TeamStats;
