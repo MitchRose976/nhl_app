@@ -10,7 +10,6 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  CircularProgress,
   Alert,
   AlertTitle,
 } from "@mui/material";
@@ -23,6 +22,7 @@ import MiniPlayerCard from "../../shared/components/MiniPlayerCard";
 import { apiSlice } from "../api/apiSlice";
 import { PlayerDataType } from "../../../../server/src/types";
 import { formatStat } from "../../shared/utils";
+import Loader from "../../shared/components/Loader";
 
 const Top10Chart = () => {
   const queryHooks: { [key: string]: any } = {
@@ -94,7 +94,7 @@ const Top10Chart = () => {
 
   return (
     <>
-      {chartData.isLoading ? <CircularProgress /> : null}
+      {chartData.isLoading ? <Loader/> : null}
       {chartData.isError ? (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
@@ -102,7 +102,7 @@ const Top10Chart = () => {
         </Alert>
       ) : null}
       {chartData.isSuccess ? (
-        <Container maxWidth="md" sx={{ border: "1px solid black" }}>
+        <Container maxWidth="md" sx={{ border: "1px solid black", padding: '2rem 0', marginTop: '2rem' }}>
           <Tabs
             value={false}
             onChange={handleTabChange}

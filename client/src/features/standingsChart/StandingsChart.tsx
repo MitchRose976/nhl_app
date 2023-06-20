@@ -4,7 +4,6 @@ import {
   Alert,
   AlertTitle,
   Box,
-  CircularProgress,
   Container,
   Divider,
   Tab,
@@ -21,6 +20,7 @@ import {
   TeamRecordInterface,
 } from "../../../../server/src/types";
 import { formGetTeamLogoUrl, getTeamStat } from "../../shared/utils";
+import Loader from "../../shared/components/Loader";
 
 const standingsTableHeaders = [
   { label: "Team", type: "Team", stat: "team.name" }, // must render with func
@@ -180,7 +180,7 @@ const StandingsChart = () => {
 
   return (
     <>
-      {isLoading ? <CircularProgress /> : null}
+      {isLoading ? <Loader /> : null}
       {isError ? (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
@@ -188,7 +188,10 @@ const StandingsChart = () => {
         </Alert>
       ) : null}
       {isSuccess ? (
-        <Container maxWidth="md" sx={{ border: "1px solid black" }}>
+        <Container
+          maxWidth="md"
+          sx={{ border: "1px solid black", marginTop: "2rem" }}
+        >
           <Tabs
             variant={"fullWidth"}
             value={false}
