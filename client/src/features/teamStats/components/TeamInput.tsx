@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   PRE_GAME_STATS_TYPES,
   TEAM_IDS,
-  statTypesRequiringFormatting,
 } from "../../../shared/constants";
 import { useGetTeamStatsByIDQuery } from "../../api/apiSlice";
 import {
@@ -12,6 +11,7 @@ import {
   MenuItem,
   SelectChangeEvent,
 } from "@mui/material";
+import { formatStatType } from "../../../shared/utils";
 
 interface TeamInputProps {
   teamInputOrder: number; // corresponds to the title of the select container (Team, Team 2, Team 3 etc.)
@@ -50,13 +50,11 @@ const TeamInput = ({
       PRE_GAME_STATS_TYPES.forEach(({ statType, label }) => {
         formattedData.push({
           x: label,
-          y: statTypesRequiringFormatting.includes(statType)
-            ? teamDataObject[statType] * 100
-            : parseFloat(teamDataObject[statType]),
+          y: formatStatType(teamDataObject, statType)
           //z: parseInt(teamDataObject[statType]),
         });
       });
-      fetchTeamData(formattedData, teamInputOrder, teamID, teamName);
+      fetchTeamData(formattedData, teamInputOrder, teamName);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, teamID, teamName]);

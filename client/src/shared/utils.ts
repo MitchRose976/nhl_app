@@ -1,5 +1,5 @@
 import { PlayerDataType, TeamRecordInterface } from "../../../server/src/types";
-import { statTypeMapping } from "./constants";
+import { statTypeMapping, statTypesRequiringFormatting } from "./constants";
 
 export const formGetTeamLogoUrl = (teamID: number) =>
   `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${teamID}.svg`;
@@ -146,4 +146,24 @@ export const formatBarLabelStatsForGameModal = (
 export const getWindowSize = () => {
   const { innerWidth, innerHeight } = window;
   return { innerWidth, innerHeight };
+};
+
+export const formatStatType = (data: any, statType: string) => {
+  const hasMoreThanTwoDecimalPlaces = (number: number | string) => {
+    const decimalIndex = number.toString().indexOf(".");
+    if (decimalIndex === -1) {
+      return false; // No decimal places
+    }
+    const decimalPlaces = number.toString().substring(decimalIndex + 1);
+    return decimalPlaces.length > 2;
+  };
+
+  if (statTypesRequiringFormatting.includes(statType)) {
+    return hasMoreThanTwoDecimalPlaces(data[statType] * 100)
+      ? Number((data[statType] * 100).toFixed(1))
+      : data[statType] * 100;
+  } else if (hasMoreThanTwoDecimalPlaces(data[statType])) {
+    return parseFloat(data[statType].toFixed(1));
+  }
+  return parseFloat(data[statType]);
 };

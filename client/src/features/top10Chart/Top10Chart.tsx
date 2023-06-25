@@ -65,6 +65,11 @@ const Top10Chart = () => {
   const windowSize = useRef([window.innerWidth, window.innerHeight]);
   const [activeCard, setActiveCard] = useState(0);
   const [statType, setStatType] = useState<string>(statTypes.points);
+  const [showComponent, setShowComponent] = useState(false);
+
+  useEffect(() => {
+    setShowComponent(true);
+  }, []);
 
   let chartData = queryHooks[queryType];
 
@@ -94,7 +99,7 @@ const Top10Chart = () => {
 
   return (
     <>
-      {chartData.isLoading ? <Loader/> : null}
+      {chartData.isLoading ? <Loader /> : null}
       {chartData.isError ? (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
@@ -102,7 +107,17 @@ const Top10Chart = () => {
         </Alert>
       ) : null}
       {chartData.isSuccess ? (
-        <Container maxWidth="md" sx={{ border: "1px solid black", padding: '2rem 0', marginTop: '2rem' }}>
+        <Container
+          maxWidth="md"
+          sx={{
+            border: "1px solid black",
+            padding: "2rem 0",
+            marginTop: "2rem",
+            opacity: showComponent ? 1 : 0,
+            transition: "opacity 0.5s ease-in",
+          }}
+          className={showComponent ? "fade-in" : ""}
+        >
           <Tabs
             value={false}
             onChange={handleTabChange}
