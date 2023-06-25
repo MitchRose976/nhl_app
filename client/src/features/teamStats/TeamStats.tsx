@@ -102,6 +102,11 @@ const TeamStats = () => {
     or add/remove teams buttons
   */
   const [chartKey, setChartKey] = useState(0);
+  const [showComponent, setShowComponent] = useState(false);
+
+  useEffect(() => {
+    setShowComponent(true);
+  }, []);
 
   const fetchTeamData = (
     teamData: {
@@ -109,7 +114,6 @@ const TeamStats = () => {
       y: number;
     }[],
     teamNumber: number,
-    teamID: number,
     teamName: string
   ) => {
     setLoadingData(true);
@@ -163,18 +167,24 @@ const TeamStats = () => {
         </Alert>
       ) : null} */}
       {teamsData && !loadingData ? (
-        <div>
+        <div
+          style={{
+            opacity: showComponent ? 1 : 0,
+            transition: "opacity 0.5s ease-in",
+          }}
+          className={showComponent ? "fade-in" : ""}
+        >
           <CustomLegend data={teamsData.slice(0, numOfTeamsToCompare)} />
           <VictoryChart
             width={chartWidth}
             height={chartHeight}
-            padding={{ bottom: 140, right: 80, left: 50 }}
+            padding={{ bottom: 140, right: 80, left: 50, top: 20 }}
             key={chartKey}
           >
             {/* Y-axis */}
             <VictoryAxis
               dependentAxis
-              tickFormat={(tick) => `${tick}%`}
+              tickFormat={(tick) => `${tick}`}
               style={{
                 tickLabels: { fontSize: window.innerWidth < 500 ? 8 : 12 },
               }}

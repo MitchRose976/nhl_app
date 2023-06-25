@@ -151,6 +151,7 @@ const GameModal = ({ game, status }: GameModalProps) => {
       PRE_GAME_STATS_TYPES.forEach(({ statType, label }) => {
         formattedData.home.push({
           x: label,
+          // check if this block can use formatStatType from utils
           y: statTypesRequiringFormatting.includes(statType)
             ? homeTeamStatPercentages[statType] * 100
             : parseFloat(homeTeamStatPercentages[statType]),
@@ -159,6 +160,7 @@ const GameModal = ({ game, status }: GameModalProps) => {
 
         formattedData.away.push({
           x: label,
+          // check if this block can use formatStatType from utils
           y: statTypesRequiringFormatting.includes(statType)
             ? awayTeamStatPercentages[statType] * 100
             : parseFloat(awayTeamStatPercentages[statType]),

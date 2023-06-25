@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetStandingsQuery } from "../api/apiSlice";
 import {
   Alert,
@@ -95,6 +95,11 @@ const StandingsChart = () => {
   const [conference, setConference] = useState<string>(
     standingsMapping["Eastern Conference"].label
   );
+  const [showComponent, setShowComponent] = useState(false);
+
+  useEffect(() => {
+    setShowComponent(true);
+  }, []);
 
   const stickyColumnStyling = {
     position: "sticky",
@@ -190,7 +195,13 @@ const StandingsChart = () => {
       {isSuccess ? (
         <Container
           maxWidth="md"
-          sx={{ border: "1px solid black", marginTop: "2rem" }}
+          sx={{
+            border: "1px solid black",
+            marginTop: "2rem",
+            opacity: showComponent ? 1 : 0,
+            transition: "opacity 0.5s ease-in",
+          }}
+          className={showComponent ? "fade-in" : ""}
         >
           <Tabs
             variant={"fullWidth"}
