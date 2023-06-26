@@ -1,4 +1,4 @@
-import { PlayerDataType, TeamRecordInterface } from "../../../server/src/types";
+import { PlayerDataType, TeamRecordInterface } from "../shared/types";
 import { statTypeMapping, statTypesRequiringFormatting } from "./constants";
 
 export const formGetTeamLogoUrl = (teamID: number) =>

@@ -1,6 +1,6 @@
 import React from "react";
 import { TEAM_STATS_BAR_COLORS } from "../../../shared/constants";
-import { formattedTeamStatType } from "../../../../../server/src/types";
+import { formattedTeamStatType } from "../../../shared/types";
 
 interface LegendProps {
   color: string;
