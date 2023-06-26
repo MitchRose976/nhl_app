@@ -18,7 +18,7 @@ import {
 import {
   StandingsRecordInterface,
   TeamRecordInterface,
-} from "../../../../server/src/types";
+} from "../../shared/types";
 import { formGetTeamLogoUrl, getTeamStat } from "../../shared/utils";
 import Loader from "../../shared/components/Loader";
 

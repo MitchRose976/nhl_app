@@ -9,7 +9,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { PlayerDataType } from "../../../../server/src/types";
+import { PlayerDataType } from "../types";
 import { formGetTeamLogoUrl, formatStat } from "../utils";
 import { statTypeMapping } from "../constants";
 import "../../shared/style.scss";

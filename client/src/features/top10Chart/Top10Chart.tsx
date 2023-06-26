@@ -20,7 +20,7 @@ import {
 } from "../../shared/constants";
 import MiniPlayerCard from "../../shared/components/MiniPlayerCard";
 import { apiSlice } from "../api/apiSlice";
-import { PlayerDataType } from "../../../../server/src/types";
+import { PlayerDataType } from "../../shared/types";
 import { formatStat } from "../../shared/utils";
 import Loader from "../../shared/components/Loader";
 

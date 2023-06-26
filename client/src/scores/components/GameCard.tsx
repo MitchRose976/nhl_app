@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import LoadingBar from "../../shared/components/LoadingBar";
 import { gameCardSXProps, gameCardContentSXProps } from "../styles";
-import { GameInterface } from "../../../../server/src/types";
+import { GameInterface } from "../../shared/types";
 import {
   formatHour,
   formatMinutes,

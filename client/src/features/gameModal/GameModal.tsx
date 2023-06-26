@@ -15,7 +15,7 @@ import {
   GameInterface,
   GoalType,
   PlayerInfoType,
-} from "../../../../server/src/types";
+} from "../../shared/types";
 import {
   addNumberSuffix,
   formGetTeamLogoUrl,

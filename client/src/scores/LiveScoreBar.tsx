@@ -3,7 +3,7 @@ import GameCard from "./components/GameCard";
 import Carousel from "react-material-ui-carousel";
 import "./style.scss";
 import { useGetScoresQuery } from "../features/api/apiSlice";
-import { GameInterface } from "../../../server/src/types";
+import { GameInterface } from "../shared/types";
 import { Alert, AlertTitle, CircularProgress, Typography } from "@mui/material";
 import { getWindowSize, splitArrayIntoEqualParts } from "../shared/utils";
 

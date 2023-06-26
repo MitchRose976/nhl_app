@@ -25,7 +25,7 @@ import {
 import type {
   PlayerDataType,
   StandingsDataInterface,
-} from "../../../../server/src/types";
+} from "../../shared/types"
 
 export const apiSlice = createApi({
   reducerPath: "api",

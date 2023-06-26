@@ -8,7 +8,7 @@ import {
 import styled from "@emotion/styled";
 import { Alert, AlertTitle, Slider } from "@mui/material";
 import CustomLegend from "./components/CustomLegend";
-import { formattedTeamStatType } from "../../../../server/src/types";
+import { formattedTeamStatType } from "../../shared/types";
 import "../../shared/style.scss";
 import Loader from "../../shared/components/Loader";
 
