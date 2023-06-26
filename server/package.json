@@ -8,8 +8,7 @@
     "start:js": "nodemon build/server.js",
     "start:jobs:js": "node build/jobs.js",
     "start": "concurrently npm:start:*",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm i"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
