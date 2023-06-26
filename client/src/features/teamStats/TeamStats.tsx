@@ -6,7 +6,7 @@ import {
   TEAM_STATS_BAR_COLORS,
 } from "../../shared/constants";
 import styled from "@emotion/styled";
-import { Alert, AlertTitle, Slider } from "@mui/material";
+import { Slider } from "@mui/material";
 import CustomLegend from "./components/CustomLegend";
 import { formattedTeamStatType } from "../../shared/types";
 import "../../shared/style.scss";
