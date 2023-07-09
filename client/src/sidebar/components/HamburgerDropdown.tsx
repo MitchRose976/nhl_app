@@ -71,12 +71,20 @@ const HamburgerDropdown = () => {
   };
 
   return (
-    <React.Fragment>
+    <div
+      style={{
+        placeContent: "end",
+        marginRight: "1rem",
+        display: "flex",
+        justifyContent: "center",
+        alignContent: "center",
+      }}
+    >
       <ButtonGroup
         variant="contained"
         ref={anchorRef}
         aria-label="split button"
-        sx={{ boxShadow: "none", margin: "0 2rem 0 auto" }}
+        sx={{ boxShadow: "none" }}
       >
         <Button
           size="small"
@@ -125,7 +133,7 @@ const HamburgerDropdown = () => {
           </Grow>
         )}
       </Popper>
-    </React.Fragment>
+    </div>
   );
 };
 
