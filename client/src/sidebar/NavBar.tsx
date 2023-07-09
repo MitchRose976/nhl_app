@@ -31,7 +31,7 @@ const Navbar = () => {
     return (
       <Stack
         direction="row"
-        spacing={3}
+        spacing={2.5}
         sx={{
           display: "flex",
           justifyContent: "flex-end",
@@ -51,24 +51,17 @@ const Navbar = () => {
   };
 
   return (
-    <>
-      <AppBar position="static">
-        <Toolbar
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "1fr 5fr",
-            position: "static",
-          }}
-        >
-          <Logo />
-          {windowSize.innerWidth > 790 ? (
-            renderFullMenu()
-          ) : (
-            <HamburgerDropdown />
-          )}
-        </Toolbar>
-      </AppBar>
-    </>
+    <AppBar>
+      <Toolbar
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <Logo />
+        {windowSize.innerWidth > 790 ? renderFullMenu() : <HamburgerDropdown />}
+      </Toolbar>
+    </AppBar>
   );
 };
 
