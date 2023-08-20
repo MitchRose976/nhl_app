@@ -68,6 +68,8 @@ export const TEAM_IDS = [
 ];
 
 export const BASE_URL = "https://nhl-live-game-tracker.onrender.com/nhl-app";
+// to test locally
+//export const BASE_URL = "http://localhost:7000/nhl-app";
 export const TOP_10_POINTS_PATH = "/players/top10Points";
 export const TOP_10_GOALS_PATH = "/players/top10Goals";
 export const TOP_10_ASSISTS_PATH = "/players/top10Assists";
@@ -339,4 +341,4 @@ export const statTypesRequiringFormatting = [
   "winOutshotByOpp",
 ];
 
-export const TEAM_STATS_BAR_COLORS = ["#1BE7FF", "#6EEB83", "#E4FF1A", "#E8AA14", "#FF5714"]
+export const TEAM_STATS_BAR_COLORS = ["#387780", "#FFA5A5", "#FFB74D", "#4B2B50", "#5C3E0E"]
