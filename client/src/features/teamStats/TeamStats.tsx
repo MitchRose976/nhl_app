@@ -103,6 +103,7 @@ const TeamStats = () => {
   */
   const [chartKey, setChartKey] = useState(0);
   const [showComponent, setShowComponent] = useState(false);
+  const [barWidth, setBarWidth] = useState(12);
 
   useEffect(() => {
     setShowComponent(true);
@@ -146,9 +147,21 @@ const TeamStats = () => {
     setVisibleData(updatedData);
   };
 
+  const handleBarWidth = () => {
+    if (window.innerWidth < 500 && numOfTeamsToCompare > 1) {
+      return 3;
+    } else if (window.innerWidth > 500 && numOfTeamsToCompare > 1) {
+      return 7;
+    } else if (window.innerWidth > 500 && window.innerWidth < 1000 && numOfTeamsToCompare > 1) {
+      return 9;
+    } 
+    return 15;
+  };
+
   useEffect(() => {
     handleVisibleDataChange();
     setChartKey((prevKey) => prevKey + 1);
+    setBarWidth(handleBarWidth());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teamsData, numOfTeamsToCompare, sliderValues, loadingData]);
 
@@ -185,6 +198,7 @@ const TeamStats = () => {
             <VictoryAxis
               dependentAxis
               tickFormat={(tick) => `${tick}`}
+              domain={[0, 100]}
               style={{
                 tickLabels: { fontSize: window.innerWidth < 500 ? 8 : 12 },
               }}
@@ -228,6 +242,7 @@ const TeamStats = () => {
                     labels: { fontSize: window.innerWidth < 500 ? 6 : 10 },
                   }}
                   alignment="middle"
+                  barWidth={barWidth}
                 />
               ))}
             </VictoryGroup>
