@@ -11,6 +11,8 @@ import CustomLegend from "./components/CustomLegend";
 import { formattedTeamStatType } from "../../shared/types";
 import "../../shared/style.scss";
 import Loader from "../../shared/components/Loader";
+import { Tooltip } from "react-tooltip";
+import "./style.scss";
 
 const TeamStats = () => {
   // variables
@@ -104,6 +106,17 @@ const TeamStats = () => {
   const [chartKey, setChartKey] = useState(0);
   const [showComponent, setShowComponent] = useState(false);
   const [barWidth, setBarWidth] = useState(12);
+  const [tooltipData, setTooltipData] = useState<{
+    index: null | number;
+    x: number;
+    y: number;
+    content: string | null;
+  }>({
+    index: null,
+    x: 0,
+    y: 0,
+    content: null,
+  });
 
   useEffect(() => {
     setShowComponent(true);
@@ -152,9 +165,13 @@ const TeamStats = () => {
       return 3;
     } else if (window.innerWidth > 500 && numOfTeamsToCompare > 1) {
       return 7;
-    } else if (window.innerWidth > 500 && window.innerWidth < 1000 && numOfTeamsToCompare > 1) {
+    } else if (
+      window.innerWidth > 500 &&
+      window.innerWidth < 1000 &&
+      numOfTeamsToCompare > 1
+    ) {
       return 9;
-    } 
+    }
     return 15;
   };
 
@@ -230,21 +247,69 @@ const TeamStats = () => {
                 onLoad: { duration: 500 },
               }}
             >
-              {visibleData.map((team, index) => (
-                <VictoryBar
-                  key={`bar-${index}`}
-                  data={team.data}
-                  x="x"
-                  y="y"
-                  labels={({ datum }) => datum.y}
-                  style={{
-                    data: { width: window.innerWidth < 500 ? 10 : 12 },
-                    labels: { fontSize: window.innerWidth < 500 ? 6 : 10 },
-                  }}
-                  alignment="middle"
-                  barWidth={barWidth}
-                />
-              ))}
+              {visibleData.map((team, index) => {
+                return (
+                  <VictoryBar
+                    key={`bar-${index}`}
+                    data={team.data}
+                    x="x"
+                    y="y"
+                    labels={({ datum }) => datum.y}
+                    style={{
+                      data: { width: window.innerWidth < 500 ? 10 : 12 },
+                      labels: { fontSize: window.innerWidth < 500 ? 6 : 10 },
+                    }}
+                    alignment="middle"
+                    barWidth={barWidth}
+                    //data-tooltip-id={`tooltip-${tooltipData.index}`}
+                    data-tooltip-id={`tooltip-${tooltipData.index}`}
+                    data-tooltip-content={`${tooltipData.content}`}
+                    data-tooltip-place="top"
+                    events={[
+                      {
+                        target: "data",
+                        eventHandlers: {
+                          onMouseEnter: (event, props) => {
+                            const mouseEvent = event as unknown as MouseEvent;
+                            console.log("mitch event: ", event);
+                            console.log("mitch props: ", props);
+                            return [
+                              {
+                                target: "data",
+                                mutation: () => {
+                                  const xPos = mouseEvent.clientX;
+                                  const yPos = mouseEvent.clientY;
+                                  setTooltipData({
+                                    index: props.index,
+                                    x: xPos,
+                                    y: yPos,
+                                    content: `${props.datum.x}: ${props.datum.y}`,
+                                  });
+                                },
+                              },
+                            ];
+                          },
+                          onMouseLeave: () => {
+                            return [
+                              {
+                                target: "data",
+                                mutation: () => {
+                                  setTooltipData({
+                                    index: null,
+                                    x: 0,
+                                    y: 0,
+                                    content: null,
+                                  });
+                                },
+                              },
+                            ];
+                          },
+                        },
+                      },
+                    ]}
+                  />
+                );
+              })}
             </VictoryGroup>
           </VictoryChart>
           <StyledSlider
@@ -254,6 +319,11 @@ const TeamStats = () => {
             min={0}
             max={14}
             step={1}
+          />
+          <Tooltip
+            id={`tooltip-${tooltipData.index}`}
+            position={{ x: tooltipData.x, y: tooltipData.y }}
+            className="team-stats-tooltip"
           />
         </div>
       ) : null}
