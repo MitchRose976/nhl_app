@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  PRE_GAME_STATS_TYPES,
-  TEAM_IDS,
-} from "../../../shared/constants";
+import { PRE_GAME_STATS_TYPES, TEAM_IDS } from "../../../shared/constants";
 import { useGetTeamStatsByIDQuery } from "../../api/apiSlice";
 import {
   FormControl,
@@ -11,7 +8,6 @@ import {
   MenuItem,
   SelectChangeEvent,
 } from "@mui/material";
-import { formatStatType } from "../../../shared/utils";
 
 interface TeamInputProps {
   teamInputOrder: number; // corresponds to the title of the select container (Team, Team 2, Team 3 etc.)
@@ -45,12 +41,11 @@ const TeamInput = ({
   useEffect(() => {
     if (!isLoading && !isError && isSuccess && data) {
       // format data for victory bar chart to read
-      const teamDataObject = data.stats[0].splits[0].stat;
       let formattedData: { x: string; y: number }[] = [];
       PRE_GAME_STATS_TYPES.forEach(({ statType, label }) => {
         formattedData.push({
           x: label,
-          y: formatStatType(teamDataObject, statType)
+          y: data[statType],
           //z: parseInt(teamDataObject[statType]),
         });
       });

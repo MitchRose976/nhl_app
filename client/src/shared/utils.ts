@@ -149,6 +149,18 @@ export const getWindowSize = () => {
 };
 
 export const formatStatType = (data: any, statType: string) => {
+  // get value of statType in data
+  const getYValueByX = (searchX: string) => {
+    for (const item of data) {
+      if (item.x === searchX) {
+        return item.y;
+      }
+    }
+    return null;
+  };
+
+  const value = getYValueByX(statType);
+
   const hasMoreThanTwoDecimalPlaces = (number: number | string) => {
     const decimalIndex = number.toString().indexOf(".");
     if (decimalIndex === -1) {
@@ -159,11 +171,11 @@ export const formatStatType = (data: any, statType: string) => {
   };
 
   if (statTypesRequiringFormatting.includes(statType)) {
-    return hasMoreThanTwoDecimalPlaces(data[statType] * 100)
-      ? Number((data[statType] * 100).toFixed(1))
-      : data[statType] * 100;
-  } else if (hasMoreThanTwoDecimalPlaces(data[statType])) {
-    return parseFloat(data[statType].toFixed(1));
+    return hasMoreThanTwoDecimalPlaces(value * 100)
+      ? Number((value * 100).toFixed(1))
+      : value * 100;
+  } else if (hasMoreThanTwoDecimalPlaces(value)) {
+    return parseFloat(value.toFixed(1));
   }
-  return parseFloat(data[statType]);
+  return parseFloat(value);
 };
