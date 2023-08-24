@@ -13,6 +13,7 @@ import "../../shared/style.scss";
 import Loader from "../../shared/components/Loader";
 import { Tooltip } from "react-tooltip";
 import "./style.scss";
+import { formatStatType } from "../../shared/utils";
 
 const TeamStats = () => {
   // variables
@@ -219,10 +220,6 @@ const TeamStats = () => {
               style={{
                 tickLabels: { fontSize: window.innerWidth < 500 ? 8 : 12 },
               }}
-              animate={{
-                duration: 2000,
-                easing: "bounce",
-              }}
             />
             {/* X-axis */}
             <VictoryAxis
@@ -233,10 +230,6 @@ const TeamStats = () => {
                   angle: 45,
                   textAnchor: "start",
                 },
-              }}
-              animate={{
-                duration: 2000,
-                easing: "bounce",
               }}
             />
             <VictoryGroup
@@ -254,7 +247,13 @@ const TeamStats = () => {
                     data={team.data}
                     x="x"
                     y="y"
-                    labels={({ datum }) => datum.y}
+                    labels={({ datum }) =>
+                      `${
+                        typeof datum.y === "number"
+                          ? formatStatType(team.data, datum.x)
+                          : datum.y
+                      }`
+                    }
                     style={{
                       data: { width: window.innerWidth < 500 ? 10 : 12 },
                       labels: { fontSize: window.innerWidth < 500 ? 6 : 10 },

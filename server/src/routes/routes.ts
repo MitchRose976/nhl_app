@@ -4,6 +4,7 @@ import { ObjectId } from "mongodb";
 import { TeamModel, PlayerModel, PlayerClass } from "../models";
 import { collections } from "../connect";
 import axios from "axios";
+import { formatDecimalNumbers } from "../utils";
 
 dotenv.config();
 const router = express.Router();
@@ -423,7 +424,10 @@ router.get("/teams/stats/:teamID", async (req: Request, res: Response) => {
       .get(
         `https://statsapi.web.nhl.com/api/v1/teams/${req.params.teamID}/stats`
       )
-      .then((response) => res.status(200).send(response.data))
+      .then((response) => {
+        const formattedData = formatDecimalNumbers(response.data.stats[0].splits[0].stat)
+        return res.status(200).send(formattedData)
+      })
       .catch((error) => {
         console.log(error);
       });
