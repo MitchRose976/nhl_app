@@ -41,7 +41,7 @@ const FeatureVideo = ({
           //border: "1px solid red",
         }}
       >
-        <video style={{ width: "100%", height: "100%" }} controls autoPlay loop>
+        <video style={{ width: "100%", height: "100%" }} controls loop>
           <source src={videoSrc} type="video/mp4" />
         </video>
       </div>

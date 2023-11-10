@@ -118,32 +118,18 @@ const HomePage = () => {
         <div className="welcome-message-header">
           <h1>Key Features</h1>
           {/* Feature #1 */}
-          <div style={featureSectionDivProps}>
-            <FeatureVideo
-              videoSrc={featureItems[0].src}
-              windowWidth={windowSize.innerWidth}
-              featureDescription={featureItems[0].description}
-              featureTitle={featureItems[0].title}
-            />
-          </div>
-          {/* Feature #2 */}
-          <div style={featureSectionDivProps}>
-            <FeatureVideo
-              videoSrc={featureItems[1].src}
-              windowWidth={windowSize.innerWidth}
-              featureDescription={featureItems[1].description}
-              featureTitle={featureItems[1].title}
-            />
-          </div>
-          {/* Feature #3 */}
-          <div style={featureSectionDivProps}>
-            <FeatureVideo
-              videoSrc={featureItems[2].src}
-              windowWidth={windowSize.innerWidth}
-              featureDescription={featureItems[2].description}
-              featureTitle={featureItems[2].title}
-            />
-          </div>
+          {featureItems.map(({ title, src, description }) => {
+            return (
+              <div style={featureSectionDivProps}>
+                <FeatureVideo
+                  videoSrc={src}
+                  windowWidth={windowSize.innerWidth}
+                  featureDescription={description}
+                  featureTitle={title}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </>
