@@ -1,8 +1,9 @@
-import { PlayerDataType, TeamRecordInterface } from "../shared/types";
-import { statTypeMapping, statTypesRequiringFormatting } from "./constants";
+import { TeamStandingsObject } from "../../../server/src/types";
+import { PlayerDataType } from "../shared/types";
+import { TEAM_IDS, statTypeMapping, statTypesRequiringFormatting } from "./constants";
 
-export const formGetTeamLogoUrl = (teamID: number) =>
-  `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${teamID}.svg`;
+export const formGetTeamLogoUrl = (teamAbbreviation: string) =>
+  `https://assets.nhle.com/logos/nhl/svg/${teamAbbreviation}_light.svg`;
 
 export const formatStat = (player: PlayerDataType, statType: string) => {
   if (statType === statTypeMapping.savePercentage.type) {
@@ -179,3 +180,25 @@ export const formatStatType = (data: any, statType: string) => {
   }
   return parseFloat(value);
 };
+
+export const getCurrentSeason = (formatForApiCall: boolean) => {
+  // if formatForApiCall is true, current season is returned as 20232024
+  // otherwise 2023/2024
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  console.log('mitch month: ', month);
+  console.log('mitch day: ', day);
+  if (day === 30 && month === 9) {
+    return formatForApiCall ? `${year - 1}${year}` : `${year - 1}/${year}`
+  } else {
+    return formatForApiCall ? `${year}${year + 1}` : `${year}/${year + 1}`;
+  }
+}
+
+export const getTeamID = (teamAbbreviation: string) => {
+  console.log('mitch teamAbbreviation: ', teamAbbreviation)
+  const team = TEAM_IDS.find((team) => team.abbreviation === teamAbbreviation)
+  return team?.teamID
+}

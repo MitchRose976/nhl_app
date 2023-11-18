@@ -23,7 +23,7 @@ dotenv.config();
 const currentYear = new Date().getFullYear();
 let currentSeason = (currentYear - 1).toString().concat(currentYear.toString());
 // Increment the season year by 1 to get latest season stats
-// 2021/2022 => 2022/2023
+// ex. 2021/2022 => 2022/2023
 let newSeasonStart = new Date().toLocaleDateString();
 if (newSeasonStart === `7/15/${currentYear}`) {
   currentSeason = currentYear.toString().concat((currentYear + 1).toString());

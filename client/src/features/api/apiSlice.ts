@@ -91,12 +91,12 @@ export const apiSlice = createApi({
     getScores: builder.query<any, void>({
       query: () => GET_SCORES_PATH,
     }),
-    getTeamStatsByID: builder.query<any, { teamID: number }>({
+    getTeamStatsByID: builder.query<any, { teamID: number, season: string }>({
       query: (args) => {
-        const { teamID } = args;
+        const { teamID, season } = args;
         return {
-          url: `/teams/stats/${teamID}`,
-          params: { teamID },
+          url: `/teams/stats/${teamID}/${season}`,
+          params: { teamID, season },
         };
       },
     }),

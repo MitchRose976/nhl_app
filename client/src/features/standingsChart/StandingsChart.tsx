@@ -15,11 +15,7 @@ import {
   TableRow,
   Tabs,
 } from "@mui/material";
-import {
-  StandingsRecordInterface,
-  TeamRecordInterface,
-} from "../../shared/types";
-import { formGetTeamLogoUrl, getTeamStat } from "../../shared/utils";
+import { getTeamStat } from "../../shared/utils";
 import Loader from "../../shared/components/Loader";
 
 const standingsTableHeaders = [
