@@ -1,8 +1,13 @@
-import { PlayerDataType, TeamRecordInterface } from "../shared/types";
-import { statTypeMapping, statTypesRequiringFormatting } from "./constants";
+import { TeamStandingsDataObject } from "../../../server/src/types";
+import { PlayerDataType } from "../shared/types";
+import {
+  TEAM_IDS,
+  statTypeMapping,
+  statTypesRequiringFormatting,
+} from "./constants";
 
-export const formGetTeamLogoUrl = (teamID: number) =>
-  `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${teamID}.svg`;
+export const formGetTeamLogoUrl = (teamAbbreviation: string) =>
+  `https://assets.nhle.com/logos/nhl/svg/${teamAbbreviation}_light.svg`;
 
 export const formatStat = (player: PlayerDataType, statType: string) => {
   if (statType === statTypeMapping.savePercentage.type) {
@@ -21,49 +26,55 @@ export const formatStat = (player: PlayerDataType, statType: string) => {
 };
 
 export const getTeamStat = (
-  team: TeamRecordInterface,
+  team: TeamStandingsDataObject,
   stat: { label: string; stat: string; type: string }
 ) => {
   const statLabel = stat.label;
   switch (statLabel) {
     case "Team":
-      return team.team.name;
+      return team.teamName.default;
     case "GP":
       return team.gamesPlayed;
     case "W":
-      return team.leagueRecord.wins;
+      return team.wins;
     case "L":
-      return team.leagueRecord.losses;
+      return team.losses;
     case "OTL":
-      return team.leagueRecord.ot;
+      return team.otLosses;
     case "Pts":
       return team.points;
     case "GF":
-      return team.goalsScored;
+      return team.goalFor;
     case "GA":
-      return team.goalsAgainst;
+      return team.goalAgainst;
     case "Diff":
-      return team.goalsScored - team.goalsAgainst;
+      return team.goalDifferential;
     case "L10":
-      return "placeholder";
+      return `${team.l10Wins}-${team.l10Losses}-${team.l10OtLosses}`;
     case "Strk":
-      return team.streak.streakCode;
+      return `${team.streakCode}${team.streakCount}`;
     case "P%":
-      return `${team.pointsPercentage.toFixed(2).substring(2)}%`;
+      return `${team.pointPctg.toFixed(2).substring(2)}%`;
     case "ConfHomeRank":
-      return team.conferenceHomeRank;
+      return team.conferenceHomeSequence;
     case "ConfRoadRank":
-      return team.conferenceRoadRank;
+      return team.conferenceRoadSequence;
     case "DivHomeRank":
-      return team.divisionHomeRank;
+      return team.divisionHomeSequence;
     case "DivRoadRank":
-      return team.divisionRoadRank;
-    case "PPLeagueRank":
-      return team.ppLeagueRank;
-    case "PPConfRank":
-      return team.ppConferenceRank;
-    case "PPDivRank":
-      return team.ppDivisionRank;
+      return team.divisionRoadSequence;
+    case "Home - Wins":
+      return team.homeWins;
+    case "Home - GF":
+      return team.homeGoalsFor;
+    case "Home - GA":
+      return team.homeGoalsAgainst;
+    case "Road - Wins":
+      return team.roadWins;
+    case "Road - GF":
+      return team.roadGoalsFor;
+    case "Road - GA":
+      return team.roadGoalsAgainst;
     default:
       return "";
   }
@@ -178,4 +189,23 @@ export const formatStatType = (data: any, statType: string) => {
     return parseFloat(value.toFixed(1));
   }
   return parseFloat(value);
+};
+
+export const getCurrentSeason = (formatForApiCall: boolean) => {
+  // if formatForApiCall is true, current season is returned as 20232024
+  // otherwise 2023/2024
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  if (day === 30 && month === 9) {
+    return formatForApiCall ? `${year - 1}${year}` : `${year - 1}/${year}`;
+  } else {
+    return formatForApiCall ? `${year}${year + 1}` : `${year}/${year + 1}`;
+  }
+};
+
+export const getTeamID = (teamAbbreviation: string) => {
+  const team = TEAM_IDS.find((team) => team.abbreviation === teamAbbreviation);
+  return team?.teamID;
 };

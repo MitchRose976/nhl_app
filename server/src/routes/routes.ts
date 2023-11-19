@@ -5,6 +5,8 @@ import { TeamModel, PlayerModel, PlayerClass } from "../models";
 import { collections } from "../connect";
 import axios from "axios";
 import { formatDecimalNumbers } from "../utils";
+import { NHL_API_BASE } from "../constants";
+import formatStandingsData from "../service/standingsService";
 
 dotenv.config();
 const router = express.Router();
@@ -385,8 +387,11 @@ router.get(
 router.get("/teams/standings", async (req: Request, res: Response) => {
   try {
     await axios
-      .get("https://statsapi.web.nhl.com/api/v1/standings")
-      .then((response) => res.status(200).send(response.data))
+      .get(`${NHL_API_BASE}/standings/now`)
+      .then((response) => {
+        const formattedStandings = formatStandingsData(response.data);
+        res.status(200).send(formattedStandings);
+      })
       .catch((error) => {
         console.log(error);
       });
@@ -418,23 +423,26 @@ router.get("/games/scores", async (req: Request, res: Response) => {
 });
 
 // POST team stats by id
-router.get("/teams/stats/:teamID", async (req: Request, res: Response) => {
-  try {
-    await axios
-      .get(
-        `https://statsapi.web.nhl.com/api/v1/teams/${req.params.teamID}/stats`
-      )
-      .then((response) => {
-        const formattedData = formatDecimalNumbers(response.data.stats[0].splits[0].stat)
-        return res.status(200).send(formattedData)
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  } catch (error) {
-    console.log("Error @ /teams/stats: ", error);
+router.get(
+  "/teams/stats/:teamID/:season",
+  async (req: Request, res: Response) => {
+    try {
+      await axios
+        .get(
+          // `https://statsapi.web.nhl.com/api/v1/teams/${req.params.teamID}/stats`
+          `https://api.nhle.com/stats/rest/en/team/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22wins%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22teamId%22,%22direction%22:%22ASC%22%7D%5D&start=0&limit=50&factCayenneExp=gamesPlayed%3E=1&cayenneExp=franchiseId%3D${req.params.teamID}%20and%20gameTypeId=2%20and%20seasonId%3C=20232024%20and%20seasonId%3E=${req.params.season}`
+        )
+        .then((response) => {
+          return res.status(200).send(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log("Error @ /teams/stats: ", error);
+    }
   }
-});
+);
 
 // POST Player by full name
 router.post("/players/getPlayer", async (req: Request, res: Response) => {

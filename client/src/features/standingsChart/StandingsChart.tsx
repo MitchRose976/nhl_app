@@ -15,12 +15,9 @@ import {
   TableRow,
   Tabs,
 } from "@mui/material";
-import {
-  StandingsRecordInterface,
-  TeamRecordInterface,
-} from "../../shared/types";
 import { formGetTeamLogoUrl, getTeamStat } from "../../shared/utils";
 import Loader from "../../shared/components/Loader";
+import { TeamStandingsDataObject } from "../../../../server/src/types";
 
 const standingsTableHeaders = [
   { label: "Team", type: "Team", stat: "team.name" }, // must render with func
@@ -107,14 +104,20 @@ const StandingsChart = () => {
     backgroundColor: "#fff",
   };
 
-  //const getLast10GamesRecord = () => {};
-
   const renderDivisionTable = (selectedDivision: string) => {
+    const easternDivisions = ["Atlantic", "Metropolitan"];
     const divisionStandingsData = standingsData
-      ? standingsData.records.find(
-          (item: StandingsRecordInterface) =>
-            item.division.name === selectedDivision
-        )
+      ? easternDivisions.includes(selectedDivision)
+        ? (
+            standingsData["Eastern"] as {
+              [key: string]: TeamStandingsDataObject[];
+            }
+          )[selectedDivision]
+        : (
+            standingsData["Western"] as {
+              [key: string]: TeamStandingsDataObject[];
+            }
+          )[selectedDivision]
       : null;
 
     return (
@@ -137,8 +140,8 @@ const StandingsChart = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {divisionStandingsData?.teamRecords.map(
-              (team: TeamRecordInterface, index) => {
+            {divisionStandingsData?.map(
+              (team: TeamStandingsDataObject, index) => {
                 return (
                   <TableRow key={index}>
                     {standingsTableHeaders.map((statType, index) => {
@@ -156,8 +159,8 @@ const StandingsChart = () => {
                             }}
                           >
                             <img
-                              alt={`${team.team.name} logo`}
-                              src={formGetTeamLogoUrl(team.team.id)}
+                              alt={`${team.teamName.default} logo`}
+                              src={formGetTeamLogoUrl(team.teamAbbrev.default)}
                               style={{
                                 marginRight: "0.5rem",
                                 width: "3rem",

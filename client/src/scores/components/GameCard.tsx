@@ -75,12 +75,12 @@ const GameCard = ({ game }: GameCardProps) => {
   const renderScoreLine = () => {
     return (
       <>
-        {renderTeamLogo(formGetTeamLogoUrl(game.teams.home.id), 40, 40)}
+        {renderTeamLogo(formGetTeamLogoUrl(game.teams.home.abbreviation), 40, 40)}
         <strong>
           {game.scores[game.teams.home.abbreviation]} :{" "}
           {game.scores[game.teams.away.abbreviation]}
         </strong>{" "}
-        {renderTeamLogo(formGetTeamLogoUrl(game.teams.away.id), 40, 40)}
+        {renderTeamLogo(formGetTeamLogoUrl(game.teams.away.abbreviation), 40, 40)}
       </>
     );
   };

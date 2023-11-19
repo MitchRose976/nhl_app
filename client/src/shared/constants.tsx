@@ -33,43 +33,44 @@ export const statsTableHeaderCells = [
 export const biographyTableHeaderCells = ["Born", "Age", "Height", "Weight"];
 
 export const TEAM_IDS = [
-  { teamID: 1, name: "New Jersey Devils" },
-  { teamID: 2, name: "New York Islanders" },
-  { teamID: 3, name: "New York Rangers" },
-  { teamID: 4, name: "Philadelphia Flyers" },
-  { teamID: 5, name: "Pittsburgh Penguins" },
-  { teamID: 6, name: "Boston Bruins" },
-  { teamID: 7, name: "Buffalo Sabres" },
-  { teamID: 8, name: "Montréal Canadiens" },
-  { teamID: 9, name: "Ottawa Senators" },
-  { teamID: 10, name: "Toronto Maple Leafs" },
-  { teamID: 12, name: "Carolina Hurricanes" },
-  { teamID: 13, name: "Florida Panthers" },
-  { teamID: 14, name: "Tampa Bay Lightning" },
-  { teamID: 15, name: "Washington Capitals" },
-  { teamID: 16, name: "Chicago Blackhawks" },
-  { teamID: 17, name: "Detroit Red Wings" },
-  { teamID: 18, name: "Nashville Predators" },
-  { teamID: 19, name: "St. Louis Blues" },
-  { teamID: 20, name: "Calgary Flames" },
-  { teamID: 21, name: "Colorado Avalanche" },
-  { teamID: 22, name: "Edmonton Oilers" },
-  { teamID: 23, name: "Vancouver Canucks" },
-  { teamID: 24, name: "Anaheim Ducks" },
-  { teamID: 25, name: "Dallas Stars" },
-  { teamID: 26, name: "Los Angeles Kings" },
-  { teamID: 28, name: "San Jose Sharks" },
-  { teamID: 29, name: "Columbus Blue Jackets" },
-  { teamID: 30, name: "Minnesota Wild" },
-  { teamID: 52, name: "Winnipeg Jets" },
-  { teamID: 53, name: "Arizona Coyotes" },
-  { teamID: 54, name: "Vegas Golden Knights" },
-  { teamID: 55, name: "Seattle Kraken" },
+  { teamID: 23, name: "New Jersey Devils", abbreviation: "NJD" },
+  { teamID: 22, name: "New York Islanders", abbreviation: "NYI" },
+  { teamID: 10, name: "New York Rangers", abbreviation: "NYR" },
+  { teamID: 16, name: "Philadelphia Flyers", abbreviation: "PHI" },
+  { teamID: 17, name: "Pittsburgh Penguins", abbreviation: "PIT" },
+  { teamID: 6, name: "Boston Bruins", abbreviation: "BOS" },
+  { teamID: 19, name: "Buffalo Sabres", abbreviation: "BUF" },
+  { teamID: 1, name: "Montréal Canadiens", abbreviation: "MTL" },
+  { teamID: 30, name: "Ottawa Senators", abbreviation: "OTT" },
+  { teamID: 5, name: "Toronto Maple Leafs", abbreviation: "TOR" },
+  { teamID: 26, name: "Carolina Hurricanes", abbreviation: "CAR" },
+  { teamID: 33, name: "Florida Panthers", abbreviation: "FLA" },
+  { teamID: 31, name: "Tampa Bay Lightning", abbreviation: "TBL" },
+  { teamID: 24, name: "Washington Capitals", abbreviation: "WSH" },
+  { teamID: 11, name: "Chicago Blackhawks", abbreviation: "CHI" },
+  { teamID: 12, name: "Detroit Red Wings", abbreviation: "DET" },
+  { teamID: 34, name: "Nashville Predators", abbreviation: "NSH" },
+  { teamID: 18, name: "St. Louis Blues", abbreviation: "STL" },
+  { teamID: 21, name: "Calgary Flames", abbreviation: "CGY" },
+  { teamID: 27, name: "Colorado Avalanche", abbreviation: "COL" },
+  { teamID: 25, name: "Edmonton Oilers", abbreviation: "EDM" },
+  { teamID: 20, name: "Vancouver Canucks", abbreviation: "VAN" },
+  { teamID: 32, name: "Anaheim Ducks", abbreviation: "ANA" },
+  { teamID: 15, name: "Dallas Stars", abbreviation: "DAL" },
+  { teamID: 14, name: "Los Angeles Kings", abbreviation: "LAK" },
+  { teamID: 29, name: "San Jose Sharks", abbreviation: "SJS" },
+  { teamID: 36, name: "Columbus Blue Jackets", abbreviation: "CBJ" },
+  { teamID: 37, name: "Minnesota Wild", abbreviation: "MIN" },
+  { teamID: 35, name: "Winnipeg Jets", abbreviation: "WPG" },
+  { teamID: 28, name: "Arizona Coyotes", abbreviation: "ARI" },
+  { teamID: 38, name: "Vegas Golden Knights", abbreviation: "VGK" },
+  { teamID: 39, name: "Seattle Kraken", abbreviation: "SEA" },
 ];
 
-export const BASE_URL = "https://nhl-live-game-tracker.onrender.com/nhl-app";
+
+//export const BASE_URL = "https://nhl-live-game-tracker.onrender.com/nhl-app";
 // to test locally
-//export const BASE_URL = "http://localhost:7000/nhl-app";
+export const BASE_URL = "http://localhost:7000/nhl-app";
 export const TOP_10_POINTS_PATH = "/players/top10Points";
 export const TOP_10_GOALS_PATH = "/players/top10Goals";
 export const TOP_10_ASSISTS_PATH = "/players/top10Assists";
@@ -315,20 +316,20 @@ export const LIVE_GAME_STATS_TYPES = [
 ];
 
 export const PRE_GAME_STATS_TYPES = [
-  { statType: "ptPctg", label: "Point %" },
-  { statType: "faceOffWinPercentage", label: "Faceoff %" },
-  { statType: "goalsPerGame", label: "Goals/Game" },
+  { statType: "pointPct", label: "Point %" },
+  { statType: "faceoffWinPct", label: "Faceoff %" },
+  { statType: "goalsForPerGame", label: "Goals/Game" },
   { statType: "goalsAgainstPerGame", label: "Goals Against/Game" },
-  { statType: "penaltyKillPercentage", label: "PK%" },
-  { statType: "powerPlayPercentage", label: "PP%" },
-  { statType: "shotsPerGame", label: "Shots/Game" },
-  { statType: "shotsAllowed", label: "Shots Against/Game" },
-  { statType: "winScoreFirst", label: "Win% - Scoring First" },
-  { statType: "winLeadFirstPer", label: "Win% - Leading 1st Period" },
-  { statType: "winLeadSecondPer", label: "Win% - Leading 2nd Period" },
-  { statType: "winOppScoreFirst", label: "Win% - Opponent Scores First" },
-  { statType: "winOutshootOpp", label: "Win% - Outshoot Opponent" },
-  { statType: "winOutshotByOpp", label: "Win% - Outshot By Opponent" },
+  { statType: "penaltyKillPct", label: "PK%" },
+  { statType: "powerPlayPct", label: "PP%" },
+  { statType: "shotsForPerGame", label: "Shots/Game" },
+  { statType: "shotsAgainstPerGame", label: "Shots Against/Game" },
+  // { statType: "winScoreFirst", label: "Win% - Scoring First" },
+  // { statType: "winLeadFirstPer", label: "Win% - Leading 1st Period" },
+  // { statType: "winLeadSecondPer", label: "Win% - Leading 2nd Period" },
+  // { statType: "winOppScoreFirst", label: "Win% - Opponent Scores First" },
+  // { statType: "winOutshootOpp", label: "Win% - Outshoot Opponent" },
+  // { statType: "winOutshotByOpp", label: "Win% - Outshot By Opponent" },
 ];
 
 // array of statTypes to be formatted

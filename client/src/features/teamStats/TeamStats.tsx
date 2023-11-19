@@ -270,8 +270,6 @@ const TeamStats = () => {
                         eventHandlers: {
                           onMouseEnter: (event, props) => {
                             const mouseEvent = event as unknown as MouseEvent;
-                            console.log("mitch event: ", event);
-                            console.log("mitch props: ", props);
                             return [
                               {
                                 target: "data",
