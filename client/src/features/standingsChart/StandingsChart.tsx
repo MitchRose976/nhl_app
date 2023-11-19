@@ -53,19 +53,34 @@ const standingsTableHeaders = [
     stat: "divisionRoadRank",
   },
   {
-    label: "PPLeagueRank",
-    type: "Powerplay League Rank",
-    stat: "ppLeagueRank",
+    label: "HomeWins",
+    type: "Home - Wins",
+    stat: "homeWins",
   },
   {
-    label: "PPConfRank",
-    type: "Powerplay Conference Rank",
-    stat: "ppConferenceRank",
+    label: "HomeGoalsFor",
+    type: "Home - GF",
+    stat: "homeGoalsFor",
   },
   {
-    label: "PPDivRank",
-    type: "Powerplay Division Rank",
-    stat: "ppDivisionRank",
+    label: "HomeGoalsAgainst",
+    type: "Home - GA",
+    stat: "homeGoalsAgainst",
+  },
+  {
+    label: "RoadWins",
+    type: "Road - Wins",
+    stat: "roadWins",
+  },
+  {
+    label: "RoadGoalsFor",
+    type: "Road - GF",
+    stat: "roadGoalsFor",
+  },
+  {
+    label: "RoadGoalsAgainst",
+    type: "Road - GA",
+    stat: "roadGoalsAgainst",
   },
 ];
 
@@ -171,7 +186,16 @@ const StandingsChart = () => {
                           </div>
                         </TableCell>
                       ) : (
-                        <TableCell key={statType.label}>
+                        <TableCell
+                          key={statType.label}
+                          sx={
+                            statType.label === "L10"
+                              ? {
+                                  whiteSpace: "nowrap",
+                                }
+                              : undefined
+                          }
+                        >
                           {getTeamStat(team, statType)}
                         </TableCell>
                       );

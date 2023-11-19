@@ -63,17 +63,17 @@ export const getTeamStat = (
       return team.divisionHomeSequence;
     case "DivRoadRank":
       return team.divisionRoadSequence;
-    case "Home - Wins":
+    case "HomeWins":
       return team.homeWins;
-    case "Home - GF":
+    case "HomeGoalsFor":
       return team.homeGoalsFor;
-    case "Home - GA":
+    case "HomeGoalsAgainst":
       return team.homeGoalsAgainst;
-    case "Road - Wins":
+    case "RoadWins":
       return team.roadWins;
-    case "Road - GF":
+    case "RoadGoalsFor":
       return team.roadGoalsFor;
-    case "Road - GA":
+    case "RoadGoalsAgainst":
       return team.roadGoalsAgainst;
     default:
       return "";
