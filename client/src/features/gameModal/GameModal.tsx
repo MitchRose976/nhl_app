@@ -44,8 +44,6 @@ interface GameModalProps {
 }
 
 const GameModal = ({ game, status }: GameModalProps) => {
-  console.log('mitch game: ', game);
-  console.log('mitch status: ', status);
   const awayTeam = game.teams.away.abbreviation;
   const homeTeam = game.teams.home.abbreviation;
   const awayTeamID = getTeamID(awayTeam);
@@ -65,10 +63,6 @@ const GameModal = ({ game, status }: GameModalProps) => {
     isSuccess: homeIsSuccess,
     isError: homeIsError,
   } = useGetTeamStatsByIDQuery({ teamID: homeTeamID ?? 0, season: currentSeason });
-
-  console.log('mitch homeTeamStats: ', homeTeamStats);
-  console.log('mitch awayTeamStats: ', awayTeamStats);
-  // console.log('mitch headToHeadData: ', headToHeadData);
 
   const renderTeamLogo = (svgString: string, width: number, height: number) => {
     return svgString !== "" ? (
