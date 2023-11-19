@@ -5,9 +5,11 @@ const TEAM_IDS = [
 // base url to grab all teams in the league
 const GET_TEAMS_BASE_URL = "https://statsapi.web.nhl.com/api/v1/teams";
 
+const NHL_API_BASE = "https://api-web.nhle.com/v1";
+
 // origin url for cors
 const CLIENT_URL = "https://funny-sprinkles-f549f1.netlify.app";
 // to test locally
 // const CLIENT_URL = 'http://localhost:3000';
 
-export { TEAM_IDS, GET_TEAMS_BASE_URL, CLIENT_URL };
+export { TEAM_IDS, GET_TEAMS_BASE_URL, CLIENT_URL, NHL_API_BASE };
