@@ -161,10 +161,11 @@ export const getWindowSize = () => {
 
 export const formatStatType = (data: any, statType: string) => {
   // get value of statType in data
-  const getYValueByX = (searchX: string) => {
-    for (const item of data) {
-      if (item.x === searchX) {
-        return item.y;
+  const getYValueByX = (statType: string): number | null => {
+    for (const item of Object.entries(data[0])) {
+      if (item[0] === statType && typeof item[1] === "number") {
+        const value: number = item[1];
+        return value;
       }
     }
     return null;
@@ -181,14 +182,18 @@ export const formatStatType = (data: any, statType: string) => {
     return decimalPlaces.length > 2;
   };
 
-  if (statTypesRequiringFormatting.includes(statType)) {
-    return hasMoreThanTwoDecimalPlaces(value * 100)
-      ? Number((value * 100).toFixed(1))
-      : value * 100;
-  } else if (hasMoreThanTwoDecimalPlaces(value)) {
+  if (typeof value === "number") {
+    if (statTypesRequiringFormatting.includes(statType)) {
+      return hasMoreThanTwoDecimalPlaces(value * 100)
+        ? Number((value * 100).toFixed(1))
+        : value * 100;
+    } else if (hasMoreThanTwoDecimalPlaces(value)) {
+      return parseFloat(value.toFixed(1));
+    }
     return parseFloat(value.toFixed(1));
+  } else {
+    return null;
   }
-  return parseFloat(value);
 };
 
 export const getCurrentSeason = (formatForApiCall: boolean) => {

@@ -98,6 +98,7 @@ export const TOP_10_GOALS_AGAINST_AVERAGE_PATH =
 export const GET_PLAYER_STATS_PATH = "/players/getPlayer";
 export const GET_STANDINGS_PATH = "/teams/standings";
 export const GET_SCORES_PATH = "/games/scores";
+export const GET_TEAM_STATS_PATH = "/teams/stats"
 
 export const TOP_10_STATS_CATEGORIES = [
   { label: "Points", name: "Points" },
@@ -334,12 +335,10 @@ export const PRE_GAME_STATS_TYPES = [
 
 // array of statTypes to be formatted
 export const statTypesRequiringFormatting = [
-  "winScoreFirst",
-  "winLeadFirstPer",
-  "winLeadSecondPer",
-  "winOppScoreFirst",
-  "winOutshootOpp",
-  "winOutshotByOpp",
+  "pointPct",
+  "faceoffWinPct",
+  "penaltyKillPct",
+  "powerPlayPct",
 ];
 
 export const TEAM_STATS_BAR_COLORS = [

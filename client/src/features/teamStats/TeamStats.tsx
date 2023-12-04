@@ -56,30 +56,30 @@ const TeamStats = () => {
           x: "Shots Against/Game",
           y: 28.2317,
         },
-        {
-          x: "Win% - Scoring First",
-          y: 75,
-        },
-        {
-          x: "Win% - Leading 1st Period",
-          y: 78.3,
-        },
-        {
-          x: "Win% - Leading 2nd Period",
-          y: 91.9,
-        },
-        {
-          x: "Win% - Opponent Scores First",
-          y: 52.400000000000006,
-        },
-        {
-          x: "Win% - Outshoot Opponent",
-          y: 61.4,
-        },
-        {
-          x: "Win% - Outshot By Opponent",
-          y: 66.7,
-        },
+        // {
+        //   x: "Win% - Scoring First",
+        //   y: 75,
+        // },
+        // {
+        //   x: "Win% - Leading 1st Period",
+        //   y: 78.3,
+        // },
+        // {
+        //   x: "Win% - Leading 2nd Period",
+        //   y: 91.9,
+        // },
+        // {
+        //   x: "Win% - Opponent Scores First",
+        //   y: 52.400000000000006,
+        // },
+        // {
+        //   x: "Win% - Outshoot Opponent",
+        //   y: 61.4,
+        // },
+        // {
+        //   x: "Win% - Outshot By Opponent",
+        //   y: 66.7,
+        // },
       ],
     },
   ]);
@@ -247,13 +247,7 @@ const TeamStats = () => {
                     data={team.data}
                     x="x"
                     y="y"
-                    labels={({ datum }) =>
-                      `${
-                        typeof datum.y === "number"
-                          ? formatStatType(team.data, datum.x)
-                          : datum.y
-                      }`
-                    }
+                    labels={({ datum }) => `${datum.y}`}
                     style={{
                       data: { width: window.innerWidth < 500 ? 10 : 12 },
                       labels: { fontSize: window.innerWidth < 500 ? 6 : 10 },

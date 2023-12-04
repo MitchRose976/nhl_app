@@ -21,6 +21,7 @@ import {
   TOP_10_GOALS_AGAINST_AVERAGE_PATH,
   GET_STANDINGS_PATH,
   GET_SCORES_PATH,
+  GET_TEAM_STATS_PATH,
 } from "../../shared/constants";
 import type { PlayerDataType } from "../../shared/types";
 import { StandingsFormattedType } from "../../../../server/src/types";
@@ -93,7 +94,7 @@ export const apiSlice = createApi({
       query: (args) => {
         const { teamID, season } = args;
         return {
-          url: `/teams/stats/${teamID}/${season}`,
+          url: `${GET_TEAM_STATS_PATH}/${teamID}/${season}`,
           params: { teamID, season },
         };
       },
