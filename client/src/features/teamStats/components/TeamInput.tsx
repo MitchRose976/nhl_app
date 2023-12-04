@@ -8,6 +8,7 @@ import {
   MenuItem,
   SelectChangeEvent,
 } from "@mui/material";
+import { formatStatType, getCurrentSeason } from "../../../shared/utils";
 
 interface TeamInputProps {
   teamInputOrder: number; // corresponds to the title of the select container (Team, Team 2, Team 3 etc.)
@@ -20,12 +21,16 @@ const TeamInput = ({
   numOfTeamsToCompare,
   fetchTeamData,
 }: TeamInputProps) => {
-  const [teamID, setTeamID] = useState<number>(teamInputOrder);
+  const [teamID, setTeamID] = useState<number>(
+    TEAM_IDS[teamInputOrder - 1].teamID
+  );
   const [teamName, setTeamName] = useState<string>(
     TEAM_IDS[teamInputOrder - 1].name
   );
+  const currentSeason = getCurrentSeason(true);
   const { data, isLoading, isSuccess, isError } = useGetTeamStatsByIDQuery({
     teamID,
+    season: currentSeason,
   });
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -43,11 +48,14 @@ const TeamInput = ({
       // format data for victory bar chart to read
       let formattedData: { x: string; y: number }[] = [];
       PRE_GAME_STATS_TYPES.forEach(({ statType, label }) => {
-        formattedData.push({
-          x: label,
-          y: data[statType],
-          //z: parseInt(teamDataObject[statType]),
-        });
+        const formattedStat = formatStatType(data.data, statType);
+        if (typeof formattedStat === "number") {
+          formattedData.push({
+            x: label,
+            y: formattedStat,
+            //z: parseInt(teamDataObject[statType]),
+          });
+        }
       });
       fetchTeamData(formattedData, teamInputOrder, teamName);
     }

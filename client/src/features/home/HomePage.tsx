@@ -120,7 +120,7 @@ const HomePage = () => {
           {/* Feature #1 */}
           {featureItems.map(({ title, src, description }) => {
             return (
-              <div style={featureSectionDivProps}>
+              <div style={featureSectionDivProps} key={`${title} div`}>
                 <FeatureVideo
                   videoSrc={src}
                   windowWidth={windowSize.innerWidth}
