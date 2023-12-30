@@ -1,5 +1,5 @@
 import { ToadScheduler, SimpleIntervalJob, AsyncTask } from "toad-scheduler";
-import { seedPlayersCollection, seedTeamsCollection } from "./seeds/index";
+import { deletePlayersCollection, seedPlayersCollection, seedTeamsCollection } from "./seeds/index";
 
 const scheduler = new ToadScheduler();
 
@@ -22,8 +22,18 @@ const seedPlayersTask = new AsyncTask("Seed Players", async () => {
   }
 });
 
+const deletePlayersTask = new AsyncTask("Delete players collection", async () => {
+  try {
+    console.log("running deletePlayersJob...");
+    return await deletePlayersCollection();
+  } catch (err) {
+    return console.log("Error in deletePlayersJob: ", err);
+  }
+});
+
+// Jobs
 const seedPlayersJob = new SimpleIntervalJob(
-  { hours: 1, runImmediately: false },
+  { minutes: 1, runImmediately: false },
   seedPlayersTask,
   { id: "id_1" }
 );
@@ -34,5 +44,12 @@ const seedTeamsJob = new SimpleIntervalJob(
   { id: "id_2" }
 );
 
+const deletePlayersJob = new SimpleIntervalJob(
+  { minutes: 1, runImmediately: false },
+  deletePlayersTask,
+  { id: "id_3" }
+);
+
 scheduler.addSimpleIntervalJob(seedPlayersJob);
+// scheduler.addSimpleIntervalJob(deletePlayersJob);
 scheduler.addSimpleIntervalJob(seedTeamsJob);

@@ -1,23 +1,33 @@
-const formatYearMonthDay = (date: Date) => date.toISOString().slice(0, 10);
+import { PlayerBioFormattedType } from "../types";
 
-const formGetTeamRosterUrlString = (teamId: number) => {
-  return `https://statsapi.web.nhl.com/api/v1/teams/${teamId}/roster`;
+export const formatYearMonthDay = (date: Date) => date.toISOString().slice(0, 10);
+
+export const formGetTeamRosterUrlString = (teamAbbreviation: string, season: string) => {
+  // ex: https://api-web.nhle.com/v1/roster/TOR/20232024
+  return `https://api-web.nhle.com/v1/roster/${teamAbbreviation}/${season}`;
 };
 
-const formGetFullPlayerInfoUrlString = (playerId: string) =>
-  `https://statsapi.web.nhl.com/api/v1/people/${playerId}`;
+export const formGetFullPlayerInfoUrlString = (playerId: string) =>
+  // https://api-web.nhle.com/v1/player/8479318/landing
+  `https://api-web.nhle.com/v1/player/${playerId}/landing`;
 
-const formGetPlayerStatsUrlString = (
+export const formGetPlayerStatsUrlString = (
   playerId: string,
   currentSeason: string
 ) => {
+  // https://api-web.nhle.com/v1/player/8479318/landing
   return `https://statsapi.web.nhl.com/api/v1/people/${playerId}/stats?stats=statsSingleSeason&season=${currentSeason}`;
 };
 
-const formGetPlayerHeadshotUrlString = (playerId: string) =>
+export const formGetPlayerHeadshotUrlString = (playerId: string) =>
   `https://cms.nhl.bamgrid.com/images/headshots/current/168x168/${playerId}.jpg`;
 
-const formatDecimalNumbers = (
+export const formatPlayerInfo = (playerInfo: PlayerBioFormattedType) => {
+  const { headshot, featuredStats, careerTotals, seasonTotals, last5Games, ...rest } = playerInfo;
+  return rest;
+}
+
+export const formatDecimalNumbers = (
   data: Record<string, any>
 ): Record<string, any> => {
 
@@ -60,11 +70,16 @@ const formatDecimalNumbers = (
   return formattedData;
 };
 
-export {
-  formatYearMonthDay,
-  formGetTeamRosterUrlString,
-  formGetFullPlayerInfoUrlString,
-  formGetPlayerStatsUrlString,
-  formGetPlayerHeadshotUrlString,
-  formatDecimalNumbers,
+export const getCurrentSeason = (formatForApiCall: boolean) => {
+  // if formatForApiCall is true, current season is returned as 20232024
+  // otherwise 2023/2024
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  if (day === 30 && month === 9) {
+    return formatForApiCall ? `${year - 1}${year}` : `${year - 1}/${year}`;
+  } else {
+    return formatForApiCall ? `${year}${year + 1}` : `${year}/${year + 1}`;
+  }
 };
