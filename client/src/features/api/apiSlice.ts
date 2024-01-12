@@ -45,9 +45,6 @@ export const apiSlice = createApi({
     getTop10PenaltyMinutes: builder.query<PlayerDataType[], void>({
       query: () => TOP_10_PENALTY_MINUTES_PATH,
     }),
-    getTop10Hits: builder.query<PlayerDataType[], void>({
-      query: () => TOP_10_HITS_PATH,
-    }),
     getTop10TotalTimeOnIce: builder.query<PlayerDataType[], void>({
       query: () => TOP_10_TOTAL_TIME_ON_ICE_PATH,
     }),
@@ -108,7 +105,6 @@ export const {
   useGetTop10AssistsQuery,
   useGetTop10PlusMinusQuery,
   useGetTop10PenaltyMinutesQuery,
-  useGetTop10HitsQuery,
   useGetTop10TotalTimeOnIceQuery,
   useGetTop10TimeOnIcePerGameQuery,
   useGetTop10TimeOnIceShortHandedQuery,

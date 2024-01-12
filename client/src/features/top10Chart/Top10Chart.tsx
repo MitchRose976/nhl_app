@@ -32,7 +32,6 @@ const Top10Chart = () => {
     getTop10PlusMinus: apiSlice.endpoints.getTop10PlusMinus.useQuery(),
     getTop10PenaltyMinutes:
       apiSlice.endpoints.getTop10PenaltyMinutes.useQuery(),
-    getTop10Hits: apiSlice.endpoints.getTop10Hits.useQuery(),
     getTop10TotalTimeOnIce:
       apiSlice.endpoints.getTop10TotalTimeOnIce.useQuery(),
     getTop10TimeOnIcePerGame:
@@ -64,6 +63,7 @@ const Top10Chart = () => {
   );
   const windowSize = useRef([window.innerWidth, window.innerHeight]);
   const [activeCard, setActiveCard] = useState(0);
+  // may not need statTypes
   const [statType, setStatType] = useState<string>(statTypes.points);
   const [showComponent, setShowComponent] = useState(false);
 
