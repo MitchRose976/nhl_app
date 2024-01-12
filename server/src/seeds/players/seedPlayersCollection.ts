@@ -1,20 +1,11 @@
 import axios from "axios";
 import { Document } from "mongodb";
 import * as dotenv from "dotenv";
-import {
-  PlayerBioFormattedType,
-  PlayerBioFromApiType,
-  PlayerStatsFromApiType,
-  PlayerStatsFormattedType,
-  RosterType,
-  PlayerRawType,
-} from "../../types";
+import { PlayerBioFormattedType, RosterType, PlayerRawType } from "../../types";
 import { TEAM_IDS } from "../../constants";
 import {
   formGetTeamRosterUrlString,
   formGetFullPlayerInfoUrlString,
-  formGetPlayerStatsUrlString,
-  formGetPlayerHeadshotUrlString,
   getCurrentSeason,
   formatPlayerInfo,
 } from "../../utils";
@@ -23,7 +14,7 @@ import { collections, connectToDatabase, closeConnection } from "../../connect";
 dotenv.config();
 
 // current season ex. 20232024
-const currentSeason = getCurrentSeason(true);
+const currentSeason = getCurrentSeason(true)
 
 // array of team abbreviations
 const teamAbbreviations: string[] = TEAM_IDS.map((team) => team.abbreviation);
@@ -31,10 +22,9 @@ const teamAbbreviations: string[] = TEAM_IDS.map((team) => team.abbreviation);
 const postPlayersToMongoDB = async (playerData: Document) => {
   try {
     if (collections.players) {
-      if (playerData.playerInfo.playerID === 8479318) {
-        console.log("mitch playerData: ", playerData);
-      }
-      const filterQuery = { "playerInfo.playerId": playerData.playerInfo.playerId };
+      const filterQuery = {
+        "playerInfo.playerId": playerData.playerInfo.playerId,
+      };
       const updateDoc = {
         $set: {
           playerInfo: playerData.playerInfo,
@@ -66,16 +56,16 @@ const postPlayersToMongoDB = async (playerData: Document) => {
 };
 
 const seedPlayersCollection = async () => {
-  // Connect to MongoDb
+  // Connect to MongoDB
   await connectToDatabase();
 
   try {
-    // get team roster using team abbreviations ex. TOR, TBL, BOS
-    teamAbbreviations.forEach(async (teamAbbreviation) => {
-      // fetch all playerID's
+    // Get team roster using team abbreviations ex. TOR, TBL, BOS
+    for (const teamAbbreviation of teamAbbreviations) {
+      // Fetch all player IDs
       const teamRoster = await axios
         .get<RosterType>(
-          formGetTeamRosterUrlString(teamAbbreviation, currentSeason)
+          formGetTeamRosterUrlString(teamAbbreviation, await currentSeason)
         )
         .then(({ data }) => {
           const forwardsIds = data.forwards.map(
@@ -90,9 +80,9 @@ const seedPlayersCollection = async () => {
           return [...forwardsIds, ...defensemenIds, ...goaliesIds];
         });
 
-      // loop through team roster
-      // for each player, get: playerHeadshot, playerInfo, playerStats
-      teamRoster.forEach(async (playerID) => {
+      // Loop through team roster
+      // For each player, get: playerHeadshot, playerInfo, playerStats
+      for (const playerID of teamRoster) {
         let playerHeadshot;
         let playerStats;
         let playerInfo;
@@ -107,22 +97,19 @@ const seedPlayersCollection = async () => {
               last5Games: results.data.last5Games,
             };
             playerInfo = formatPlayerInfo(results.data);
-            return results.data;
+
+            // Form player model
+            const completePlayer = {
+              playerInfo: playerInfo,
+              playerStats: playerStats,
+              playerHeadshot: playerHeadshot,
+            };
+
+            // Post player to MongoDB players collection
+            postPlayersToMongoDB(completePlayer);
           });
-
-        // form player model
-        const completePlayer = {
-          playerInfo: playerInfo,
-          playerStats: playerStats,
-          playerHeadshot: playerHeadshot,
-        };
-
-        console.log('mitch player: ', completePlayer)
-
-        // post player to mongoDB players collection
-        await postPlayersToMongoDB(completePlayer);
-      });
-    });
+      }
+    }
   } catch (err) {
     console.log("Error in seedPlayersCollection.ts: ", err);
   } finally {

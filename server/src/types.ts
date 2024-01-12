@@ -294,35 +294,20 @@ export interface SeasonStatsType {
 
 export interface PlayerStatsFormattedType {
   [key: string]: object | string | number;
-  type: {
-    displayName: string;
-    gameType: {
-      id: string;
-      description: string;
-      postseason: boolean;
+  featuredStats: {
+    season: number;
+    regularSeason: {
+      subSeason: BasicPlayerStatsType;
+      career: BasicPlayerStatsType;
     };
   };
-  splits: [
-    {
-      season: string;
-      stat: SeasonStatsType;
-    }
-  ];
+  careerTotals: {
+    regularSeason: BasicPlayerStatsType;
+    playoffs: BasicPlayerStatsType;
+  };
+  seasonTotals: SeasonStatsTotalType[];
+  last5Games: GameInfoType[];
 }
-
-// this is the returned from call to:
-// https://statsapi.web.nhl.com/api/v1/people/${playerID}
-export type PlayerBioFromApiType = {
-  copyright: string;
-  people: [PlayerBioFormattedType];
-};
-
-// this is the returned from call to:
-// https://statsapi.web.nhl.com/api/v1/people/${playerID}/stats?stats=statsSingleSeason&season=20222023
-export type PlayerStatsFromApiType = {
-  copyright: string;
-  stats: [PlayerStatsFormattedType];
-};
 
 // this is the type stored in the players collection in mongoDB
 export type PlayerDataType = {

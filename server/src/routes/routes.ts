@@ -4,7 +4,6 @@ import { ObjectId } from "mongodb";
 import { TeamModel, PlayerModel, PlayerClass } from "../models";
 import { collections } from "../connect";
 import axios from "axios";
-import { formatDecimalNumbers } from "../utils";
 import { NHL_API_BASE } from "../constants";
 import formatStandingsData from "../service/standingsService";
 
