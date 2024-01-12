@@ -1,5 +1,6 @@
 import * as mongoDB from "mongodb";
 import * as dotenv from "dotenv";
+dotenv.config();
 
 // Global Variables
 export const collections: {
@@ -9,8 +10,6 @@ export const collections: {
 
 // Initialize Connection
 export const connectToDatabase = async () => {
-  dotenv.config();
-
   const client: mongoDB.MongoClient = new mongoDB.MongoClient(
     `${process.env.MONGO_URI}`
   );

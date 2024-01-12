@@ -57,81 +57,208 @@ export type TeamDataType = {
   active: boolean;
 };
 
-/* 
-  this type is returned inside an array from:
-  https://statsapi.web.nhl.com/api/v1/teams/${teamId}/roster
-  example: [
-      {
-      person: {
-        id: 8474697,
-        fullName: 'Mark Borowiecki',
-        link: '/api/v1/people/8474697'
-      },
-      jerseyNumber: '90',
-      position: {
-        code: 'D',
-        name: 'Defenseman',
-        type: 'Defenseman',
-        abbreviation: 'D'
-      }
-    },
-    ... etc.
-  ]
-*/
-export type BasicPlayerInfoType = {
-  person: {
-    id: number;
-    fullName: string;
-    link: string;
+export type PlayerRawType = {
+  id: number;
+  headshot: string;
+  firstName: {
+    default: string;
+    cs?: string;
+    fi?: string;
+    sk?: string;
+    sv?: string;
   };
-  jerseyNumber: string;
-  position: {
-    code: string;
-    name: string;
-    type: string;
-    abbreviation: string;
+  lastName: {
+    default: string;
+    cs?: string;
+    fi?: string;
+    sk?: string;
   };
+  sweaterNumber: number;
+  positionCode: string;
+  shootsCatches: string;
+  heightInInches: number;
+  weightInPounds: number;
+  heightInCentimeters: number;
+  weightInKilograms: number;
+  birthDate: string;
+  birthCity: {
+    default: string;
+    cs?: string;
+    fi?: string;
+    sk?: string;
+    sv?: string;
+  };
+  birthCountry: string;
+  birthStateProvince?: {
+    default: string;
+    fr?: string;
+    sk?: string;
+  };
+};
+
+export type TeamRosterType = {
+  [x: string]: any;
+  forwards: PlayerRawType[];
+  defensemen: PlayerRawType[];
+  goalies: PlayerRawType[];
 };
 
 export type RosterType = {
-  copyright: string;
-  roster: BasicPlayerInfoType[];
-  link: string;
+  [key: string]: TeamRosterType;
 };
 
-export interface PlayerBioFormattedType {
-  [key: string]: string | boolean | number | object;
-  id: number;
-  fullName: string;
-  link: string;
-  firstName: string;
-  lastName: string;
-  primaryNumber: string;
+export type BasicPlayerStatsType = {
+  gamesPlayed: number;
+  goals: number;
+  assists: number;
+  points: number;
+  plusMinus: number;
+  pim: number;
+  gameWinningGoals: number;
+  otGoals: number;
+  shots: number;
+  shootingPctg: number;
+  powerPlayGoals: number;
+  powerPlayPoints: number;
+  shorthandedGoals: number;
+  shorthandedPoints: number;
+  faceoffWinningPctg?: number;
+  avgToi?: string;
+};
+
+export type NameType = {
+  default: string;
+  fr?: string;
+  cs?: string;
+  fi?: string;
+  sk?: string;
+};
+
+export type SeasonStatsTotalType = {
+  season: number;
+  gameTypeId: number;
+  leagueAbbrev: string;
+  teamName: NameType;
+  sequence: number;
+  gamesPlayed: number;
+  goals?: number;
+  assists?: number;
+  points: number;
+  plusMinus?: number;
+  powerPlayGoals?: number;
+  gameWinningGoals?: number;
+  shots?: number;
+  shootingPctg?: number;
+  shorthandedGoals?: number;
+  pim: number;
+};
+
+export type GameInfoType = {
+  gameId: number;
+  gameTypeId: number;
+  teamAbbrev: string;
+  homeRoadFlag: string;
+  gameDate: string;
+  goals: number;
+  assists: number;
+  points: number;
+  plusMinus: number;
+  powerPlayGoals: number;
+  shots: number;
+  shifts: number;
+  shorthandedGoals: number;
+  pim: number;
+  opponentAbbrev: string;
+  toi: string;
+};
+
+type SeasonAwardsType = {
+  seasonId: number;
+  gamesPlayed: number;
+  gameTypeId: number;
+  goals: number;
+  assists: number;
+  points: number;
+  plusMinus: number;
+  hits: number;
+  blockedShots: number;
+  pim: number;
+  // Add other properties as needed
+};
+
+export type AwardType = {
+  trophy: NameType;
+  seasons: SeasonAwardsType[];
+};
+
+export type CurrentTeamRosterPlayerInfoType = {
+  playerId: number;
+  lastName: NameType;
+  firstName: NameType;
+  playerSlug: string;
+}
+
+export type PlayerBioFormattedType = {
+  playerId: number;
+  isActive: boolean;
+  currentTeamId: number;
+  currentTeamAbbrev: string;
+  fullTeamName: NameType;
+  firstName: {
+    default: string;
+  };
+  lastName: {
+    default: string;
+  };
+  teamLogo: string;
+  sweaterNumber: number;
+  position: string;
+  headshot: string;
+  heroImage: string;
+  heightInInches: number;
+  heightInCentimeters: number;
+  weightInPounds: number;
+  weightInKilograms: number;
   birthDate: string;
-  currentAge: number;
-  birthCity: string;
-  birthStateProvince: string;
+  birthCity: {
+    default: string;
+  };
+  birthStateProvince: {
+    default: string;
+    fr: string;
+    sk: string;
+    sv: string;
+  };
   birthCountry: string;
-  nationality: string;
-  height: string;
-  weight: number;
-  active: boolean;
-  alternateCaptain: boolean;
-  captain: boolean;
-  rookie: boolean;
   shootsCatches: string;
-  rosterStatus: string;
-  currentTeam: {
-    id: number;
-    name: string;
-    link: string;
+  draftDetails: {
+    year: number;
+    teamAbbrev: string;
+    round: number;
+    pickInRound: number;
+    overallPick: number;
   };
-  primaryPosition: {
-    code: string;
-    name: string;
-    type: string;
-    abbreviation: string;
+  playerSlug: string;
+  inTop100AllTime: number;
+  inHHOF: number;
+  featuredStats: {
+    season: number;
+    regularSeason: {
+      subSeason: BasicPlayerStatsType;
+      career: BasicPlayerStatsType;
+    };
   };
+  careerTotals: {
+    regularSeason: BasicPlayerStatsType;
+    playoffs: BasicPlayerStatsType;
+  };
+  shopLink: string;
+  twitterLink: string;
+  watchLink: string;
+  last5Games: GameInfoType[];
+  seasonTotals: SeasonStatsTotalType[];
+  awards: AwardType[];
+  currentTeamRoster: CurrentTeamRosterPlayerInfoType[];
 }
 
 export interface SeasonStatsType {
@@ -167,35 +294,20 @@ export interface SeasonStatsType {
 
 export interface PlayerStatsFormattedType {
   [key: string]: object | string | number;
-  type: {
-    displayName: string;
-    gameType: {
-      id: string;
-      description: string;
-      postseason: boolean;
+  featuredStats: {
+    season: number;
+    regularSeason: {
+      subSeason: BasicPlayerStatsType;
+      career: BasicPlayerStatsType;
     };
   };
-  splits: [
-    {
-      season: string;
-      stat: SeasonStatsType;
-    }
-  ];
+  careerTotals: {
+    regularSeason: BasicPlayerStatsType;
+    playoffs: BasicPlayerStatsType;
+  };
+  seasonTotals: SeasonStatsTotalType[];
+  last5Games: GameInfoType[];
 }
-
-// this is the returned from call to:
-// https://statsapi.web.nhl.com/api/v1/people/${playerID}
-export type PlayerBioFromApiType = {
-  copyright: string;
-  people: [PlayerBioFormattedType];
-};
-
-// this is the returned from call to:
-// https://statsapi.web.nhl.com/api/v1/people/${playerID}/stats?stats=statsSingleSeason&season=20222023
-export type PlayerStatsFromApiType = {
-  copyright: string;
-  stats: [PlayerStatsFormattedType];
-};
 
 // this is the type stored in the players collection in mongoDB
 export type PlayerDataType = {
@@ -293,39 +405,32 @@ export type TeamStandingsDataObject = {
   winPctg: number;
   wins: number;
 
-  [key: string]: number | string | {
-    default: string;
-    fr?: string;
-  } | number[];
+  [key: string]:
+    | number
+    | string
+    | {
+        default: string;
+        fr?: string;
+      }
+    | number[];
 };
 
 export type TeamStandingsObject = {
   wildCardIndicator: boolean;
-  standings: TeamStandingsDataObject[]
+  standings: TeamStandingsDataObject[];
 };
 
 export type StandingsFormattedType = {
-  "Eastern": {
-    "Atlantic": TeamStandingsDataObject[],
-    "Metropolitan": TeamStandingsDataObject[],
-  },
-  "Western": {
-    "Pacific": TeamStandingsDataObject[],
-    "Central": TeamStandingsDataObject[],
-  }
+  Eastern: {
+    Atlantic: TeamStandingsDataObject[];
+    Metropolitan: TeamStandingsDataObject[];
+  };
+  Western: {
+    Pacific: TeamStandingsDataObject[];
+    Central: TeamStandingsDataObject[];
+  };
 
   [conference: string]: {
     [division: string]: TeamStandingsDataObject[];
   };
-}
-
-
-
-
-
-
-
-
-
-
-
+};
