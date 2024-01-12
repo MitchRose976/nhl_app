@@ -44,6 +44,12 @@ const Top10Chart = () => {
       apiSlice.endpoints.getTop10ShortHandedPoints.useQuery(),
     getTop10FaceOffPercentage:
       apiSlice.endpoints.getTop10FaceOffPercentage.useQuery(),
+    getTop10ShootingPercentage:
+      apiSlice.endpoints.getTop10ShootingPercentage.useQuery(),
+    getTop10ShotsOnNet: apiSlice.endpoints.getTop10ShotsOnNet.useQuery(),
+    getTop10GameWinningGoals:
+      apiSlice.endpoints.getTop10GameWinningGoals.useQuery(),
+    getTop10OtGoals: apiSlice.endpoints.getTop10OtGoals.useQuery(),
     getTop10SavePercentage:
       apiSlice.endpoints.getTop10SavePercentage.useQuery(),
     getTop10Wins: apiSlice.endpoints.getTop10Wins.useQuery(),

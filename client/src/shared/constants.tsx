@@ -85,6 +85,10 @@ export const TOP_10_SHORT_HANDED_POINTS_PATH =
   "/players/top10ShortHandedPoints";
 export const TOP_10_FACE_OFF_PERCENTAGE_PATH =
   "/players/top10FaceOffPercentage";
+export const TOP_10_SHOOTING_PERCENTAGE_PATH = "/players/top10ShootingPercentage"
+export const TOP_10_SHOTS_ON_NET_PATH = "players/top10ShotsOnNet"
+export const TOP_10_GAME_WINNING_GOALS_PATH = "players/top10GameWinningGoals"
+export const TOP_10_OT_GOALS_PATH = "players/top10OtGoals"
 export const TOP_10_SAVE_PERCENTAGE_PATH = "/players/top10SavePercentage";
 export const TOP_10_WINS_PATH = "/players/top10Wins";
 export const TOP_10_GOALS_AGAINST_AVERAGE_PATH =
@@ -199,6 +203,34 @@ export const statTypeMapping: {
     label: "FO %",
     stat: "playerStats.splits[0].stat.faceOffPct",
     queryName: "getTop10FaceOffPercentage",
+    tableType: "skater",
+  },
+  shootingPct: {
+    type: "shootingPct",
+    label: "Shoot%",
+    stat: "{tbd}",
+    queryName: "getTop10ShootingPercentage",
+    tableType: "skater",
+  },
+  shotsOnNet: {
+    type: "shotsOnNet",
+    label: "Shots on Net",
+    stat: "{tbd}",
+    queryName: "getTop10ShotsOnNet",
+    tableType: "skater",
+  },
+  gameWinningGoals: {
+    type: "gameWinningGoals",
+    label: "GWG",
+    stat: "{tbd}",
+    queryName: 'getTop10GameWinningGoals',
+    tableType: "skater",
+  },
+  otGoals: {
+    type: "otGoals",
+    label: "OT Goals",
+    stat: "{tbd}",
+    queryName: "getTop10OtGoals",
     tableType: "skater",
   },
   savePercentage: {

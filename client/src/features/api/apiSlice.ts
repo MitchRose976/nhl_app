@@ -12,6 +12,10 @@ import {
   TOP_10_POWERPLAY_POINTS_PATH,
   TOP_10_SHORT_HANDED_POINTS_PATH,
   TOP_10_FACE_OFF_PERCENTAGE_PATH,
+  TOP_10_SHOOTING_PERCENTAGE_PATH,
+  TOP_10_SHOTS_ON_NET_PATH,
+  TOP_10_GAME_WINNING_GOALS_PATH,
+  TOP_10_OT_GOALS_PATH,
   TOP_10_SAVE_PERCENTAGE_PATH,
   TOP_10_WINS_PATH,
   TOP_10_GOALS_AGAINST_AVERAGE_PATH,
@@ -59,6 +63,18 @@ export const apiSlice = createApi({
     getTop10FaceOffPercentage: builder.query<PlayerDataType[], void>({
       query: () => TOP_10_FACE_OFF_PERCENTAGE_PATH,
     }),
+    getTop10ShootingPercentage: builder.query<PlayerDataType[], void>({
+      query: () => TOP_10_SHOOTING_PERCENTAGE_PATH,
+    }),
+    getTop10ShotsOnNet: builder.query<PlayerDataType[], void>({
+      query: () => TOP_10_SHOTS_ON_NET_PATH,
+    }),
+    getTop10GameWinningGoals: builder.query<PlayerDataType[], void>({
+      query: () => TOP_10_GAME_WINNING_GOALS_PATH,
+    }),
+    getTop10OtGoals: builder.query<PlayerDataType[], void>({
+      query: () => TOP_10_OT_GOALS_PATH,
+    }),
     getTop10SavePercentage: builder.query<PlayerDataType[], void>({
       query: () => TOP_10_SAVE_PERCENTAGE_PATH,
     }),
@@ -93,12 +109,15 @@ export const {
   useGetTop10PlusMinusQuery,
   useGetTop10PenaltyMinutesQuery,
   useGetTop10TimeOnIcePerGameQuery,
-  useGetTop10TimeOnIcePowerplayQuery,
   useGetTop10PowerplayGoalsQuery,
   useGetTop10ShortHandedGoalsQuery,
   useGetTop10PowerplayPointsQuery,
   useGetTop10ShortHandedPointsQuery,
   useGetTop10FaceOffPercentageQuery,
+  useGetTop10ShootingPercentageQuery,
+  useGetTop10ShotsOnNetQuery,
+  useGetTop10GameWinningGoalsQuery,
+  useGetTop10OtGoalsQuery,
   useGetTop10SavePercentageQuery,
   useGetTop10WinsQuery,
   useGetTop10GoalsAgainstAverageQuery,

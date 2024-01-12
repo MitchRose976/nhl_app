@@ -271,7 +271,93 @@ router.get(
   }
 );
 
+// GET Top 10 Shooting Percentage
+// TODO: find way to filter out call ups who only played a game or two
+router.get(
+  "/players/top10ShootingPercentage",
+  async (req: Request, res: Response) => {
+    try {
+      if (collections.players) {
+        const top10ShootingPercentage = (await collections.players
+          .find({})
+          .sort({
+            [`${playerStatsBasePath}.shootingPctg`]: -1,
+          })
+          .limit(10)
+          .toArray()) as PlayerClass[];
+        return res.status(200).send(top10ShootingPercentage);
+      }
+    } catch (error) {
+      console.log("Error @ /players/top10ShootingPercentage: ", error);
+    }
+  }
+);
+
+// GET Top 10 Shots On Net
+router.get(
+  "/players/top10ShotsOnNet",
+  async (req: Request, res: Response) => {
+    try {
+      if (collections.players) {
+        const top10ShotsOnNet = (await collections.players
+          .find({})
+          .sort({
+            [`${playerStatsBasePath}.shots`]: -1,
+          })
+          .limit(10)
+          .toArray()) as PlayerClass[];
+        return res.status(200).send(top10ShotsOnNet);
+      }
+    } catch (error) {
+      console.log("Error @ /players/top10ShotsOnNet: ", error);
+    }
+  }
+);
+
+// GET Top 10 Game Winning Goals
+router.get(
+  "/players/top10GameWinningGoals",
+  async (req: Request, res: Response) => {
+    try {
+      if (collections.players) {
+        const top10GameWinningGoals = (await collections.players
+          .find({})
+          .sort({
+            [`${playerStatsBasePath}.gameWinningGoals`]: -1,
+          })
+          .limit(10)
+          .toArray()) as PlayerClass[];
+        return res.status(200).send(top10GameWinningGoals);
+      }
+    } catch (error) {
+      console.log("Error @ /players/top10GameWinningGoals: ", error);
+    }
+  }
+);
+
+// GET Top 10 OT Goals
+router.get(
+  "/players/top10OtGoals",
+  async (req: Request, res: Response) => {
+    try {
+      if (collections.players) {
+        const top10OtGoals = (await collections.players
+          .find({})
+          .sort({
+            [`${playerStatsBasePath}.gameWinningGoals`]: -1,
+          })
+          .limit(10)
+          .toArray()) as PlayerClass[];
+        return res.status(200).send(top10OtGoals);
+      }
+    } catch (error) {
+      console.log("Error @ /players/top10OtGoals: ", error);
+    }
+  }
+);
+
 // GET Top 10 Save Percentage (10+ games)
+// TODO: find way to filter out call ups who only played a game or two
 router.get(
   "/players/top10SavePercentage",
   async (req: Request, res: Response) => {
@@ -294,6 +380,7 @@ router.get(
 );
 
 // GET Top 10 Wins (10+ games)
+// TODO: find way to filter out call ups who only played a game or two
 router.get("/players/top10Wins", async (req: Request, res: Response) => {
   try {
     if (collections.players) {
@@ -313,6 +400,7 @@ router.get("/players/top10Wins", async (req: Request, res: Response) => {
 });
 
 // GET Top 10 Goals Against Average (10+ games)
+// TODO: find way to filter out call ups who only played a game or two
 router.get(
   "/players/top10GoalsAgainstAverage",
   async (req: Request, res: Response) => {
