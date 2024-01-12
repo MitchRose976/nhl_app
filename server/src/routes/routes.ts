@@ -18,13 +18,15 @@ router.get("/", async (req: Request, res: Response) => {
   TeamModel.find().then((teams) => res.json(teams));
 });
 
+const playerStatsBasePath = "playerStats.featuredStats.regularSeason.subSeason";
+
 // GET Top 10 Points
 router.get("/players/top10Points", async (req: Request, res: Response) => {
   try {
     if (collections.players) {
       const top10PointsPlayers = (await collections.players
         .find({})
-        .sort({ "playerStats.splits.stat.points": -1 })
+        .sort({ [`${playerStatsBasePath}.points`]: -1 })
         .limit(10)
         .toArray()) as PlayerClass[];
       return res.status(200).send(top10PointsPlayers);
@@ -40,7 +42,7 @@ router.get("/players/top10Goals", async (req: Request, res: Response) => {
     if (collections.players) {
       const top10GoalsPlayers = (await collections.players
         .find({})
-        .sort({ "playerStats.splits.stat.goals": -1 })
+        .sort({ [`${playerStatsBasePath}.goals`]: -1 })
         .limit(10)
         .toArray()) as PlayerClass[];
       return res.status(200).send(top10GoalsPlayers);
@@ -56,7 +58,7 @@ router.get("/players/top10Assists", async (req: Request, res: Response) => {
     if (collections.players) {
       const top10AssistsPlayers = (await collections.players
         .find({})
-        .sort({ "playerStats.splits.stat.assists": -1 })
+        .sort({ [`${playerStatsBasePath}.assists`]: -1 })
         .limit(10)
         .toArray()) as PlayerClass[];
       return res.status(200).send(top10AssistsPlayers);
@@ -72,7 +74,7 @@ router.get("/players/top10PlusMinus", async (req: Request, res: Response) => {
     if (collections.players) {
       const top10PlusMinusPlayers = (await collections.players
         .find({})
-        .sort({ "playerStats.splits.stat.plusMinus": -1 })
+        .sort({ [`${playerStatsBasePath}.plusMinus`]: -1 })
         .limit(10)
         .toArray()) as PlayerClass[];
       return res.status(200).send(top10PlusMinusPlayers);
@@ -90,36 +92,13 @@ router.get(
       if (collections.players) {
         const top10PenaltyMinutesPlayers = (await collections.players
           .find({})
-          .sort({ "playerStats.splits.stat.pim": -1 })
+          .sort({ [`${playerStatsBasePath}.pim`]: -1 })
           .limit(10)
           .toArray()) as PlayerClass[];
         return res.status(200).send(top10PenaltyMinutesPlayers);
       }
     } catch (error) {
       console.log("Error @ /players/top10PenaltyMinutes: ", error);
-    }
-  }
-);
-
-// GET Top 10 Total Time on Ice
-router.get(
-  "/players/top10TotalTimeOnIce",
-  async (req: Request, res: Response) => {
-    try {
-      if (collections.players) {
-        const top10TotalTimeOnIcePlayers = (await collections.players
-          .find({})
-          .sort({
-            "playerInfo.primaryPosition.type": 1,
-            "playerStats.splits.stat.timeOnIce": -1,
-          })
-          .collation({ locale: "en_US", numericOrdering: true })
-          .limit(10)
-          .toArray()) as PlayerClass[];
-        return res.status(200).send(top10TotalTimeOnIcePlayers);
-      }
-    } catch (error) {
-      console.log("Error @ /players/top10TotalTimeOnIce: ", error);
     }
   }
 );
@@ -131,64 +110,37 @@ router.get(
     try {
       if (collections.players) {
         const top10TimeOnIcePerGamePlayers = (await collections.players
-          .find({})
-          .sort({
-            "playerInfo.primaryPosition.type": 1,
-            "playerStats.splits.stat.timeOnIcePerGame": -1,
-          })
-          .collation({ locale: "en_US", numericOrdering: true })
-          .limit(10)
+          .aggregate([
+            {
+              $match: {
+                "playerInfo.position": { $ne: "G" }, // Filter out goalies
+              },
+            },
+            {
+              // retrieve latest season from each players seasonTotals array
+              $addFields: {
+                lastSeasonTotal: {
+                  $arrayElemAt: [
+                    "$playerStats.seasonTotals",
+                    { $subtract: [{ $size: "$playerStats.seasonTotals" }, 1] },
+                  ],
+                },
+              },
+            },
+            {
+              $sort: {
+                "lastSeasonTotal.avgToi": -1,
+              },
+            },
+            {
+              $limit: 10,
+            },
+          ])
           .toArray()) as PlayerClass[];
         return res.status(200).send(top10TimeOnIcePerGamePlayers);
       }
     } catch (error) {
       console.log("Error @ /players/top10TimeOnIcePerGame: ", error);
-    }
-  }
-);
-
-// GET Top 10 Time on Ice - Short Handed
-router.get(
-  "/players/top10TimeOnIceShortHanded",
-  async (req: Request, res: Response) => {
-    try {
-      if (collections.players) {
-        const top10TimeOnIceShortHandedPlayers = (await collections.players
-          .find({})
-          .sort({
-            "playerInfo.primaryPosition.type": 1,
-            "playerStats.splits.stat.shortHandedTimeOnIce": -1,
-          })
-          .collation({ locale: "en_US", numericOrdering: true })
-          .limit(10)
-          .toArray()) as PlayerClass[];
-        return res.status(200).send(top10TimeOnIceShortHandedPlayers);
-      }
-    } catch (error) {
-      console.log("Error @ /players/top10TimeOnIceShortHanded: ", error);
-    }
-  }
-);
-
-// GET Top 10 Time on Ice - Powerplay
-router.get(
-  "/players/top10TimeOnIcePowerplay",
-  async (req: Request, res: Response) => {
-    try {
-      if (collections.players) {
-        const top10TimeOnIcePowerplayPlayers = (await collections.players
-          .find({})
-          .sort({
-            "playerInfo.primaryPosition.type": 1,
-            "playerStats.splits.stat.powerPlayTimeOnIce": -1,
-          })
-          .collation({ locale: "en_US", numericOrdering: true })
-          .limit(10)
-          .toArray()) as PlayerClass[];
-        return res.status(200).send(top10TimeOnIcePowerplayPlayers);
-      }
-    } catch (error) {
-      console.log("Error @ /players/top10TimeOnIcePowerplay: ", error);
     }
   }
 );
@@ -202,7 +154,7 @@ router.get(
         const top10PowerplayGoalsPlayers = (await collections.players
           .find({})
           .sort({
-            "playerStats.splits.stat.powerPlayGoals": -1,
+            [`${playerStatsBasePath}.powerPlayGoals`]: -1,
           })
           .limit(10)
           .toArray()) as PlayerClass[];
@@ -223,7 +175,7 @@ router.get(
         const top10ShortHandedGoalsPlayers = (await collections.players
           .find({})
           .sort({
-            "playerStats.splits.stat.shortHandedGoals": -1,
+            [`${playerStatsBasePath}.shorthandedGoals`]: -1,
           })
           .limit(10)
           .toArray()) as PlayerClass[];
@@ -244,7 +196,7 @@ router.get(
         const top10PowerplayPointsPlayers = (await collections.players
           .find({})
           .sort({
-            "playerStats.splits.stat.powerPlayPoints": -1,
+            [`${playerStatsBasePath}.powerPlayPoints`]: -1,
           })
           .limit(10)
           .toArray()) as PlayerClass[];
@@ -265,7 +217,7 @@ router.get(
         const top10ShortHandedPointsPlayers = (await collections.players
           .find({})
           .sort({
-            "playerStats.splits.stat.shortHandedPoints": -1,
+            [`${playerStatsBasePath}.shorthandedPoints`]: -1,
           })
           .limit(10)
           .toArray()) as PlayerClass[];
@@ -284,13 +236,32 @@ router.get(
     try {
       if (collections.players) {
         const top10FaceOffPercentagePlayers = (await collections.players
-          .find({ "playerStats.splits.stat.games": { $gte: 10 } })
-          .sort({
-            "playerInfo.primaryPosition.code": 1,
-            "playerStats.splits.stat.faceOffPct": -1,
-          })
-          .collation({ locale: "en_US", numericOrdering: true })
-          .limit(10)
+          .aggregate([
+            {
+              $match: {
+                "playerInfo.position": { $ne: "G" }, // Filter out goalies
+              },
+            },
+            {
+              // retrieve latest season from each players seasonTotals array
+              $addFields: {
+                lastSeasonTotal: {
+                  $arrayElemAt: [
+                    "$playerStats.seasonTotals",
+                    { $subtract: [{ $size: "$playerStats.seasonTotals" }, 1] },
+                  ],
+                },
+              },
+            },
+            {
+              $sort: {
+                "lastSeasonTotal.faceoffWinningPctg": -1,
+              },
+            },
+            {
+              $limit: 10,
+            },
+          ])
           .toArray()) as PlayerClass[];
         return res.status(200).send(top10FaceOffPercentagePlayers);
       }

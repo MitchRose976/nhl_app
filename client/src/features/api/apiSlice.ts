@@ -6,11 +6,7 @@ import {
   TOP_10_ASSISTS_PATH,
   TOP_10_PLUS_MINUS_PATH,
   TOP_10_PENALTY_MINUTES_PATH,
-  TOP_10_HITS_PATH,
-  TOP_10_TOTAL_TIME_ON_ICE_PATH,
   TOP_10_TIME_ON_ICE_PER_GAME_PATH,
-  TOP_10_TIME_ON_ICE_SHORT_HANDED_PATH,
-  TOP_10_TIME_ON_ICE_POWERPLAY_PATH,
   TOP_10_POWERPLAY_GOALS_PATH,
   TOP_10_SHORT_HANDED_GOALS_PATH,
   TOP_10_POWERPLAY_POINTS_PATH,
@@ -45,17 +41,8 @@ export const apiSlice = createApi({
     getTop10PenaltyMinutes: builder.query<PlayerDataType[], void>({
       query: () => TOP_10_PENALTY_MINUTES_PATH,
     }),
-    getTop10TotalTimeOnIce: builder.query<PlayerDataType[], void>({
-      query: () => TOP_10_TOTAL_TIME_ON_ICE_PATH,
-    }),
     getTop10TimeOnIcePerGame: builder.query<PlayerDataType[], void>({
       query: () => TOP_10_TIME_ON_ICE_PER_GAME_PATH,
-    }),
-    getTop10TimeOnIceShortHanded: builder.query<PlayerDataType[], void>({
-      query: () => TOP_10_TIME_ON_ICE_SHORT_HANDED_PATH,
-    }),
-    getTop10TimeOnIcePowerplay: builder.query<PlayerDataType[], void>({
-      query: () => TOP_10_TIME_ON_ICE_POWERPLAY_PATH,
     }),
     getTop10PowerplayGoals: builder.query<PlayerDataType[], void>({
       query: () => TOP_10_POWERPLAY_GOALS_PATH,
@@ -105,9 +92,7 @@ export const {
   useGetTop10AssistsQuery,
   useGetTop10PlusMinusQuery,
   useGetTop10PenaltyMinutesQuery,
-  useGetTop10TotalTimeOnIceQuery,
   useGetTop10TimeOnIcePerGameQuery,
-  useGetTop10TimeOnIceShortHandedQuery,
   useGetTop10TimeOnIcePowerplayQuery,
   useGetTop10PowerplayGoalsQuery,
   useGetTop10ShortHandedGoalsQuery,

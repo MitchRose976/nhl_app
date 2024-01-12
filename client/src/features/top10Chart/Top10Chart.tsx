@@ -32,14 +32,8 @@ const Top10Chart = () => {
     getTop10PlusMinus: apiSlice.endpoints.getTop10PlusMinus.useQuery(),
     getTop10PenaltyMinutes:
       apiSlice.endpoints.getTop10PenaltyMinutes.useQuery(),
-    getTop10TotalTimeOnIce:
-      apiSlice.endpoints.getTop10TotalTimeOnIce.useQuery(),
     getTop10TimeOnIcePerGame:
       apiSlice.endpoints.getTop10TimeOnIcePerGame.useQuery(),
-    getTop10TimeOnIceShortHanded:
-      apiSlice.endpoints.getTop10TimeOnIceShortHanded.useQuery(),
-    getTop10TimeOnIcePowerplay:
-      apiSlice.endpoints.getTop10TimeOnIcePowerplay.useQuery(),
     getTop10PowerplayGoals:
       apiSlice.endpoints.getTop10PowerplayGoals.useQuery(),
     getTop10ShortHandedGoals:

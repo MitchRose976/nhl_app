@@ -76,13 +76,8 @@ export const TOP_10_GOALS_PATH = "/players/top10Goals";
 export const TOP_10_ASSISTS_PATH = "/players/top10Assists";
 export const TOP_10_PLUS_MINUS_PATH = "/players/top10PlusMinus";
 export const TOP_10_PENALTY_MINUTES_PATH = "/players/top10PenaltyMinutes";
-export const TOP_10_TOTAL_TIME_ON_ICE_PATH = "/players/top10TotalTimeOnIce";
 export const TOP_10_TIME_ON_ICE_PER_GAME_PATH =
   "/players/top10TimeOnIcePerGame";
-export const TOP_10_TIME_ON_ICE_SHORT_HANDED_PATH =
-  "/players/top10TimeOnIceShortHanded";
-export const TOP_10_TIME_ON_ICE_POWERPLAY_PATH =
-  "/players/top10TimeOnIcePowerplay";
 export const TOP_10_POWERPLAY_GOALS_PATH = "/players/top10PowerplayGoals";
 export const TOP_10_SHORT_HANDED_GOALS_PATH = "/players/top10ShortHandedGoals";
 export const TOP_10_POWERPLAY_POINTS_PATH = "/players/top10PowerplayPoints";
@@ -164,32 +159,11 @@ export const statTypeMapping: {
     queryName: "getTop10PenaltyMinutes",
     tableType: "skater",
   },
-  timeOnIce: {
-    type: "timeOnIce",
-    label: "Total ToI",
-    stat: "playerStats.splits[0].stat.timeOnIce",
-    queryName: "getTop10TotalTimeOnIce",
-    tableType: "skater",
-  },
   timeOnIcePerGame: {
     type: "timeOnIcePerGame",
     label: "ToI/Game",
     stat: "playerStats.splits[0].stat.timeOnIcePerGame",
     queryName: "getTop10TimeOnIcePerGame",
-    tableType: "skater",
-  },
-  shortHandedTimeOnIce: {
-    type: "shortHandedTimeOnIce",
-    label: "ToI SH",
-    stat: "playerStats.splits[0].stat.shortHandedTimeOnIce",
-    queryName: "getTop10TimeOnIceShortHanded",
-    tableType: "skater",
-  },
-  powerPlayTimeOnIce: {
-    type: "powerPlayTimeOnIce",
-    label: "ToI PP",
-    stat: "playerStats.splits[0].stat.powerPlayTimeOnIce",
-    queryName: "getTop10TimeOnIcePowerplay",
     tableType: "skater",
   },
   powerPlayGoals: {
