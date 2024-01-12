@@ -91,9 +91,11 @@ export const TOP_10_GAME_WINNING_GOALS_PATH = "players/top10GameWinningGoals"
 export const TOP_10_OT_GOALS_PATH = "players/top10OtGoals"
 export const TOP_10_SAVE_PERCENTAGE_PATH = "/players/top10SavePercentage";
 export const TOP_10_WINS_PATH = "/players/top10Wins";
+export const TOP_10_LOSSES_PATH = "/players/top10Losses";
+export const TOP_10_GAMES_STARTED_PATH = "/players/top10GamesStarted"
+export const TOP_10_SHUTOUTS_PATH = "/players/top10Shutouts"
 export const TOP_10_GOALS_AGAINST_AVERAGE_PATH =
   "/players/top10GoalsAgainstAverage";
-export const GET_PLAYER_STATS_PATH = "/players/getPlayer";
 export const GET_STANDINGS_PATH = "/teams/standings";
 export const GET_SCORES_PATH = "/games/scores";
 export const GET_TEAM_STATS_PATH = "/teams/stats"
@@ -214,7 +216,7 @@ export const statTypeMapping: {
   },
   shotsOnNet: {
     type: "shotsOnNet",
-    label: "Shots on Net",
+    label: "SoN",
     stat: "{tbd}",
     queryName: "getTop10ShotsOnNet",
     tableType: "skater",
@@ -228,7 +230,7 @@ export const statTypeMapping: {
   },
   otGoals: {
     type: "otGoals",
-    label: "OT Goals",
+    label: "OTG",
     stat: "{tbd}",
     queryName: "getTop10OtGoals",
     tableType: "skater",
@@ -245,6 +247,27 @@ export const statTypeMapping: {
     label: "Wins",
     stat: "playerStats.splits[0].stat.wins",
     queryName: "getTop10Wins",
+    tableType: "goalie",
+  },
+  losses: {
+    type: "losses",
+    label: "Losses",
+    stat: "{tbd}",
+    queryName: "getTop10Losses",
+    tableType: "goalie",
+  },
+  gamesStarted: {
+    type: "gamesStarted",
+    label: "GS",
+    stat: "{tbd}",
+    queryName: "getTop10GamesStarted",
+    tableType: "goalie",
+  },
+  shutouts: {
+    type: "shutouts",
+    label: "SO",
+    stat: "{tbd}",
+    queryName: "getTop10Shutouts",
     tableType: "goalie",
   },
   goalAgainstAverage: {

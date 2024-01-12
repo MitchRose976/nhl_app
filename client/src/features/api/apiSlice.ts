@@ -18,6 +18,9 @@ import {
   TOP_10_OT_GOALS_PATH,
   TOP_10_SAVE_PERCENTAGE_PATH,
   TOP_10_WINS_PATH,
+  TOP_10_LOSSES_PATH,
+  TOP_10_GAMES_STARTED_PATH,
+  TOP_10_SHUTOUTS_PATH,
   TOP_10_GOALS_AGAINST_AVERAGE_PATH,
   GET_STANDINGS_PATH,
   GET_SCORES_PATH,
@@ -81,6 +84,15 @@ export const apiSlice = createApi({
     getTop10Wins: builder.query<PlayerDataType[], void>({
       query: () => TOP_10_WINS_PATH,
     }),
+    getTop10Losses: builder.query<PlayerDataType[], void>({
+      query: () => TOP_10_LOSSES_PATH,
+    }),
+    getTop10GamesStarted: builder.query<PlayerDataType[], void>({
+      query: () => TOP_10_GAMES_STARTED_PATH,
+    }),
+    getTop10Shutouts: builder.query<PlayerDataType[], void>({
+      query: () => TOP_10_SHUTOUTS_PATH,
+    }),
     getTop10GoalsAgainstAverage: builder.query<PlayerDataType[], void>({
       query: () => TOP_10_GOALS_AGAINST_AVERAGE_PATH,
     }),
@@ -120,6 +132,9 @@ export const {
   useGetTop10OtGoalsQuery,
   useGetTop10SavePercentageQuery,
   useGetTop10WinsQuery,
+  useGetTop10LossesQuery,
+  useGetTop10GamesStartedQuery,
+  useGetTop10ShutoutsQuery,
   useGetTop10GoalsAgainstAverageQuery,
   useGetStandingsQuery,
   useGetScoresQuery,

@@ -26,6 +26,7 @@ import Loader from "../../shared/components/Loader";
 
 const Top10Chart = () => {
   const queryHooks: { [key: string]: any } = {
+    // PLAYERS
     getTop10Points: apiSlice.endpoints.getTop10Points.useQuery(),
     getTop10Goals: apiSlice.endpoints.getTop10Goals.useQuery(),
     getTop10Assists: apiSlice.endpoints.getTop10Assists.useQuery(),
@@ -50,9 +51,13 @@ const Top10Chart = () => {
     getTop10GameWinningGoals:
       apiSlice.endpoints.getTop10GameWinningGoals.useQuery(),
     getTop10OtGoals: apiSlice.endpoints.getTop10OtGoals.useQuery(),
+    // GOALIES
     getTop10SavePercentage:
       apiSlice.endpoints.getTop10SavePercentage.useQuery(),
     getTop10Wins: apiSlice.endpoints.getTop10Wins.useQuery(),
+    getTop10Losses: apiSlice.endpoints.getTop10Losses.useQuery(),
+    getTop10GamesStarted: apiSlice.endpoints.getTop10GamesStarted.useQuery(),
+    getTop10Shutouts: apiSlice.endpoints.getTop10Shutouts.useQuery(),
     getTop10GoalsAgainstAverage:
       apiSlice.endpoints.getTop10GoalsAgainstAverage.useQuery(),
   };

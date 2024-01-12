@@ -20,6 +20,9 @@ router.get("/", async (req: Request, res: Response) => {
 
 const playerStatsBasePath = "playerStats.featuredStats.regularSeason.subSeason";
 
+///////////////////////////////////////////////////////////////////////////////
+//////////////////////////////// PLAYER STATS /////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 // GET Top 10 Points
 router.get("/players/top10Points", async (req: Request, res: Response) => {
   try {
@@ -229,7 +232,7 @@ router.get(
   }
 );
 
-// GET Top 10 Faceoff Percentage (10+ games)
+// GET Top 10 Faceoff Percentage
 router.get(
   "/players/top10FaceOffPercentage",
   async (req: Request, res: Response) => {
@@ -294,25 +297,22 @@ router.get(
 );
 
 // GET Top 10 Shots On Net
-router.get(
-  "/players/top10ShotsOnNet",
-  async (req: Request, res: Response) => {
-    try {
-      if (collections.players) {
-        const top10ShotsOnNet = (await collections.players
-          .find({})
-          .sort({
-            [`${playerStatsBasePath}.shots`]: -1,
-          })
-          .limit(10)
-          .toArray()) as PlayerClass[];
-        return res.status(200).send(top10ShotsOnNet);
-      }
-    } catch (error) {
-      console.log("Error @ /players/top10ShotsOnNet: ", error);
+router.get("/players/top10ShotsOnNet", async (req: Request, res: Response) => {
+  try {
+    if (collections.players) {
+      const top10ShotsOnNet = (await collections.players
+        .find({})
+        .sort({
+          [`${playerStatsBasePath}.shots`]: -1,
+        })
+        .limit(10)
+        .toArray()) as PlayerClass[];
+      return res.status(200).send(top10ShotsOnNet);
     }
+  } catch (error) {
+    console.log("Error @ /players/top10ShotsOnNet: ", error);
   }
-);
+});
 
 // GET Top 10 Game Winning Goals
 router.get(
@@ -336,27 +336,27 @@ router.get(
 );
 
 // GET Top 10 OT Goals
-router.get(
-  "/players/top10OtGoals",
-  async (req: Request, res: Response) => {
-    try {
-      if (collections.players) {
-        const top10OtGoals = (await collections.players
-          .find({})
-          .sort({
-            [`${playerStatsBasePath}.gameWinningGoals`]: -1,
-          })
-          .limit(10)
-          .toArray()) as PlayerClass[];
-        return res.status(200).send(top10OtGoals);
-      }
-    } catch (error) {
-      console.log("Error @ /players/top10OtGoals: ", error);
+router.get("/players/top10OtGoals", async (req: Request, res: Response) => {
+  try {
+    if (collections.players) {
+      const top10OtGoals = (await collections.players
+        .find({})
+        .sort({
+          [`${playerStatsBasePath}.gameWinningGoals`]: -1,
+        })
+        .limit(10)
+        .toArray()) as PlayerClass[];
+      return res.status(200).send(top10OtGoals);
     }
+  } catch (error) {
+    console.log("Error @ /players/top10OtGoals: ", error);
   }
-);
+});
 
-// GET Top 10 Save Percentage (10+ games)
+///////////////////////////////////////////////////////////////////////////////
+//////////////////////////////// GOALIE STATS /////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+// GET Top 10 Save Percentage
 // TODO: find way to filter out call ups who only played a game or two
 router.get(
   "/players/top10SavePercentage",
@@ -364,9 +364,9 @@ router.get(
     try {
       if (collections.players) {
         const top10SavePercentagePlayers = (await collections.players
-          .find({ "playerStats.splits.stat.games": { $gte: 10 } })
+          .find({ "playerInfo.position": "G" }) // Filter for goalies
           .sort({
-            "playerStats.splits.stat.savePercentage": -1,
+            [`${playerStatsBasePath}.savePctg`]: -1,
           })
           .collation({ locale: "en_US", numericOrdering: true })
           .limit(10)
@@ -379,15 +379,15 @@ router.get(
   }
 );
 
-// GET Top 10 Wins (10+ games)
+// GET Top 10 Wins
 // TODO: find way to filter out call ups who only played a game or two
 router.get("/players/top10Wins", async (req: Request, res: Response) => {
   try {
     if (collections.players) {
       const top10WinsPlayers = (await collections.players
-        .find({ "playerStats.splits.stat.games": { $gte: 10 } })
+        .find({ "playerInfo.position": "G" }) // Filter for goalies
         .sort({
-          "playerStats.splits.stat.wins": -1,
+          [`${playerStatsBasePath}.wins`]: -1,
         })
         .collation({ locale: "en_US", numericOrdering: true })
         .limit(10)
@@ -399,7 +399,110 @@ router.get("/players/top10Wins", async (req: Request, res: Response) => {
   }
 });
 
-// GET Top 10 Goals Against Average (10+ games)
+// GET Top 10 Losses
+router.get("/players/top10Losses", async (req: Request, res: Response) => {
+  try {
+    if (collections.players) {
+      const top10Losses = (await collections.players
+        .find({ "playerInfo.position": "G" }) // Filter for goalies
+        .sort({
+          [`${playerStatsBasePath}.losses`]: -1,
+        })
+        .collation({ locale: "en_US", numericOrdering: true })
+        .limit(10)
+        .toArray()) as PlayerClass[];
+      return res.status(200).send(top10Losses);
+    }
+  } catch (error) {
+    console.log("Error @ /players/top10Losses: ", error);
+  }
+});
+
+// GET Top 10 Games Started
+router.get(
+  "/players/top10GamesStarted",
+  async (req: Request, res: Response) => {
+    try {
+      if (collections.players) {
+        const top10GamesStarted = (await collections.players
+          .aggregate([
+            {
+              $match: {
+                "playerInfo.position": "G", // Filter for goalies
+              },
+            },
+            {
+              // retrieve latest season from each players seasonTotals array
+              $addFields: {
+                lastSeasonTotal: {
+                  $arrayElemAt: [
+                    "$playerStats.seasonTotals",
+                    { $subtract: [{ $size: "$playerStats.seasonTotals" }, 1] },
+                  ],
+                },
+              },
+            },
+            {
+              $sort: {
+                "lastSeasonTotal.gamesStarted": -1,
+              },
+            },
+            {
+              $limit: 10,
+            },
+          ])
+          .toArray()) as PlayerClass[];
+        return res.status(200).send(top10GamesStarted);
+      }
+    } catch (error) {
+      console.log("Error @ /players/top10GamesStarted: ", error);
+    }
+  }
+);
+
+// GET Top 10 Shutouts
+router.get(
+  "/players/top10Shutouts",
+  async (req: Request, res: Response) => {
+    try {
+      if (collections.players) {
+        const top10Shutouts = (await collections.players
+          .aggregate([
+            {
+              $match: {
+                "playerInfo.position": "G", // Filter for goalies
+              },
+            },
+            {
+              // retrieve latest season from each players seasonTotals array
+              $addFields: {
+                lastSeasonTotal: {
+                  $arrayElemAt: [
+                    "$playerStats.seasonTotals",
+                    { $subtract: [{ $size: "$playerStats.seasonTotals" }, 1] },
+                  ],
+                },
+              },
+            },
+            {
+              $sort: {
+                "lastSeasonTotal.shutouts": -1,
+              },
+            },
+            {
+              $limit: 10,
+            },
+          ])
+          .toArray()) as PlayerClass[];
+        return res.status(200).send(top10Shutouts);
+      }
+    } catch (error) {
+      console.log("Error @ /players/top10Shutouts: ", error);
+    }
+  }
+);
+
+// GET Top 10 Goals Against Average
 // TODO: find way to filter out call ups who only played a game or two
 router.get(
   "/players/top10GoalsAgainstAverage",
@@ -407,12 +510,9 @@ router.get(
     try {
       if (collections.players) {
         const top10GoalsAgainstAveragePlayers = (await collections.players
-          .find({
-            "playerInfo.primaryPosition.code": "G",
-            "playerStats.splits.stat.games": { $gte: 10 },
-          })
+          .find({ "playerInfo.position": "G" }) // Filter for goalies
           .sort({
-            "playerStats.splits.stat.goalAgainstAverage": 1,
+            [`${playerStatsBasePath}.goalsAgainstAvg`]: -1,
           })
           .collation({ locale: "en_US", numericOrdering: true })
           .limit(10)
@@ -425,6 +525,9 @@ router.get(
   }
 );
 
+////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////// STANDINGS ////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 // GET league standings
 router.get("/teams/standings", async (req: Request, res: Response) => {
   try {
@@ -442,6 +545,9 @@ router.get("/teams/standings", async (req: Request, res: Response) => {
   }
 });
 
+////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////// SCORES ///////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 // GET todays scores
 router.get("/games/scores", async (req: Request, res: Response) => {
   const todaysDate = new Date()
@@ -464,6 +570,9 @@ router.get("/games/scores", async (req: Request, res: Response) => {
   }
 });
 
+////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////// TEAM STATS ///////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 // POST team stats by id
 router.get(
   "/teams/stats/:teamID/:season",
@@ -485,20 +594,5 @@ router.get(
     }
   }
 );
-
-// POST Player by full name
-router.post("/players/getPlayer", async (req: Request, res: Response) => {
-  try {
-    if (collections.players) {
-      console.log("player: ", req.body);
-      const playerStats = (await collections.players
-        .find({ "playerInfo.id": req.body.playerId })
-        .toArray()) as PlayerClass[];
-      return res.status(200).send(playerStats);
-    }
-  } catch (error) {
-    console.log("Error @ /players/top10Points: ", error);
-  }
-});
 
 export default router;
