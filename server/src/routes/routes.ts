@@ -101,22 +101,6 @@ router.get(
   }
 );
 
-// GET Top 10 Hits
-router.get("/players/top10Hits", async (req: Request, res: Response) => {
-  try {
-    if (collections.players) {
-      const top10HitsPlayers = (await collections.players
-        .find({})
-        .sort({ "playerStats.splits.stat.hits": -1 })
-        .limit(10)
-        .toArray()) as PlayerClass[];
-      return res.status(200).send(top10HitsPlayers);
-    }
-  } catch (error) {
-    console.log("Error @ /players/top10Hits: ", error);
-  }
-});
-
 // GET Top 10 Total Time on Ice
 router.get(
   "/players/top10TotalTimeOnIce",

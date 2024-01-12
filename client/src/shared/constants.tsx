@@ -76,7 +76,6 @@ export const TOP_10_GOALS_PATH = "/players/top10Goals";
 export const TOP_10_ASSISTS_PATH = "/players/top10Assists";
 export const TOP_10_PLUS_MINUS_PATH = "/players/top10PlusMinus";
 export const TOP_10_PENALTY_MINUTES_PATH = "/players/top10PenaltyMinutes";
-export const TOP_10_HITS_PATH = "/players/top10Hits";
 export const TOP_10_TOTAL_TIME_ON_ICE_PATH = "/players/top10TotalTimeOnIce";
 export const TOP_10_TIME_ON_ICE_PER_GAME_PATH =
   "/players/top10TimeOnIcePerGame";
@@ -163,13 +162,6 @@ export const statTypeMapping: {
     label: "PiM",
     stat: "playerStats.splits[0].stat.penaltyMinutes",
     queryName: "getTop10PenaltyMinutes",
-    tableType: "skater",
-  },
-  hits: {
-    type: "hits",
-    label: "Hits",
-    stat: "playerStats.splits[0].stat.hits",
-    queryName: "getTop10Hits",
     tableType: "skater",
   },
   timeOnIce: {
@@ -278,32 +270,6 @@ export enum statTypes {
   wins = "wins",
   goalsAgainstAverage = "goalsAgainstAverage",
 }
-
-export const nhlSeasons = [
-  "2022/2023",
-  "2021/2022",
-  "2020/2021",
-  "2019/2020",
-  "2018/2019",
-  "2017/2018",
-  "2016/2017",
-  "2015/2016",
-  "2014/2015",
-  "2013/2014",
-  "2012/2013",
-  "2011/2012",
-  "2010/2011",
-  "2009/2010",
-  "2008/2009",
-  "2007/2008",
-  "2006/2007",
-  "2005/2006",
-  "2004/2005",
-  "2003/2004",
-  "2002/2003",
-  "2001/2002",
-  "2000/2001",
-];
 
 export const LIVE_GAME_STATS_TYPES = [
   { statType: "shots", label: "Shots" },
