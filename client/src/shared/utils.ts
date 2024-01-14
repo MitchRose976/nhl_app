@@ -1,5 +1,5 @@
 import { TeamStandingsDataObject } from "../../../server/src/types";
-import { PlayerDataType } from "../shared/types";
+import { NameType, PlayerDataType } from "../shared/types";
 import {
   TEAM_IDS,
   statTypeMapping,
@@ -10,23 +10,41 @@ export const formGetTeamLogoUrl = (teamAbbreviation: string) =>
   `https://assets.nhle.com/logos/nhl/svg/${teamAbbreviation}_light.svg`;
 
 export const formatStat = (player: PlayerDataType, statType: string) => {
-  console.log('mitch statTypeMapping: ', statTypeMapping);
-  if (statType === statTypeMapping.savePercentage.type) {
-    return `${Number(
-      player.playerStats.featuredStats.regularSeason.subSeason[statType]
-    )
-      .toFixed(3)
-      .toString()}%`;
-  } else if (statType === statTypeMapping.goalAgainstAverage.type) {
-    return Number(
-      player.playerStats.featuredStats.regularSeason.subSeason[statType]
-    )
-      .toFixed(2)
-      .toString();
-  } else if (statType === statTypeMapping.faceoffWinningPctg.type) {
-    return `${player.playerStats.featuredStats.regularSeason.subSeason[statType]}%`;
+  const statsRequiringDifferentMapping = [
+    statTypeMapping.avgToi.type,
+    statTypeMapping.faceoffWinningPctg.type,
+    statTypeMapping.gamesStarted.type,
+    statTypeMapping.shutouts.type,
+  ];
+
+  const statsRequiringRoundingTo3Decimals = [
+    statTypeMapping.savePercentage.type,
+    statTypeMapping.faceoffWinningPctg.type,
+    statTypeMapping.shootingPctg.type,
+  ];
+
+  const featuredSeasonMapping =
+    player.playerStats.featuredStats.regularSeason.subSeason;
+  const seasonTotalsMapping =
+    player.playerStats.seasonTotals[player.playerStats.seasonTotals.length - 1];
+
+  const convertNameTypeToString = (nameType: NameType): string => {
+    return nameType.default || "";
+  };
+
+  if (statsRequiringRoundingTo3Decimals.includes(statType)) {
+    return statsRequiringDifferentMapping.includes(statType)
+      ? `${Number(seasonTotalsMapping[statType]).toFixed(3).toString()}%`
+      : `${Number(featuredSeasonMapping[statType]).toFixed(3).toString()}%`;
+  } else if (statType === statTypeMapping.goalsAgainstAvg.type) {
+    return Number(featuredSeasonMapping[statType]).toFixed(2).toString();
   } else {
-    return player.playerStats.featuredStats.regularSeason.subSeason[statType];
+    const value = statsRequiringDifferentMapping.includes(statType)
+      ? seasonTotalsMapping[statType]
+      : featuredSeasonMapping[statType];
+
+    // Convert NameType to string if applicable
+    return typeof value === "object" ? convertNameTypeToString(value) : value;
   }
 };
 
@@ -122,20 +140,6 @@ export const splitArrayIntoEqualParts = (arr: any[], n: number) => {
   return Array.from({ length: n }, (v, i) =>
     arr.slice(i * size, i * size + size)
   );
-};
-
-export const addNumberSuffix = (number: number) => {
-  if (number > 3 && number < 21) return "th";
-  switch (number % 10) {
-    case 1:
-      return "st";
-    case 2:
-      return "nd";
-    case 3:
-      return "rd";
-    default:
-      return "th";
-  }
 };
 
 export const formatBarLabelStatsForGameModal = (

@@ -245,7 +245,7 @@ router.get(
           .aggregate([
             {
               $match: {
-                "playerInfo.position": { $ne: "G" }, // Filter out goalies
+                "playerInfo.position": "C", // Filter out goalies
                 "playerStats.featuredStats.season": await currentSeason,
               },
             },
@@ -346,7 +346,7 @@ router.get("/players/top10OtGoals", async (req: Request, res: Response) => {
       const top10OtGoals = (await collections.players
         .find({ "playerStats.featuredStats.season": await currentSeason })
         .sort({
-          [`${playerStatsBasePath}.gameWinningGoals`]: -1,
+          [`${playerStatsBasePath}.otGoals`]: -1,
         })
         .limit(10)
         .toArray()) as PlayerClass[];
@@ -527,7 +527,7 @@ router.get(
             "playerStats.featuredStats.season": await currentSeason,
           }) // Filter for goalies
           .sort({
-            [`${playerStatsBasePath}.goalsAgainstAvg`]: -1,
+            [`${playerStatsBasePath}.goalsAgainstAvg`]: 1,
           })
           .collation({ locale: "en_US", numericOrdering: true })
           .limit(10)

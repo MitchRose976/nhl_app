@@ -11,17 +11,12 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { GameInterface, GoalType, PlayerInfoType } from "../../shared/types";
 import {
-  GameInterface,
-  GoalType,
-  PlayerInfoType,
-} from "../../shared/types";
-import {
-  addNumberSuffix,
   formGetTeamLogoUrl,
   formatBarLabelStatsForGameModal,
   getCurrentSeason,
-  getTeamID
+  getTeamID,
 } from "../../shared/utils";
 import "../../shared/style.scss";
 import {
@@ -55,14 +50,20 @@ const GameModal = ({ game, status }: GameModalProps) => {
     isLoading: awayIsLoading,
     isSuccess: awayIsSuccess,
     isError: awayIsError,
-  } = useGetTeamStatsByIDQuery({ teamID: awayTeamID ?? 0, season: currentSeason });
+  } = useGetTeamStatsByIDQuery({
+    teamID: awayTeamID ?? 0,
+    season: currentSeason,
+  });
 
   const {
     data: homeTeamStats,
     isLoading: homeIsLoading,
     isSuccess: homeIsSuccess,
     isError: homeIsError,
-  } = useGetTeamStatsByIDQuery({ teamID: homeTeamID ?? 0, season: currentSeason });
+  } = useGetTeamStatsByIDQuery({
+    teamID: homeTeamID ?? 0,
+    season: currentSeason,
+  });
 
   const renderTeamLogo = (svgString: string, width: number, height: number) => {
     return svgString !== "" ? (
@@ -76,7 +77,11 @@ const GameModal = ({ game, status }: GameModalProps) => {
     return (
       <div className="flex-box-center">
         <div className="flex-box-center" style={{ padding: "0 1rem" }}>
-          {renderTeamLogo(formGetTeamLogoUrl(game.teams.home.abbreviation), 60, 60)}
+          {renderTeamLogo(
+            formGetTeamLogoUrl(game.teams.home.abbreviation),
+            60,
+            60
+          )}
           {status.status === "FINAL" || status.status === "LIVE" ? (
             <Typography sx={{ fontSize: "2rem", paddingLeft: "2rem" }}>
               {game.scores[homeTeam]}
@@ -92,7 +97,11 @@ const GameModal = ({ game, status }: GameModalProps) => {
               {game.scores[awayTeam]}
             </Typography>
           ) : null}
-          {renderTeamLogo(formGetTeamLogoUrl(game.teams.away.abbreviation), 60, 60)}
+          {renderTeamLogo(
+            formGetTeamLogoUrl(game.teams.away.abbreviation),
+            60,
+            60
+          )}
         </div>
       </div>
     );
@@ -220,7 +229,13 @@ const GameModal = ({ game, status }: GameModalProps) => {
             alignItems: "center",
           }}
         >
-          <div>{renderTeamLogo(formGetTeamLogoUrl(scoringTeamAbbreviation), 30, 30)}</div>
+          <div>
+            {renderTeamLogo(
+              formGetTeamLogoUrl(scoringTeamAbbreviation),
+              30,
+              30
+            )}
+          </div>
           <Typography sx={{ fontSize: "0.75rem", marginLeft: "0.3rem" }}>
             {`${getTimeOfGoal(goal)}
              - ${goal.scorer.player} (${goal.scorer.seasonTotal}) ${
@@ -324,11 +339,7 @@ const GameModal = ({ game, status }: GameModalProps) => {
             data={headToHeadData.home.reverse()}
             y={(data) => -Math.abs(data.y)}
             labels={headToHeadData.home.map(({ x, y }) => {
-              return `${formatBarLabelStatsForGameModal(
-                x,
-                y
-              )}`;
-              //  (${z}${addNumberSuffix(z)})
+              return `${formatBarLabelStatsForGameModal(x, y)}`;
             })}
             animate={{
               duration: 2000,
@@ -340,11 +351,7 @@ const GameModal = ({ game, status }: GameModalProps) => {
             data={headToHeadData.away.reverse()}
             y={(data) => Math.abs(data.y)}
             labels={headToHeadData.away.map(({ x, y }) => {
-              return `${formatBarLabelStatsForGameModal(
-                x,
-                y
-              )}`; 
-              // (${z}${addNumberSuffix(z)})
+              return `${formatBarLabelStatsForGameModal(x, y)}`;
             })}
             animate={{
               duration: 2000,

@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import {
   statTypeMapping,
-  statTypes,
   TOP_10_STATS_CATEGORIES,
 } from "../../shared/constants";
 import MiniPlayerCard from "../../shared/components/MiniPlayerCard";
@@ -68,23 +67,17 @@ const Top10Chart = () => {
   );
   const windowSize = useRef([window.innerWidth, window.innerHeight]);
   const [activeCard, setActiveCard] = useState(0);
-  // may not need statTypes
-  const [statType, setStatType] = useState<string>(statTypes.points);
+  const [statType, setStatType] = useState<string>(statTypeMapping.points.type);
   const [showComponent, setShowComponent] = useState(false);
 
-  console.log("mitch queryType: ", queryType);
-  console.log("mitch statType: ", statType);
-
+  // Make this state?
   let chartData = queryHooks[queryType];
-
-  console.log('mitch chartData: ', chartData);
 
   useEffect(() => {
     setShowComponent(true);
   }, []);
 
   useEffect(() => {
-    console.log('mitch here')
     const newStat = Object.values(statTypeMapping).find(
       ({ type }) => statType === type
     );
