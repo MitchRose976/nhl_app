@@ -206,7 +206,7 @@ export const statTypeMapping: {
   },
   shots: {
     type: "shots",
-    label: "Shots",
+    label: "SoN",
     queryName: "getTop10ShotsOnNet",
     tableType: "skater",
   },
@@ -218,12 +218,12 @@ export const statTypeMapping: {
   },
   otGoals: {
     type: "otGoals",
-    label: "OT Goals",
+    label: "OTG",
     queryName: "getTop10OtGoals",
     tableType: "skater",
   },
-  savePercentage: {
-    type: "savePercentage",
+  savePctg: {
+    type: "savePctg",
     label: "Save %",
     queryName: "getTop10SavePercentage",
     tableType: "goalie",
@@ -248,7 +248,7 @@ export const statTypeMapping: {
   },
   shutouts: {
     type: "shutouts",
-    label: "Shutouts",
+    label: "SO",
     queryName: "getTop10Shutouts",
     tableType: "goalie",
   },

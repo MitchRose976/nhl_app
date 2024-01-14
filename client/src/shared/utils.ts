@@ -18,7 +18,7 @@ export const formatStat = (player: PlayerDataType, statType: string) => {
   ];
 
   const statsRequiringRoundingTo3Decimals = [
-    statTypeMapping.savePercentage.type,
+    statTypeMapping.savePctg.type,
     statTypeMapping.faceoffWinningPctg.type,
     statTypeMapping.shootingPctg.type,
   ];
