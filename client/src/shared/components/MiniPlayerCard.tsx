@@ -24,13 +24,13 @@ const MiniPlayerCard = ({ player, statType }: MiniPlayerCardProps) => {
     return (
       <AvatarGroup total={2} spacing={"small"}>
         <Avatar
-          alt={`${player.playerInfo.fullName} headshot`}
+          alt={`${player.playerInfo.firstName.default} ${player.playerInfo.lastName.default} headshot`}
           src={player.playerHeadshot}
           sx={{ width: 85, height: 85 }}
         />
         <Avatar
-          alt={`${player.playerInfo.currentTeam.name} logo`}
-          src={formGetTeamLogoUrl(player.playerInfo.currentTeam.id)}
+          alt={`${player.playerInfo.fullTeamName.default} logo`}
+          src={formGetTeamLogoUrl(player.playerInfo.currentTeamAbbrev)}
           sx={{ width: 45, height: 40 }}
           style={{
             marginLeft: "-28px",
@@ -63,7 +63,7 @@ const MiniPlayerCard = ({ player, statType }: MiniPlayerCardProps) => {
               fontWeight: "400",
             }}
           >
-            {player.playerInfo.primaryNumber}
+            {player.playerInfo.sweaterNumber}
           </Typography>
           <Divider
             orientation="vertical"
@@ -83,7 +83,7 @@ const MiniPlayerCard = ({ player, statType }: MiniPlayerCardProps) => {
               marginLeft: "0.5rem",
             }}
           >
-            {player.playerInfo.fullName}
+            {`${player.playerInfo.firstName.default} ${player.playerInfo.lastName.default}`}
           </Typography>
         </CardContent>
 
@@ -101,7 +101,7 @@ const MiniPlayerCard = ({ player, statType }: MiniPlayerCardProps) => {
             align={"right"}
             sx={{ fontSize: "0.75rem" }}
           >
-            {player.playerInfo.currentTeam.name}
+            {player.playerInfo.fullTeamName.default}
           </Typography>
           <Divider
             orientation="vertical"
@@ -113,7 +113,7 @@ const MiniPlayerCard = ({ player, statType }: MiniPlayerCardProps) => {
               borderColor: "#36454F",
             }}
           />
-          <Typography>{player.playerInfo.primaryPosition.code}</Typography>
+          <Typography>{player.playerInfo.position}</Typography>
         </CardContent>
       </>
     );

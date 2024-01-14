@@ -108,6 +108,7 @@ export type RosterType = {
 };
 
 export type BasicPlayerStatsType = {
+  [key: string]: number | string | undefined;
   gamesPlayed: number;
   goals: number;
   assists: number;
@@ -124,6 +125,13 @@ export type BasicPlayerStatsType = {
   shorthandedPoints: number;
   faceoffWinningPctg?: number;
   avgToi?: string;
+  wins?: number;
+  losses?: number;
+  ties?: number;
+  otLosses?: number;
+  shutouts?: number;
+  goalsAgainstAverage?: number;
+  savePctg: number;
 };
 
 export type NameType = {

@@ -6,19 +6,21 @@ import { collections } from "../connect";
 import axios from "axios";
 import { NHL_API_BASE } from "../constants";
 import formatStandingsData from "../service/standingsService";
+import { getCurrentSeason } from "../utils";
 
 dotenv.config();
 const router = express.Router();
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
+const playerStatsBasePath = "playerStats.featuredStats.regularSeason.subSeason";
+const currentSeason = getCurrentSeason(true);
+
 // GET
 router.get("/", async (req: Request, res: Response) => {
   // res.json({message: 'GET base url'})
   TeamModel.find().then((teams) => res.json(teams));
 });
-
-const playerStatsBasePath = "playerStats.featuredStats.regularSeason.subSeason";
 
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// PLAYER STATS /////////////////////////////////
@@ -28,7 +30,7 @@ router.get("/players/top10Points", async (req: Request, res: Response) => {
   try {
     if (collections.players) {
       const top10PointsPlayers = (await collections.players
-        .find({})
+        .find({ "playerStats.featuredStats.season": await currentSeason })
         .sort({ [`${playerStatsBasePath}.points`]: -1 })
         .limit(10)
         .toArray()) as PlayerClass[];
@@ -44,7 +46,7 @@ router.get("/players/top10Goals", async (req: Request, res: Response) => {
   try {
     if (collections.players) {
       const top10GoalsPlayers = (await collections.players
-        .find({})
+        .find({ "playerStats.featuredStats.season": await currentSeason })
         .sort({ [`${playerStatsBasePath}.goals`]: -1 })
         .limit(10)
         .toArray()) as PlayerClass[];
@@ -60,7 +62,7 @@ router.get("/players/top10Assists", async (req: Request, res: Response) => {
   try {
     if (collections.players) {
       const top10AssistsPlayers = (await collections.players
-        .find({})
+        .find({ "playerStats.featuredStats.season": await currentSeason })
         .sort({ [`${playerStatsBasePath}.assists`]: -1 })
         .limit(10)
         .toArray()) as PlayerClass[];
@@ -76,7 +78,7 @@ router.get("/players/top10PlusMinus", async (req: Request, res: Response) => {
   try {
     if (collections.players) {
       const top10PlusMinusPlayers = (await collections.players
-        .find({})
+        .find({ "playerStats.featuredStats.season": await currentSeason })
         .sort({ [`${playerStatsBasePath}.plusMinus`]: -1 })
         .limit(10)
         .toArray()) as PlayerClass[];
@@ -94,7 +96,7 @@ router.get(
     try {
       if (collections.players) {
         const top10PenaltyMinutesPlayers = (await collections.players
-          .find({})
+          .find({ "playerStats.featuredStats.season": await currentSeason })
           .sort({ [`${playerStatsBasePath}.pim`]: -1 })
           .limit(10)
           .toArray()) as PlayerClass[];
@@ -117,6 +119,7 @@ router.get(
             {
               $match: {
                 "playerInfo.position": { $ne: "G" }, // Filter out goalies
+                "playerStats.featuredStats.season": await currentSeason,
               },
             },
             {
@@ -155,7 +158,7 @@ router.get(
     try {
       if (collections.players) {
         const top10PowerplayGoalsPlayers = (await collections.players
-          .find({})
+          .find({ "playerStats.featuredStats.season": await currentSeason })
           .sort({
             [`${playerStatsBasePath}.powerPlayGoals`]: -1,
           })
@@ -176,7 +179,7 @@ router.get(
     try {
       if (collections.players) {
         const top10ShortHandedGoalsPlayers = (await collections.players
-          .find({})
+          .find({ "playerStats.featuredStats.season": await currentSeason })
           .sort({
             [`${playerStatsBasePath}.shorthandedGoals`]: -1,
           })
@@ -197,7 +200,7 @@ router.get(
     try {
       if (collections.players) {
         const top10PowerplayPointsPlayers = (await collections.players
-          .find({})
+          .find({ "playerStats.featuredStats.season": await currentSeason })
           .sort({
             [`${playerStatsBasePath}.powerPlayPoints`]: -1,
           })
@@ -218,7 +221,7 @@ router.get(
     try {
       if (collections.players) {
         const top10ShortHandedPointsPlayers = (await collections.players
-          .find({})
+          .find({ "playerStats.featuredStats.season": await currentSeason })
           .sort({
             [`${playerStatsBasePath}.shorthandedPoints`]: -1,
           })
@@ -243,6 +246,7 @@ router.get(
             {
               $match: {
                 "playerInfo.position": { $ne: "G" }, // Filter out goalies
+                "playerStats.featuredStats.season": await currentSeason,
               },
             },
             {
@@ -282,7 +286,7 @@ router.get(
     try {
       if (collections.players) {
         const top10ShootingPercentage = (await collections.players
-          .find({})
+          .find({ "playerStats.featuredStats.season": await currentSeason })
           .sort({
             [`${playerStatsBasePath}.shootingPctg`]: -1,
           })
@@ -301,7 +305,7 @@ router.get("/players/top10ShotsOnNet", async (req: Request, res: Response) => {
   try {
     if (collections.players) {
       const top10ShotsOnNet = (await collections.players
-        .find({})
+        .find({ "playerStats.featuredStats.season": await currentSeason })
         .sort({
           [`${playerStatsBasePath}.shots`]: -1,
         })
@@ -321,7 +325,7 @@ router.get(
     try {
       if (collections.players) {
         const top10GameWinningGoals = (await collections.players
-          .find({})
+          .find({ "playerStats.featuredStats.season": await currentSeason })
           .sort({
             [`${playerStatsBasePath}.gameWinningGoals`]: -1,
           })
@@ -340,7 +344,7 @@ router.get("/players/top10OtGoals", async (req: Request, res: Response) => {
   try {
     if (collections.players) {
       const top10OtGoals = (await collections.players
-        .find({})
+        .find({ "playerStats.featuredStats.season": await currentSeason })
         .sort({
           [`${playerStatsBasePath}.gameWinningGoals`]: -1,
         })
@@ -364,7 +368,10 @@ router.get(
     try {
       if (collections.players) {
         const top10SavePercentagePlayers = (await collections.players
-          .find({ "playerInfo.position": "G" }) // Filter for goalies
+          .find({
+            "playerInfo.position": "G",
+            "playerStats.featuredStats.season": await currentSeason,
+          }) // Filter for goalies
           .sort({
             [`${playerStatsBasePath}.savePctg`]: -1,
           })
@@ -385,7 +392,10 @@ router.get("/players/top10Wins", async (req: Request, res: Response) => {
   try {
     if (collections.players) {
       const top10WinsPlayers = (await collections.players
-        .find({ "playerInfo.position": "G" }) // Filter for goalies
+        .find({
+          "playerInfo.position": "G",
+          "playerStats.featuredStats.season": await currentSeason,
+        }) // Filter for goalies
         .sort({
           [`${playerStatsBasePath}.wins`]: -1,
         })
@@ -404,7 +414,10 @@ router.get("/players/top10Losses", async (req: Request, res: Response) => {
   try {
     if (collections.players) {
       const top10Losses = (await collections.players
-        .find({ "playerInfo.position": "G" }) // Filter for goalies
+        .find({
+          "playerInfo.position": "G",
+          "playerStats.featuredStats.season": await currentSeason,
+        }) // Filter for goalies
         .sort({
           [`${playerStatsBasePath}.losses`]: -1,
         })
@@ -429,6 +442,7 @@ router.get(
             {
               $match: {
                 "playerInfo.position": "G", // Filter for goalies
+                "playerStats.featuredStats.season": await currentSeason,
               },
             },
             {
@@ -461,46 +475,44 @@ router.get(
 );
 
 // GET Top 10 Shutouts
-router.get(
-  "/players/top10Shutouts",
-  async (req: Request, res: Response) => {
-    try {
-      if (collections.players) {
-        const top10Shutouts = (await collections.players
-          .aggregate([
-            {
-              $match: {
-                "playerInfo.position": "G", // Filter for goalies
+router.get("/players/top10Shutouts", async (req: Request, res: Response) => {
+  try {
+    if (collections.players) {
+      const top10Shutouts = (await collections.players
+        .aggregate([
+          {
+            $match: {
+              "playerInfo.position": "G", // Filter for goalies
+              "playerStats.featuredStats.season": await currentSeason,
+            },
+          },
+          {
+            // retrieve latest season from each players seasonTotals array
+            $addFields: {
+              lastSeasonTotal: {
+                $arrayElemAt: [
+                  "$playerStats.seasonTotals",
+                  { $subtract: [{ $size: "$playerStats.seasonTotals" }, 1] },
+                ],
               },
             },
-            {
-              // retrieve latest season from each players seasonTotals array
-              $addFields: {
-                lastSeasonTotal: {
-                  $arrayElemAt: [
-                    "$playerStats.seasonTotals",
-                    { $subtract: [{ $size: "$playerStats.seasonTotals" }, 1] },
-                  ],
-                },
-              },
+          },
+          {
+            $sort: {
+              "lastSeasonTotal.shutouts": -1,
             },
-            {
-              $sort: {
-                "lastSeasonTotal.shutouts": -1,
-              },
-            },
-            {
-              $limit: 10,
-            },
-          ])
-          .toArray()) as PlayerClass[];
-        return res.status(200).send(top10Shutouts);
-      }
-    } catch (error) {
-      console.log("Error @ /players/top10Shutouts: ", error);
+          },
+          {
+            $limit: 10,
+          },
+        ])
+        .toArray()) as PlayerClass[];
+      return res.status(200).send(top10Shutouts);
     }
+  } catch (error) {
+    console.log("Error @ /players/top10Shutouts: ", error);
   }
-);
+});
 
 // GET Top 10 Goals Against Average
 // TODO: find way to filter out call ups who only played a game or two
@@ -510,7 +522,10 @@ router.get(
     try {
       if (collections.players) {
         const top10GoalsAgainstAveragePlayers = (await collections.players
-          .find({ "playerInfo.position": "G" }) // Filter for goalies
+          .find({
+            "playerInfo.position": "G",
+            "playerStats.featuredStats.season": await currentSeason,
+          }) // Filter for goalies
           .sort({
             [`${playerStatsBasePath}.goalsAgainstAvg`]: -1,
           })

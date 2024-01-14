@@ -72,13 +72,19 @@ const Top10Chart = () => {
   const [statType, setStatType] = useState<string>(statTypes.points);
   const [showComponent, setShowComponent] = useState(false);
 
+  console.log("mitch queryType: ", queryType);
+  console.log("mitch statType: ", statType);
+
+  let chartData = queryHooks[queryType];
+
+  console.log('mitch chartData: ', chartData);
+
   useEffect(() => {
     setShowComponent(true);
   }, []);
 
-  let chartData = queryHooks[queryType];
-
   useEffect(() => {
+    console.log('mitch here')
     const newStat = Object.values(statTypeMapping).find(
       ({ type }) => statType === type
     );
@@ -166,7 +172,7 @@ const Top10Chart = () => {
                                 : "0.85rem",
                           }}
                         >
-                          {player.playerInfo.fullName}
+                          {`${player.playerInfo.firstName.default} ${player.playerInfo.lastName.default}`}
                         </TableCell>
                         <TableCell>{formatStat(player, statType)}</TableCell>
                       </TableRow>

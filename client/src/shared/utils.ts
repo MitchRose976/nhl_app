@@ -10,18 +10,23 @@ export const formGetTeamLogoUrl = (teamAbbreviation: string) =>
   `https://assets.nhle.com/logos/nhl/svg/${teamAbbreviation}_light.svg`;
 
 export const formatStat = (player: PlayerDataType, statType: string) => {
+  console.log('mitch statTypeMapping: ', statTypeMapping);
   if (statType === statTypeMapping.savePercentage.type) {
-    return `${Number(player.playerStats.splits[0].stat[statType])
+    return `${Number(
+      player.playerStats.featuredStats.regularSeason.subSeason[statType]
+    )
       .toFixed(3)
       .toString()}%`;
   } else if (statType === statTypeMapping.goalAgainstAverage.type) {
-    return Number(player.playerStats.splits[0].stat[statType])
+    return Number(
+      player.playerStats.featuredStats.regularSeason.subSeason[statType]
+    )
       .toFixed(2)
       .toString();
-  } else if (statType === statTypeMapping.faceOffPct.type) {
-    return `${player.playerStats.splits[0].stat[statType]}%`;
+  } else if (statType === statTypeMapping.faceoffWinningPctg.type) {
+    return `${player.playerStats.featuredStats.regularSeason.subSeason[statType]}%`;
   } else {
-    return player.playerStats.splits[0].stat[statType];
+    return player.playerStats.featuredStats.regularSeason.subSeason[statType];
   }
 };
 
