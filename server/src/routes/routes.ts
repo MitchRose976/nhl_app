@@ -590,20 +590,20 @@ router.get("/games/scores", async (req: Request, res: Response) => {
 ////////////////////////////////////////////////////////////////////////////////
 // POST team stats by id
 router.get(
-  "/teams/stats/:teamID/:season",
+  "/teams/stats",
   async (req: Request, res: Response) => {
+    const teamIdNumber = Number(req.query.teamID)
     try {
-      await axios
-        .get(
-          // `https://statsapi.web.nhl.com/api/v1/teams/${req.params.teamID}/stats`
-          `https://api.nhle.com/stats/rest/en/team/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22wins%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22teamId%22,%22direction%22:%22ASC%22%7D%5D&start=0&limit=50&factCayenneExp=gamesPlayed%3E=1&cayenneExp=franchiseId%3D${req.params.teamID}%20and%20gameTypeId=2%20and%20seasonId%3C=20232024%20and%20seasonId%3E=${req.params.season}`
-        )
-        .then((response) => {
-          return res.status(200).send(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
+      if (collections.teams && !isNaN(teamIdNumber)) {
+        const teamStatsCursor = collections.teams.find({
+          "teamId": teamIdNumber
         });
+
+        // Convert the cursor to an array and await the result
+        const teamStats = await teamStatsCursor.toArray();
+
+        return res.status(200).send(teamStats[0]);
+      }
     } catch (error) {
       console.log("Error @ /teams/stats: ", error);
     }

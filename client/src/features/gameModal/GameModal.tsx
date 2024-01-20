@@ -15,7 +15,6 @@ import { GameInterface, GoalType, PlayerInfoType } from "../../shared/types";
 import {
   formGetTeamLogoUrl,
   formatBarLabelStatsForGameModal,
-  getCurrentSeason,
   getTeamID,
 } from "../../shared/utils";
 import "../../shared/style.scss";
@@ -43,7 +42,6 @@ const GameModal = ({ game, status }: GameModalProps) => {
   const homeTeam = game.teams.home.abbreviation;
   const awayTeamID = getTeamID(awayTeam);
   const homeTeamID = getTeamID(homeTeam);
-  const currentSeason = getCurrentSeason(true); // formatForApiCall = true
 
   const {
     data: awayTeamStats,
@@ -52,7 +50,6 @@ const GameModal = ({ game, status }: GameModalProps) => {
     isError: awayIsError,
   } = useGetTeamStatsByIDQuery({
     teamID: awayTeamID ?? 0,
-    season: currentSeason,
   });
 
   const {
@@ -62,7 +59,6 @@ const GameModal = ({ game, status }: GameModalProps) => {
     isError: homeIsError,
   } = useGetTeamStatsByIDQuery({
     teamID: homeTeamID ?? 0,
-    season: currentSeason,
   });
 
   const renderTeamLogo = (svgString: string, width: number, height: number) => {
@@ -146,20 +142,16 @@ const GameModal = ({ game, status }: GameModalProps) => {
       home: {
         x: string; // statType label
         y: number; // percentage
-        // z: number; // league rank
       }[];
       away: {
         x: string; // statType label
         y: number; // percentage
-        // z: number; // league rank
       }[];
     } = { home: [], away: [] };
 
     if (awayTeamStats && homeTeamStats && awayIsSuccess && homeIsSuccess) {
       const awayTeamStatPercentages = awayTeamStats.data[0];
-      // const awayTeamStatRanks = awayTeamStats.stats[1].splits[0].stat;
       const homeTeamStatPercentages = homeTeamStats.data[0];
-      // const homeTeamStatRanks = homeTeamStats.stats[1].splits[0].stat;
       PRE_GAME_STATS_TYPES.forEach(({ statType, label }) => {
         formattedData.home.push({
           x: label,

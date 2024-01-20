@@ -33,13 +33,6 @@ export const TEAM_IDS = [
   { teamID: 39, name: "Seattle Kraken", abbreviation: "SEA" },
 ];
 
-// base url to grab all teams in the league
-export const getTeamStatsUrl = (season: string) => {
-  const data = `https://api.nhle.com/stats/rest/en/team/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22wins%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22teamId%22,%22direction%22:%22ASC%22%7D%5D&start=0&limit=50&factCayenneExp=gamesPlayed%3E=1&cayenneExp=gameTypeId=2%20and%20seasonId%3C=20232024%20and%20seasonId%3E=${season}`
-  console.log('mitch data: ', data)
-  return data
-};
-
 export const NHL_API_BASE = "https://api-web.nhle.com/v1";
 
 // origin url for cors

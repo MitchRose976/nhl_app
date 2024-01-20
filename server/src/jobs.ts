@@ -1,5 +1,6 @@
 import { ToadScheduler, SimpleIntervalJob, AsyncTask } from "toad-scheduler";
 import {
+  // deleteTeamsCollection,
   // deletePlayersCollection,
   seedPlayersCollection,
   seedTeamsCollection,
@@ -7,8 +8,9 @@ import {
 
 const scheduler = new ToadScheduler();
 
-
-// Tasks
+//////////////////////////////////////////////////
+////////////////////// TASKS /////////////////////
+/////////////////////////////////////////////////
 const seedTeamsTask = new AsyncTask("Seed Teams", async () => {
   try {
     console.log("running seedTeamsJob...");
@@ -17,6 +19,15 @@ const seedTeamsTask = new AsyncTask("Seed Teams", async () => {
     return console.log("Error in seedTeamsTask: ", err);
   }
 });
+
+// const deleteTeamsTask = new AsyncTask("Delete Teams Collection", async () => {
+//   try {
+//     console.log("running deleteTeamsJob...");
+//     return await deleteTeamsCollection();
+//   } catch (err) {
+//     return console.log("Error in deleteTeamsTask: ", err);
+//   }
+// });
 
 const seedPlayersTask = new AsyncTask("Seed Players", async () => {
   try {
@@ -37,17 +48,13 @@ const seedPlayersTask = new AsyncTask("Seed Players", async () => {
 // });
 
 
-// Jobs
+//////////////////////////////////////////////////
+////////////////////// JOBS /////////////////////
+/////////////////////////////////////////////////
 const seedPlayersJob = new SimpleIntervalJob(
   { hours: 1, runImmediately: false },
   seedPlayersTask,
   { id: "id_1" }
-);
-
-const seedTeamsJob = new SimpleIntervalJob(
-  { minutes: 1, runImmediately: false },
-  seedTeamsTask,
-  { id: "id_2" }
 );
 
 // const deletePlayersJob = new SimpleIntervalJob(
@@ -56,6 +63,19 @@ const seedTeamsJob = new SimpleIntervalJob(
 //   { id: "id_3" }
 // );
 
+const seedTeamsJob = new SimpleIntervalJob(
+  { minutes: 150, runImmediately: false },
+  seedTeamsTask,
+  { id: "id_2" }
+);
+
+// const deleteTeamsJob = new SimpleIntervalJob(
+//   { minutes: 1, runImmediately: false },
+//   deleteTeamsTask,
+//   { id: "id_2" }
+// );
+
 scheduler.addSimpleIntervalJob(seedPlayersJob);
 // scheduler.addSimpleIntervalJob(deletePlayersJob);
 scheduler.addSimpleIntervalJob(seedTeamsJob);
+// scheduler.addSimpleIntervalJob(deleteTeamsJob);

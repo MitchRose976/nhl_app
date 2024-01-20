@@ -280,12 +280,6 @@ export const PRE_GAME_STATS_TYPES = [
   { statType: "powerPlayPct", label: "PP%" },
   { statType: "shotsForPerGame", label: "Shots/Game" },
   { statType: "shotsAgainstPerGame", label: "Shots Against/Game" },
-  // { statType: "winScoreFirst", label: "Win% - Scoring First" },
-  // { statType: "winLeadFirstPer", label: "Win% - Leading 1st Period" },
-  // { statType: "winLeadSecondPer", label: "Win% - Leading 2nd Period" },
-  // { statType: "winOppScoreFirst", label: "Win% - Opponent Scores First" },
-  // { statType: "winOutshootOpp", label: "Win% - Outshoot Opponent" },
-  // { statType: "winOutshotByOpp", label: "Win% - Outshot By Opponent" },
 ];
 
 // array of statTypes to be formatted

@@ -13,7 +13,6 @@ import "../../shared/style.scss";
 import Loader from "../../shared/components/Loader";
 import { Tooltip } from "react-tooltip";
 import "./style.scss";
-import { formatStatType } from "../../shared/utils";
 
 const TeamStats = () => {
   // variables
@@ -56,30 +55,6 @@ const TeamStats = () => {
           x: "Shots Against/Game",
           y: 28.2317,
         },
-        // {
-        //   x: "Win% - Scoring First",
-        //   y: 75,
-        // },
-        // {
-        //   x: "Win% - Leading 1st Period",
-        //   y: 78.3,
-        // },
-        // {
-        //   x: "Win% - Leading 2nd Period",
-        //   y: 91.9,
-        // },
-        // {
-        //   x: "Win% - Opponent Scores First",
-        //   y: 52.400000000000006,
-        // },
-        // {
-        //   x: "Win% - Outshoot Opponent",
-        //   y: 61.4,
-        // },
-        // {
-        //   x: "Win% - Outshot By Opponent",
-        //   y: 66.7,
-        // },
       ],
     },
   ]);
