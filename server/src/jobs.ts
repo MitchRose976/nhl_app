@@ -45,7 +45,7 @@ const seedPlayersJob = new SimpleIntervalJob(
 );
 
 const seedTeamsJob = new SimpleIntervalJob(
-  { hours: 6, runImmediately: false },
+  { minutes: 1, runImmediately: false },
   seedTeamsTask,
   { id: "id_2" }
 );

@@ -2,13 +2,17 @@ import axios from "axios";
 import { Document, OptionalId } from "mongodb";
 import * as dotenv from "dotenv";
 import { TeamDataType } from "../../types";
-import { GET_TEAMS_BASE_URL } from "../../constants";
+import { getTeamStatsUrl } from "../../constants";
 import { collections, connectToDatabase } from "../../connect";
+import { getCurrentSeason } from "../../utils";
 
 dotenv.config();
 
 const getTeams = async () => {
-  return await axios.get(GET_TEAMS_BASE_URL).then((res) => res.data?.teams);
+  const currentSeason = getCurrentSeason(true);
+  const teamStatsUrl = getTeamStatsUrl(await currentSeason);
+  console.log('mitch getTeamStatsUrl: ', teamStatsUrl)
+  return await axios.get(teamStatsUrl).then((res) => res.data);
 };
 
 const postTeamsToMongoDB = async (data: OptionalId<Document>[]) => {
@@ -44,20 +48,11 @@ const seedTeamsCollection = async () => {
 
     // array to hold model of data based on Team schema for each team
     const teamData = data.map((team: TeamDataType) => {
-      return {
-        teamId: team.id,
-        teamName: team.name,
-        teamAbbreviation: team.abbreviation,
-        teamDivision: team.division,
-        teamConference: team.conference,
-        teamVenue: team.venue,
-        firstYearOfPlay: team.firstYearOfPlay,
-        teamLogoUrl: `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${team.id}.svg`,
-      };
+      console.log('mitch team: ', team)
     });
     
     // Post data to "teams" collection in mongoDB
-    await postTeamsToMongoDB(teamData);
+    // await postTeamsToMongoDB(teamData);
   } catch (err) {
     console.log(err);
   }
