@@ -46,7 +46,10 @@ const TeamInput = ({
       // format data for victory bar chart to read
       let formattedData: { x: string; y: number }[] = [];
       PRE_GAME_STATS_TYPES.forEach(({ statType, label }) => {
-        const formattedStat = formatStatType(data.data, statType);
+        console.log('mitch data: ', data)
+        console.log('mitch statType: ', statType)
+        console.log('mitch label: ', label)
+        const formattedStat = formatStatType(data, statType);
         if (typeof formattedStat === "number") {
           formattedData.push({
             x: label,

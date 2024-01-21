@@ -10,6 +10,8 @@ export const formGetTeamLogoUrl = (teamAbbreviation: string) =>
   `https://assets.nhle.com/logos/nhl/svg/${teamAbbreviation}_light.svg`;
 
 export const formatStat = (player: PlayerDataType, statType: string) => {
+  console.log('mitch statType: ', statType);
+  console.log('mitch statType: ', statTypeMapping.avgToi);
   const statsRequiringDifferentMapping = [
     statTypeMapping.avgToi.type,
     statTypeMapping.faceoffWinningPctg.type,
@@ -169,9 +171,12 @@ export const getWindowSize = () => {
 };
 
 export const formatStatType = (data: any, statType: string) => {
+  console.log('mitch formatStatType data: ', data)
+  console.log('mitch formatStatType statType: ', statType)
   // get value of statType in data
   const getYValueByX = (statType: string): number | null => {
-    for (const item of Object.entries(data[0])) {
+    for (const item of data) {
+      console.log('mitch item: ', item)
       if (item[0] === statType && typeof item[1] === "number") {
         const value: number = item[1];
         return value;
@@ -182,27 +187,7 @@ export const formatStatType = (data: any, statType: string) => {
 
   const value = getYValueByX(statType);
 
-  const hasMoreThanTwoDecimalPlaces = (number: number | string) => {
-    const decimalIndex = number.toString().indexOf(".");
-    if (decimalIndex === -1) {
-      return false; // No decimal places
-    }
-    const decimalPlaces = number.toString().substring(decimalIndex + 1);
-    return decimalPlaces.length > 2;
-  };
-
-  if (typeof value === "number") {
-    if (statTypesRequiringFormatting.includes(statType)) {
-      return hasMoreThanTwoDecimalPlaces(value * 100)
-        ? Number((value * 100).toFixed(1))
-        : value * 100;
-    } else if (hasMoreThanTwoDecimalPlaces(value)) {
-      return parseFloat(value.toFixed(1));
-    }
-    return parseFloat(value.toFixed(1));
-  } else {
-    return null;
-  }
+  return value;
 };
 
 export const getCurrentSeason = (formatForApiCall: boolean) => {
