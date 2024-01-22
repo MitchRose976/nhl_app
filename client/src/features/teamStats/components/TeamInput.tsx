@@ -8,7 +8,6 @@ import {
   MenuItem,
   SelectChangeEvent,
 } from "@mui/material";
-import { formatStatType } from "../../../shared/utils";
 
 interface TeamInputProps {
   teamInputOrder: number; // corresponds to the title of the select container (Team, Team 2, Team 3 etc.)
@@ -46,15 +45,15 @@ const TeamInput = ({
       // format data for victory bar chart to read
       let formattedData: { x: string; y: number }[] = [];
       PRE_GAME_STATS_TYPES.forEach(({ statType, label }) => {
-        console.log('mitch data: ', data)
-        console.log('mitch statType: ', statType)
-        console.log('mitch label: ', label)
-        const formattedStat = formatStatType(data, statType);
-        if (typeof formattedStat === "number") {
-          formattedData.push({
-            x: label,
-            y: formattedStat,
-          });
+        // find matching statType within data
+        for (const item of Object.entries(data)) {
+          if (item[0] === statType && typeof item[1] === "number") {
+            const value: number = item[1];
+            formattedData.push({
+              x: label,
+              y: value,
+            });
+          }
         }
       });
       fetchTeamData(formattedData, teamInputOrder, teamName);

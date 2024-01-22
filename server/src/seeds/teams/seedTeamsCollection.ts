@@ -34,7 +34,7 @@ const postTeamsToMongoDB = async (data: OptionalId<Document>[]) => {
             otLosses: team.otLosses,
             penaltyKillNetPct: team.penaltyKillNetPct,
             penaltyKillPct: team.penaltyKillPct,
-            pointPct: team.pointsPct,
+            pointPct: team.pointPct,
             points: team.points,
             powerPlayNetPct: team.powerPlayNetPct,
             powerPlayPct: team.powerPlayPct,

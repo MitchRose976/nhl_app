@@ -1,17 +1,11 @@
 import { TeamStandingsDataObject } from "../../../server/src/types";
 import { NameType, PlayerDataType } from "../shared/types";
-import {
-  TEAM_IDS,
-  statTypeMapping,
-  statTypesRequiringFormatting,
-} from "./constants";
+import { TEAM_IDS, statTypeMapping } from "./constants";
 
 export const formGetTeamLogoUrl = (teamAbbreviation: string) =>
   `https://assets.nhle.com/logos/nhl/svg/${teamAbbreviation}_light.svg`;
 
 export const formatStat = (player: PlayerDataType, statType: string) => {
-  console.log('mitch statType: ', statType);
-  console.log('mitch statType: ', statTypeMapping.avgToi);
   const statsRequiringDifferentMapping = [
     statTypeMapping.avgToi.type,
     statTypeMapping.faceoffWinningPctg.type,
@@ -168,26 +162,6 @@ export const formatBarLabelStatsForGameModal = (
 export const getWindowSize = () => {
   const { innerWidth, innerHeight } = window;
   return { innerWidth, innerHeight };
-};
-
-export const formatStatType = (data: any, statType: string) => {
-  console.log('mitch formatStatType data: ', data)
-  console.log('mitch formatStatType statType: ', statType)
-  // get value of statType in data
-  const getYValueByX = (statType: string): number | null => {
-    for (const item of data) {
-      console.log('mitch item: ', item)
-      if (item[0] === statType && typeof item[1] === "number") {
-        const value: number = item[1];
-        return value;
-      }
-    }
-    return null;
-  };
-
-  const value = getYValueByX(statType);
-
-  return value;
 };
 
 export const getCurrentSeason = (formatForApiCall: boolean) => {
