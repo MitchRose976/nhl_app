@@ -177,8 +177,3 @@ export const getCurrentSeason = (formatForApiCall: boolean) => {
     return formatForApiCall ? `${year}${year + 1}` : `${year}/${year + 1}`;
   }
 };
-
-export const getTeamID = (teamAbbreviation: string) => {
-  const team = TEAM_IDS.find((team) => team.abbreviation === teamAbbreviation);
-  return team?.teamID;
-};

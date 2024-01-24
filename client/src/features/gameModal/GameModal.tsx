@@ -15,13 +15,11 @@ import { GameInterface, GoalType, PlayerInfoType } from "../../shared/types";
 import {
   formGetTeamLogoUrl,
   formatBarLabelStatsForGameModal,
-  getTeamID,
 } from "../../shared/utils";
 import "../../shared/style.scss";
 import {
   LIVE_GAME_STATS_TYPES,
   PRE_GAME_STATS_TYPES,
-  statTypesRequiringFormatting,
 } from "../../shared/constants";
 import { useGetTeamStatsByIDQuery } from "../api/apiSlice";
 import {
@@ -40,8 +38,8 @@ interface GameModalProps {
 const GameModal = ({ game, status }: GameModalProps) => {
   const awayTeam = game.teams.away.abbreviation;
   const homeTeam = game.teams.home.abbreviation;
-  const awayTeamID = getTeamID(awayTeam);
-  const homeTeamID = getTeamID(homeTeam);
+  const awayTeamID = game.teams.away.id;
+  const homeTeamID = game.teams.home.id;
 
   const {
     data: awayTeamStats,
@@ -150,28 +148,20 @@ const GameModal = ({ game, status }: GameModalProps) => {
     } = { home: [], away: [] };
 
     if (awayTeamStats && homeTeamStats && awayIsSuccess && homeIsSuccess) {
-      const awayTeamStatPercentages = awayTeamStats.data[0];
-      const homeTeamStatPercentages = homeTeamStats.data[0];
+      // console.log("mitch awayTeamStats: ", awayTeamStats);
       PRE_GAME_STATS_TYPES.forEach(({ statType, label }) => {
         formattedData.home.push({
           x: label,
-          // check if this block can use formatStatType from utils
-          y: statTypesRequiringFormatting.includes(statType)
-            ? homeTeamStatPercentages[statType] * 100
-            : parseFloat(homeTeamStatPercentages[statType]),
-          // z: parseInt(homeTeamStatRanks[statType]),
+          y: homeTeamStats[statType],
         });
 
         formattedData.away.push({
           x: label,
-          // check if this block can use formatStatType from utils
-          y: statTypesRequiringFormatting.includes(statType)
-            ? awayTeamStatPercentages[statType] * 100
-            : parseFloat(awayTeamStatPercentages[statType]),
-          // z: parseInt(awayTeamStatRanks[statType]),
+          y: awayTeamStats[statType],
         });
       });
     }
+    // console.log("mitch formattedData: ", formattedData);
     return formattedData;
   };
 

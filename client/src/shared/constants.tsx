@@ -282,14 +282,6 @@ export const PRE_GAME_STATS_TYPES = [
   { statType: "shotsAgainstPerGame", label: "Shots Against/Game" },
 ];
 
-// array of statTypes to be formatted
-export const statTypesRequiringFormatting = [
-  "pointPct",
-  "faceoffWinPct",
-  "penaltyKillPct",
-  "powerPlayPct",
-];
-
 export const TEAM_STATS_BAR_COLORS = [
   "#45B29D",
   "#FFA5A5",
