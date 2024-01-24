@@ -1,6 +1,6 @@
 import { TeamStandingsDataObject } from "../../../server/src/types";
 import { NameType, PlayerDataType } from "../shared/types";
-import { TEAM_IDS, statTypeMapping } from "./constants";
+import { statTypeMapping } from "./constants";
 
 export const formGetTeamLogoUrl = (teamAbbreviation: string) =>
   `https://assets.nhle.com/logos/nhl/svg/${teamAbbreviation}_light.svg`;
