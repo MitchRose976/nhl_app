@@ -6,18 +6,21 @@ import {
   TOP_10_ASSISTS_PATH,
   TOP_10_PLUS_MINUS_PATH,
   TOP_10_PENALTY_MINUTES_PATH,
-  TOP_10_HITS_PATH,
-  TOP_10_TOTAL_TIME_ON_ICE_PATH,
   TOP_10_TIME_ON_ICE_PER_GAME_PATH,
-  TOP_10_TIME_ON_ICE_SHORT_HANDED_PATH,
-  TOP_10_TIME_ON_ICE_POWERPLAY_PATH,
   TOP_10_POWERPLAY_GOALS_PATH,
   TOP_10_SHORT_HANDED_GOALS_PATH,
   TOP_10_POWERPLAY_POINTS_PATH,
   TOP_10_SHORT_HANDED_POINTS_PATH,
   TOP_10_FACE_OFF_PERCENTAGE_PATH,
+  TOP_10_SHOOTING_PERCENTAGE_PATH,
+  TOP_10_SHOTS_ON_NET_PATH,
+  TOP_10_GAME_WINNING_GOALS_PATH,
+  TOP_10_OT_GOALS_PATH,
   TOP_10_SAVE_PERCENTAGE_PATH,
   TOP_10_WINS_PATH,
+  TOP_10_LOSSES_PATH,
+  TOP_10_GAMES_STARTED_PATH,
+  TOP_10_SHUTOUTS_PATH,
   TOP_10_GOALS_AGAINST_AVERAGE_PATH,
   GET_STANDINGS_PATH,
   GET_SCORES_PATH,
@@ -45,17 +48,8 @@ export const apiSlice = createApi({
     getTop10PenaltyMinutes: builder.query<PlayerDataType[], void>({
       query: () => TOP_10_PENALTY_MINUTES_PATH,
     }),
-    getTop10TotalTimeOnIce: builder.query<PlayerDataType[], void>({
-      query: () => TOP_10_TOTAL_TIME_ON_ICE_PATH,
-    }),
     getTop10TimeOnIcePerGame: builder.query<PlayerDataType[], void>({
       query: () => TOP_10_TIME_ON_ICE_PER_GAME_PATH,
-    }),
-    getTop10TimeOnIceShortHanded: builder.query<PlayerDataType[], void>({
-      query: () => TOP_10_TIME_ON_ICE_SHORT_HANDED_PATH,
-    }),
-    getTop10TimeOnIcePowerplay: builder.query<PlayerDataType[], void>({
-      query: () => TOP_10_TIME_ON_ICE_POWERPLAY_PATH,
     }),
     getTop10PowerplayGoals: builder.query<PlayerDataType[], void>({
       query: () => TOP_10_POWERPLAY_GOALS_PATH,
@@ -72,11 +66,32 @@ export const apiSlice = createApi({
     getTop10FaceOffPercentage: builder.query<PlayerDataType[], void>({
       query: () => TOP_10_FACE_OFF_PERCENTAGE_PATH,
     }),
+    getTop10ShootingPercentage: builder.query<PlayerDataType[], void>({
+      query: () => TOP_10_SHOOTING_PERCENTAGE_PATH,
+    }),
+    getTop10ShotsOnNet: builder.query<PlayerDataType[], void>({
+      query: () => TOP_10_SHOTS_ON_NET_PATH,
+    }),
+    getTop10GameWinningGoals: builder.query<PlayerDataType[], void>({
+      query: () => TOP_10_GAME_WINNING_GOALS_PATH,
+    }),
+    getTop10OtGoals: builder.query<PlayerDataType[], void>({
+      query: () => TOP_10_OT_GOALS_PATH,
+    }),
     getTop10SavePercentage: builder.query<PlayerDataType[], void>({
       query: () => TOP_10_SAVE_PERCENTAGE_PATH,
     }),
     getTop10Wins: builder.query<PlayerDataType[], void>({
       query: () => TOP_10_WINS_PATH,
+    }),
+    getTop10Losses: builder.query<PlayerDataType[], void>({
+      query: () => TOP_10_LOSSES_PATH,
+    }),
+    getTop10GamesStarted: builder.query<PlayerDataType[], void>({
+      query: () => TOP_10_GAMES_STARTED_PATH,
+    }),
+    getTop10Shutouts: builder.query<PlayerDataType[], void>({
+      query: () => TOP_10_SHUTOUTS_PATH,
     }),
     getTop10GoalsAgainstAverage: builder.query<PlayerDataType[], void>({
       query: () => TOP_10_GOALS_AGAINST_AVERAGE_PATH,
@@ -87,12 +102,12 @@ export const apiSlice = createApi({
     getScores: builder.query<any, void>({
       query: () => GET_SCORES_PATH,
     }),
-    getTeamStatsByID: builder.query<any, { teamID: number; season: string }>({
+    getTeamStatsByID: builder.query<any, { teamID: number }>({
       query: (args) => {
-        const { teamID, season } = args;
+        const { teamID } = args;
         return {
-          url: `${GET_TEAM_STATS_PATH}/${teamID}/${season}`,
-          params: { teamID, season },
+          url: `${GET_TEAM_STATS_PATH}`,
+          params: { teamID },
         };
       },
     }),
@@ -105,17 +120,21 @@ export const {
   useGetTop10AssistsQuery,
   useGetTop10PlusMinusQuery,
   useGetTop10PenaltyMinutesQuery,
-  useGetTop10TotalTimeOnIceQuery,
   useGetTop10TimeOnIcePerGameQuery,
-  useGetTop10TimeOnIceShortHandedQuery,
-  useGetTop10TimeOnIcePowerplayQuery,
   useGetTop10PowerplayGoalsQuery,
   useGetTop10ShortHandedGoalsQuery,
   useGetTop10PowerplayPointsQuery,
   useGetTop10ShortHandedPointsQuery,
   useGetTop10FaceOffPercentageQuery,
+  useGetTop10ShootingPercentageQuery,
+  useGetTop10ShotsOnNetQuery,
+  useGetTop10GameWinningGoalsQuery,
+  useGetTop10OtGoalsQuery,
   useGetTop10SavePercentageQuery,
   useGetTop10WinsQuery,
+  useGetTop10LossesQuery,
+  useGetTop10GamesStartedQuery,
+  useGetTop10ShutoutsQuery,
   useGetTop10GoalsAgainstAverageQuery,
   useGetStandingsQuery,
   useGetScoresQuery,

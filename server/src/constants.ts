@@ -33,9 +33,6 @@ export const TEAM_IDS = [
   { teamID: 39, name: "Seattle Kraken", abbreviation: "SEA" },
 ];
 
-// base url to grab all teams in the league
-export const GET_TEAMS_BASE_URL = "https://statsapi.web.nhl.com/api/v1/teams";
-
 export const NHL_API_BASE = "https://api-web.nhle.com/v1";
 
 // origin url for cors

@@ -1,27 +1,46 @@
 import { TeamStandingsDataObject } from "../../../server/src/types";
-import { PlayerDataType } from "../shared/types";
-import {
-  TEAM_IDS,
-  statTypeMapping,
-  statTypesRequiringFormatting,
-} from "./constants";
+import { NameType, PlayerDataType } from "../shared/types";
+import { TEAM_IDS, statTypeMapping } from "./constants";
 
 export const formGetTeamLogoUrl = (teamAbbreviation: string) =>
   `https://assets.nhle.com/logos/nhl/svg/${teamAbbreviation}_light.svg`;
 
 export const formatStat = (player: PlayerDataType, statType: string) => {
-  if (statType === statTypeMapping.savePercentage.type) {
-    return `${Number(player.playerStats.splits[0].stat[statType])
-      .toFixed(3)
-      .toString()}%`;
-  } else if (statType === statTypeMapping.goalAgainstAverage.type) {
-    return Number(player.playerStats.splits[0].stat[statType])
-      .toFixed(2)
-      .toString();
-  } else if (statType === statTypeMapping.faceOffPct.type) {
-    return `${player.playerStats.splits[0].stat[statType]}%`;
+  const statsRequiringDifferentMapping = [
+    statTypeMapping.avgToi.type,
+    statTypeMapping.faceoffWinningPctg.type,
+    statTypeMapping.gamesStarted.type,
+    statTypeMapping.shutouts.type,
+  ];
+
+  const statsRequiringRoundingTo3Decimals = [
+    statTypeMapping.savePctg.type,
+    statTypeMapping.faceoffWinningPctg.type,
+    statTypeMapping.shootingPctg.type,
+  ];
+
+  const featuredSeasonMapping =
+    player.playerStats.featuredStats.regularSeason.subSeason;
+  const seasonTotalsMapping =
+    player.playerStats.seasonTotals[player.playerStats.seasonTotals.length - 1];
+
+  const convertNameTypeToString = (nameType: NameType): string => {
+    return nameType.default || "";
+  };
+
+  if (statsRequiringRoundingTo3Decimals.includes(statType)) {
+    return statsRequiringDifferentMapping.includes(statType)
+      ? `${Number(seasonTotalsMapping[statType]).toFixed(3).toString()}%`
+      : `${Number(featuredSeasonMapping[statType]).toFixed(3).toString()}%`;
+  } else if (statType === statTypeMapping.goalsAgainstAvg.type) {
+    return Number(featuredSeasonMapping[statType]).toFixed(2).toString();
   } else {
-    return player.playerStats.splits[0].stat[statType];
+    const value = statsRequiringDifferentMapping.includes(statType)
+      ? seasonTotalsMapping[statType]
+      : featuredSeasonMapping[statType];
+
+    // Convert NameType to string if applicable
+    return typeof value === "object" ? convertNameTypeToString(value) : value;
   }
 };
 
@@ -119,20 +138,6 @@ export const splitArrayIntoEqualParts = (arr: any[], n: number) => {
   );
 };
 
-export const addNumberSuffix = (number: number) => {
-  if (number > 3 && number < 21) return "th";
-  switch (number % 10) {
-    case 1:
-      return "st";
-    case 2:
-      return "nd";
-    case 3:
-      return "rd";
-    default:
-      return "th";
-  }
-};
-
 export const formatBarLabelStatsForGameModal = (
   statType: string,
   number: number
@@ -159,43 +164,6 @@ export const getWindowSize = () => {
   return { innerWidth, innerHeight };
 };
 
-export const formatStatType = (data: any, statType: string) => {
-  // get value of statType in data
-  const getYValueByX = (statType: string): number | null => {
-    for (const item of Object.entries(data[0])) {
-      if (item[0] === statType && typeof item[1] === "number") {
-        const value: number = item[1];
-        return value;
-      }
-    }
-    return null;
-  };
-
-  const value = getYValueByX(statType);
-
-  const hasMoreThanTwoDecimalPlaces = (number: number | string) => {
-    const decimalIndex = number.toString().indexOf(".");
-    if (decimalIndex === -1) {
-      return false; // No decimal places
-    }
-    const decimalPlaces = number.toString().substring(decimalIndex + 1);
-    return decimalPlaces.length > 2;
-  };
-
-  if (typeof value === "number") {
-    if (statTypesRequiringFormatting.includes(statType)) {
-      return hasMoreThanTwoDecimalPlaces(value * 100)
-        ? Number((value * 100).toFixed(1))
-        : value * 100;
-    } else if (hasMoreThanTwoDecimalPlaces(value)) {
-      return parseFloat(value.toFixed(1));
-    }
-    return parseFloat(value.toFixed(1));
-  } else {
-    return null;
-  }
-};
-
 export const getCurrentSeason = (formatForApiCall: boolean) => {
   // if formatForApiCall is true, current season is returned as 20232024
   // otherwise 2023/2024
@@ -208,9 +176,4 @@ export const getCurrentSeason = (formatForApiCall: boolean) => {
   } else {
     return formatForApiCall ? `${year}${year + 1}` : `${year}/${year + 1}`;
   }
-};
-
-export const getTeamID = (teamAbbreviation: string) => {
-  const team = TEAM_IDS.find((team) => team.abbreviation === teamAbbreviation);
-  return team?.teamID;
 };

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { NHL_API_BASE } from "../constants";
-import { PlayerBioFormattedType } from "../types";
+import { PlayerBioFormattedType, TeamDataType } from "../types";
 
 export const formatYearMonthDay = (date: Date) =>
   date.toISOString().slice(0, 10);
@@ -46,4 +46,35 @@ export const getCurrentSeason = async (formatForApiCall: boolean) => {
       : String(current).substring(0, 4) + "/" + String(current).substring(4);
   });
   return currentSeason;
+};
+
+export const getTeamStatsUrl = (season: string) =>
+  `https://api.nhle.com/stats/rest/en/team/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22wins%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22teamId%22,%22direction%22:%22ASC%22%7D%5D&start=0&limit=50&factCayenneExp=gamesPlayed%3E=1&cayenneExp=gameTypeId=2%20and%20seasonId%3C=20232024%20and%20seasonId%3E=${season}`;
+
+export const formatTeamStats = (teamStats: TeamDataType) => {
+  const statsRequiringRoundingTo2Decimals = [
+    "goalsAgainstPerGame",
+    "goalsForPerGame",
+    "shotsAgainstPerGame",
+    "shotsForPerGame",
+  ];
+  const statsRequiringFormattingAsPercentage = [
+    "faceoffWinPct",
+    "penaltyKillNetPct",
+    "penaltyKillPct",
+    "pointPct",
+    "powerPlayNetPct",
+    "powerPlayPct",
+  ];
+  for (let stat in teamStats) {
+    const value = teamStats[stat];
+    if (value !== null && typeof value === "number") {
+      if (statsRequiringRoundingTo2Decimals.includes(stat)) {
+        teamStats[stat] = parseFloat(value.toFixed(2));
+      } else if (statsRequiringFormattingAsPercentage.includes(stat)) {
+        teamStats[stat] = parseFloat((value * 100).toFixed(2));
+      }
+    }
+  }
+  return teamStats;
 };

@@ -11,23 +11,15 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { GameInterface, GoalType, PlayerInfoType } from "../../shared/types";
 import {
-  GameInterface,
-  GoalType,
-  PlayerInfoType,
-} from "../../shared/types";
-import {
-  addNumberSuffix,
   formGetTeamLogoUrl,
   formatBarLabelStatsForGameModal,
-  getCurrentSeason,
-  getTeamID
 } from "../../shared/utils";
 import "../../shared/style.scss";
 import {
   LIVE_GAME_STATS_TYPES,
   PRE_GAME_STATS_TYPES,
-  statTypesRequiringFormatting,
 } from "../../shared/constants";
 import { useGetTeamStatsByIDQuery } from "../api/apiSlice";
 import {
@@ -46,23 +38,26 @@ interface GameModalProps {
 const GameModal = ({ game, status }: GameModalProps) => {
   const awayTeam = game.teams.away.abbreviation;
   const homeTeam = game.teams.home.abbreviation;
-  const awayTeamID = getTeamID(awayTeam);
-  const homeTeamID = getTeamID(homeTeam);
-  const currentSeason = getCurrentSeason(true); // formatForApiCall = true
+  const awayTeamID = game.teams.away.id;
+  const homeTeamID = game.teams.home.id;
 
   const {
     data: awayTeamStats,
     isLoading: awayIsLoading,
     isSuccess: awayIsSuccess,
     isError: awayIsError,
-  } = useGetTeamStatsByIDQuery({ teamID: awayTeamID ?? 0, season: currentSeason });
+  } = useGetTeamStatsByIDQuery({
+    teamID: awayTeamID ?? 0,
+  });
 
   const {
     data: homeTeamStats,
     isLoading: homeIsLoading,
     isSuccess: homeIsSuccess,
     isError: homeIsError,
-  } = useGetTeamStatsByIDQuery({ teamID: homeTeamID ?? 0, season: currentSeason });
+  } = useGetTeamStatsByIDQuery({
+    teamID: homeTeamID ?? 0,
+  });
 
   const renderTeamLogo = (svgString: string, width: number, height: number) => {
     return svgString !== "" ? (
@@ -76,7 +71,11 @@ const GameModal = ({ game, status }: GameModalProps) => {
     return (
       <div className="flex-box-center">
         <div className="flex-box-center" style={{ padding: "0 1rem" }}>
-          {renderTeamLogo(formGetTeamLogoUrl(game.teams.home.abbreviation), 60, 60)}
+          {renderTeamLogo(
+            formGetTeamLogoUrl(game.teams.home.abbreviation),
+            60,
+            60
+          )}
           {status.status === "FINAL" || status.status === "LIVE" ? (
             <Typography sx={{ fontSize: "2rem", paddingLeft: "2rem" }}>
               {game.scores[homeTeam]}
@@ -92,7 +91,11 @@ const GameModal = ({ game, status }: GameModalProps) => {
               {game.scores[awayTeam]}
             </Typography>
           ) : null}
-          {renderTeamLogo(formGetTeamLogoUrl(game.teams.away.abbreviation), 60, 60)}
+          {renderTeamLogo(
+            formGetTeamLogoUrl(game.teams.away.abbreviation),
+            60,
+            60
+          )}
         </div>
       </div>
     );
@@ -137,40 +140,28 @@ const GameModal = ({ game, status }: GameModalProps) => {
       home: {
         x: string; // statType label
         y: number; // percentage
-        // z: number; // league rank
       }[];
       away: {
         x: string; // statType label
         y: number; // percentage
-        // z: number; // league rank
       }[];
     } = { home: [], away: [] };
 
     if (awayTeamStats && homeTeamStats && awayIsSuccess && homeIsSuccess) {
-      const awayTeamStatPercentages = awayTeamStats.data[0];
-      // const awayTeamStatRanks = awayTeamStats.stats[1].splits[0].stat;
-      const homeTeamStatPercentages = homeTeamStats.data[0];
-      // const homeTeamStatRanks = homeTeamStats.stats[1].splits[0].stat;
+      // console.log("mitch awayTeamStats: ", awayTeamStats);
       PRE_GAME_STATS_TYPES.forEach(({ statType, label }) => {
         formattedData.home.push({
           x: label,
-          // check if this block can use formatStatType from utils
-          y: statTypesRequiringFormatting.includes(statType)
-            ? homeTeamStatPercentages[statType] * 100
-            : parseFloat(homeTeamStatPercentages[statType]),
-          // z: parseInt(homeTeamStatRanks[statType]),
+          y: homeTeamStats[statType],
         });
 
         formattedData.away.push({
           x: label,
-          // check if this block can use formatStatType from utils
-          y: statTypesRequiringFormatting.includes(statType)
-            ? awayTeamStatPercentages[statType] * 100
-            : parseFloat(awayTeamStatPercentages[statType]),
-          // z: parseInt(awayTeamStatRanks[statType]),
+          y: awayTeamStats[statType],
         });
       });
     }
+    // console.log("mitch formattedData: ", formattedData);
     return formattedData;
   };
 
@@ -220,7 +211,13 @@ const GameModal = ({ game, status }: GameModalProps) => {
             alignItems: "center",
           }}
         >
-          <div>{renderTeamLogo(formGetTeamLogoUrl(scoringTeamAbbreviation), 30, 30)}</div>
+          <div>
+            {renderTeamLogo(
+              formGetTeamLogoUrl(scoringTeamAbbreviation),
+              30,
+              30
+            )}
+          </div>
           <Typography sx={{ fontSize: "0.75rem", marginLeft: "0.3rem" }}>
             {`${getTimeOfGoal(goal)}
              - ${goal.scorer.player} (${goal.scorer.seasonTotal}) ${
@@ -324,11 +321,7 @@ const GameModal = ({ game, status }: GameModalProps) => {
             data={headToHeadData.home.reverse()}
             y={(data) => -Math.abs(data.y)}
             labels={headToHeadData.home.map(({ x, y }) => {
-              return `${formatBarLabelStatsForGameModal(
-                x,
-                y
-              )}`;
-              //  (${z}${addNumberSuffix(z)})
+              return `${formatBarLabelStatsForGameModal(x, y)}`;
             })}
             animate={{
               duration: 2000,
@@ -340,11 +333,7 @@ const GameModal = ({ game, status }: GameModalProps) => {
             data={headToHeadData.away.reverse()}
             y={(data) => Math.abs(data.y)}
             labels={headToHeadData.away.map(({ x, y }) => {
-              return `${formatBarLabelStatsForGameModal(
-                x,
-                y
-              )}`; 
-              // (${z}${addNumberSuffix(z)})
+              return `${formatBarLabelStatsForGameModal(x, y)}`;
             })}
             animate={{
               duration: 2000,

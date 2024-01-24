@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import {
   statTypeMapping,
-  statTypes,
   TOP_10_STATS_CATEGORIES,
 } from "../../shared/constants";
 import MiniPlayerCard from "../../shared/components/MiniPlayerCard";
@@ -26,20 +25,15 @@ import Loader from "../../shared/components/Loader";
 
 const Top10Chart = () => {
   const queryHooks: { [key: string]: any } = {
+    // PLAYERS
     getTop10Points: apiSlice.endpoints.getTop10Points.useQuery(),
     getTop10Goals: apiSlice.endpoints.getTop10Goals.useQuery(),
     getTop10Assists: apiSlice.endpoints.getTop10Assists.useQuery(),
     getTop10PlusMinus: apiSlice.endpoints.getTop10PlusMinus.useQuery(),
     getTop10PenaltyMinutes:
       apiSlice.endpoints.getTop10PenaltyMinutes.useQuery(),
-    getTop10TotalTimeOnIce:
-      apiSlice.endpoints.getTop10TotalTimeOnIce.useQuery(),
     getTop10TimeOnIcePerGame:
       apiSlice.endpoints.getTop10TimeOnIcePerGame.useQuery(),
-    getTop10TimeOnIceShortHanded:
-      apiSlice.endpoints.getTop10TimeOnIceShortHanded.useQuery(),
-    getTop10TimeOnIcePowerplay:
-      apiSlice.endpoints.getTop10TimeOnIcePowerplay.useQuery(),
     getTop10PowerplayGoals:
       apiSlice.endpoints.getTop10PowerplayGoals.useQuery(),
     getTop10ShortHandedGoals:
@@ -50,9 +44,19 @@ const Top10Chart = () => {
       apiSlice.endpoints.getTop10ShortHandedPoints.useQuery(),
     getTop10FaceOffPercentage:
       apiSlice.endpoints.getTop10FaceOffPercentage.useQuery(),
+    getTop10ShootingPercentage:
+      apiSlice.endpoints.getTop10ShootingPercentage.useQuery(),
+    getTop10ShotsOnNet: apiSlice.endpoints.getTop10ShotsOnNet.useQuery(),
+    getTop10GameWinningGoals:
+      apiSlice.endpoints.getTop10GameWinningGoals.useQuery(),
+    getTop10OtGoals: apiSlice.endpoints.getTop10OtGoals.useQuery(),
+    // GOALIES
     getTop10SavePercentage:
       apiSlice.endpoints.getTop10SavePercentage.useQuery(),
     getTop10Wins: apiSlice.endpoints.getTop10Wins.useQuery(),
+    getTop10Losses: apiSlice.endpoints.getTop10Losses.useQuery(),
+    getTop10GamesStarted: apiSlice.endpoints.getTop10GamesStarted.useQuery(),
+    getTop10Shutouts: apiSlice.endpoints.getTop10Shutouts.useQuery(),
     getTop10GoalsAgainstAverage:
       apiSlice.endpoints.getTop10GoalsAgainstAverage.useQuery(),
   };
@@ -63,15 +67,15 @@ const Top10Chart = () => {
   );
   const windowSize = useRef([window.innerWidth, window.innerHeight]);
   const [activeCard, setActiveCard] = useState(0);
-  // may not need statTypes
-  const [statType, setStatType] = useState<string>(statTypes.points);
+  const [statType, setStatType] = useState<string>(statTypeMapping.points.type);
   const [showComponent, setShowComponent] = useState(false);
+
+  // Make this state?
+  let chartData = queryHooks[queryType];
 
   useEffect(() => {
     setShowComponent(true);
   }, []);
-
-  let chartData = queryHooks[queryType];
 
   useEffect(() => {
     const newStat = Object.values(statTypeMapping).find(
@@ -161,7 +165,7 @@ const Top10Chart = () => {
                                 : "0.85rem",
                           }}
                         >
-                          {player.playerInfo.fullName}
+                          {`${player.playerInfo.firstName.default} ${player.playerInfo.lastName.default}`}
                         </TableCell>
                         <TableCell>{formatStat(player, statType)}</TableCell>
                       </TableRow>

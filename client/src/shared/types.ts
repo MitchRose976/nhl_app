@@ -1,87 +1,183 @@
 import { Types } from "mongoose";
 
-export interface PlayerBioFormattedType {
-  [key: string]: string | boolean | number | object;
-  id: number;
-  fullName: string;
-  link: string;
-  firstName: string;
-  lastName: string;
-  primaryNumber: string;
-  birthDate: string;
-  currentAge: number;
-  birthCity: string;
-  birthStateProvince: string;
-  birthCountry: string;
-  nationality: string;
-  height: string;
-  weight: number;
-  active: boolean;
-  alternateCaptain: boolean;
-  captain: boolean;
-  rookie: boolean;
-  shootsCatches: string;
-  rosterStatus: string;
-  currentTeam: {
-    id: number;
-    name: string;
-    link: string;
-  };
-  primaryPosition: {
-    code: string;
-    name: string;
-    type: string;
-    abbreviation: string;
-  };
-}
+export type CurrentTeamRosterPlayerInfoType = {
+  playerId: number;
+  lastName: NameType;
+  firstName: NameType;
+  playerSlug: string;
+};
 
-export interface SeasonStatsType {
-  [key: string]: number | string;
-  timeOnIce: string;
-  assists: number;
+type SeasonAwardsType = {
+  seasonId: number;
+  gamesPlayed: number;
+  gameTypeId: number;
   goals: number;
-  pim: number;
-  shots: number;
-  games: number;
+  assists: number;
+  points: number;
+  plusMinus: number;
   hits: number;
+  blockedShots: number;
+  pim: number;
+  // Add other properties as needed
+};
+
+export type AwardType = {
+  trophy: NameType;
+  seasons: SeasonAwardsType[];
+};
+
+export type SeasonStatsTotalType = {
+  [key: string]: number | string | NameType | undefined;
+  season: number;
+  gameTypeId: number;
+  leagueAbbrev: string;
+  teamName: NameType;
+  sequence: number;
+  gamesPlayed: number;
+  goals?: number;
+  assists?: number;
+  points: number;
+  plusMinus?: number;
+  powerPlayGoals?: number;
+  gameWinningGoals?: number;
+  shots?: number;
+  shootingPctg?: number;
+  shorthandedGoals?: number;
+  pim: number;
+};
+
+export type GameInfoType = {
+  gameId: number;
+  gameTypeId: number;
+  teamAbbrev: string;
+  homeRoadFlag: string;
+  gameDate: string;
+  goals: number;
+  assists: number;
+  points: number;
+  plusMinus: number;
+  powerPlayGoals: number;
+  shots: number;
+  shifts: number;
+  shorthandedGoals: number;
+  pim: number;
+  opponentAbbrev: string;
+  toi: string;
+};
+
+export type BasicPlayerStatsType = {
+  [key: string]: number | string | undefined;
+  gamesPlayed: number;
+  goals: number;
+  assists: number;
+  points: number;
+  plusMinus: number;
+  pim: number;
+  gameWinningGoals: number;
+  otGoals: number;
+  shots: number;
+  shootingPctg: number;
   powerPlayGoals: number;
   powerPlayPoints: number;
-  powerPlayTimeOnIce: string;
-  evenTimeOnIce: string;
-  penaltyMinutes: string;
-  faceOffPct: number;
-  shotPct: number;
-  gameWinningGoals: number;
-  overTimeGoals: number;
-  shortHandedGoals: number;
-  shortHandedPoints: number;
-  shortHandedTimeOnIce: string;
-  blocked: number;
-  plusMinus: number;
-  points: number;
-  shifts: number;
-  timeOnIcePerGame: string;
-  evenTimeOnIcePerGame: string;
-  shortHandedTimeOnIcePerGame: string;
-  powerPlayTimeOnIcePerGame: string;
-}
+  shorthandedGoals: number;
+  shorthandedPoints: number;
+  faceoffWinningPctg?: number;
+  avgToi?: string;
+  wins?: number;
+  losses?: number;
+  ties?: number;
+  otLosses?: number;
+  shutouts?: number;
+  goalsAgainstAverage?: number;
+  savePctg: number;
+};
+
+export type NameType = {
+  default: string;
+  fr?: string;
+  cs?: string;
+  fi?: string;
+  sk?: string;
+};
+
+export type PlayerBioFormattedType = {
+  playerId: number;
+  isActive: boolean;
+  currentTeamId: number;
+  currentTeamAbbrev: string;
+  fullTeamName: NameType;
+  firstName: {
+    default: string;
+  };
+  lastName: {
+    default: string;
+  };
+  teamLogo: string;
+  sweaterNumber: number;
+  position: string;
+  headshot: string;
+  heroImage: string;
+  heightInInches: number;
+  heightInCentimeters: number;
+  weightInPounds: number;
+  weightInKilograms: number;
+  birthDate: string;
+  birthCity: {
+    default: string;
+  };
+  birthStateProvince: {
+    default: string;
+    fr: string;
+    sk: string;
+    sv: string;
+  };
+  birthCountry: string;
+  shootsCatches: string;
+  draftDetails: {
+    year: number;
+    teamAbbrev: string;
+    round: number;
+    pickInRound: number;
+    overallPick: number;
+  };
+  playerSlug: string;
+  inTop100AllTime: number;
+  inHHOF: number;
+  featuredStats: {
+    season: number;
+    regularSeason: {
+      subSeason: BasicPlayerStatsType;
+      career: BasicPlayerStatsType;
+    };
+  };
+  careerTotals: {
+    regularSeason: BasicPlayerStatsType;
+    playoffs: BasicPlayerStatsType;
+  };
+  shopLink: string;
+  twitterLink: string;
+  watchLink: string;
+  last5Games: GameInfoType[];
+  seasonTotals: SeasonStatsTotalType[];
+  awards: AwardType[];
+  currentTeamRoster: CurrentTeamRosterPlayerInfoType[];
+};
 
 export interface PlayerStatsFormattedType {
   [key: string]: object | string | number;
-  type: {
-    displayName: string;
-    gameType: {
-      id: string;
-      description: string;
-      postseason: boolean;
+  featuredStats: {
+    season: number;
+    regularSeason: {
+      subSeason: BasicPlayerStatsType;
+      career: BasicPlayerStatsType;
     };
   };
-  splits: [
-    {
-      season: string;
-      stat: SeasonStatsType;
-    }
-  ];
+  careerTotals: {
+    regularSeason: BasicPlayerStatsType;
+    playoffs: BasicPlayerStatsType;
+  };
+  seasonTotals: SeasonStatsTotalType[];
+  last5Games: GameInfoType[];
 }
 
 // this is the type stored in the players collection in mongoDB
@@ -225,15 +321,6 @@ export interface GameInterface {
   };
 }
 
-export interface TodaysGamesInterface {
-  [key: string]: object | object[];
-  date: {
-    raw: string;
-    pretty: string;
-  };
-  games: GameInterface[];
-}
-
 export type PlayerInfoType = {
   player: string;
   playerId: number;
@@ -250,106 +337,6 @@ export type GoalType = {
   strength?: string;
   emptyNet?: boolean;
 };
-
-export interface TeamStatsDataType {
-  copyright: string;
-  stats: [
-    {
-      type: {
-        displayName: string;
-        gameType: {
-          id: string;
-          description: string;
-          postseason: boolean;
-        };
-      };
-      splits: [
-        {
-          stat: {
-            gamesPlayed: number;
-            wins: number;
-            losses: number;
-            ot: number;
-            pts: number;
-            ptPctg: "61.0";
-            goalsPerGame: number;
-            goalsAgainstPerGame: number;
-            evGGARatio: number;
-            powerPlayPercentage: string;
-            powerPlayGoals: number;
-            powerPlayGoalsAgainst: number;
-            powerPlayOpportunities: number;
-            penaltyKillPercentage: string;
-            shotsPerGame: number;
-            shotsAllowed: number;
-            winScoreFirst: number;
-            winOppScoreFirst: number;
-            winLeadFirstPer: number;
-            winLeadSecondPer: number;
-            winOutshootOpp: number;
-            winOutshotByOpp: number;
-            faceOffsTaken: number;
-            faceOffsWon: number;
-            faceOffsLost: number;
-            faceOffWinPercentage: string;
-            shootingPctg: number;
-            savePctg: number;
-          };
-          team: {
-            id: number;
-            name: string;
-            link: string;
-          };
-        }
-      ];
-    },
-    {
-      type: {
-        displayName: string;
-        gameType: null;
-      };
-      splits: [
-        {
-          stat: {
-            wins: string;
-            losses: string;
-            ot: string;
-            pts: string;
-            ptPctg: string;
-            goalsPerGame: string;
-            goalsAgainstPerGame: string;
-            evGGARatio: string;
-            powerPlayPercentage: string;
-            powerPlayGoals: string;
-            powerPlayGoalsAgainst: string;
-            powerPlayOpportunities: string;
-            penaltyKillOpportunities: string;
-            penaltyKillPercentage: string;
-            shotsPerGame: string;
-            shotsAllowed: string;
-            winScoreFirst: string;
-            winOppScoreFirst: string;
-            winLeadFirstPer: string;
-            winLeadSecondPer: string;
-            winOutshootOpp: string;
-            winOutshotByOpp: string;
-            faceOffsTaken: string;
-            faceOffsWon: string;
-            faceOffsLost: string;
-            faceOffWinPercentage: string;
-            savePctRank: string;
-            shootingPctRank: string;
-          };
-          team: {
-            id: number;
-            name: string;
-            link: string;
-          };
-        }
-      ];
-    }
-  ];
-}
 
 export interface formattedTeamStatType {
   teamName: string;

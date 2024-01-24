@@ -18,43 +18,31 @@ export type PlayerType = {
 };
 
 export type TeamDataType = {
-  id: number;
-  name: string;
-  venue: {
-    name: string;
-    link: string;
-    city: string;
-    timeZone: {
-      id: string;
-      offset: number;
-      tz: string;
-    };
-  };
-  abbreviation: string;
-  teamName: string;
-  locationName: string;
-  firstYearOfPlay: string;
-  division: {
-    id: number;
-    name: string;
-    nameShort: string;
-    link: string;
-    abbreviation: string;
-  };
-  conference: {
-    id: number;
-    name: string;
-    link: string;
-  };
-  franchise: {
-    franchiseId: number;
-    teamName: string;
-    link: string;
-  };
-  shortName: string;
-  officialSiteUrl: string;
-  franchiseId: number;
-  active: boolean;
+  [x: string]: number | string | null;
+  faceoffWinPct: number;
+  gamesPlayed: number;
+  goalsAgainst: number;
+  goalsAgainstPerGame: number;
+  goalsFor: number;
+  goalsForPerGame: number;
+  losses: number;
+  otLosses: number;
+  penaltyKillNetPct: number;
+  penaltyKillPct: number;
+  pointPct: number;
+  points: number;
+  powerPlayNetPct: number;
+  powerPlayPct: number;
+  regulationAndOtWins: number;
+  seasonId: number;
+  shotsAgainstPerGame: number;
+  shotsForPerGame: number;
+  teamFullName: string;
+  teamId: number;
+  ties: null | number;
+  wins: number;
+  winsInRegulation: number;
+  winsInShootout: number;
 };
 
 export type PlayerRawType = {
@@ -108,6 +96,7 @@ export type RosterType = {
 };
 
 export type BasicPlayerStatsType = {
+  [key: string]: number | string | undefined;
   gamesPlayed: number;
   goals: number;
   assists: number;
@@ -124,6 +113,13 @@ export type BasicPlayerStatsType = {
   shorthandedPoints: number;
   faceoffWinningPctg?: number;
   avgToi?: string;
+  wins?: number;
+  losses?: number;
+  ties?: number;
+  otLosses?: number;
+  shutouts?: number;
+  goalsAgainstAverage?: number;
+  savePctg: number;
 };
 
 export type NameType = {
@@ -135,6 +131,7 @@ export type NameType = {
 };
 
 export type SeasonStatsTotalType = {
+  [key: string]: number | string | NameType | undefined;
   season: number;
   gameTypeId: number;
   leagueAbbrev: string;
@@ -259,37 +256,6 @@ export type PlayerBioFormattedType = {
   seasonTotals: SeasonStatsTotalType[];
   awards: AwardType[];
   currentTeamRoster: CurrentTeamRosterPlayerInfoType[];
-}
-
-export interface SeasonStatsType {
-  [key: string]: number | string;
-  timeOnIce: string;
-  assists: number;
-  goals: number;
-  pim: number;
-  shots: number;
-  games: number;
-  hits: number;
-  powerPlayGoals: number;
-  powerPlayPoints: number;
-  powerPlayTimeOnIce: string;
-  evenTimeOnIce: string;
-  penaltyMinutes: string;
-  faceOffPct: number;
-  shotPct: number;
-  gameWinningGoals: number;
-  overTimeGoals: number;
-  shortHandedGoals: number;
-  shortHandedPoints: number;
-  shortHandedTimeOnIce: string;
-  blocked: number;
-  plusMinus: number;
-  points: number;
-  shifts: number;
-  timeOnIcePerGame: string;
-  evenTimeOnIcePerGame: string;
-  shortHandedTimeOnIcePerGame: string;
-  powerPlayTimeOnIcePerGame: string;
 }
 
 export interface PlayerStatsFormattedType {

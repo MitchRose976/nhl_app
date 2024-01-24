@@ -2,13 +2,19 @@ import axios from "axios";
 import { Document, OptionalId } from "mongodb";
 import * as dotenv from "dotenv";
 import { TeamDataType } from "../../types";
-import { GET_TEAMS_BASE_URL } from "../../constants";
 import { collections, connectToDatabase } from "../../connect";
+import {
+  formatTeamStats,
+  getCurrentSeason,
+  getTeamStatsUrl,
+} from "../../utils";
 
 dotenv.config();
 
 const getTeams = async () => {
-  return await axios.get(GET_TEAMS_BASE_URL).then((res) => res.data?.teams);
+  const currentSeason = getCurrentSeason(true);
+  const teamStatsUrl = getTeamStatsUrl(await currentSeason);
+  return await axios.get(teamStatsUrl).then((res) => res.data.data);
 };
 
 const postTeamsToMongoDB = async (data: OptionalId<Document>[]) => {
@@ -18,14 +24,30 @@ const postTeamsToMongoDB = async (data: OptionalId<Document>[]) => {
         { teamId: team.teamId },
         {
           $set: {
+            faceoffWinPct: team.faceoffWinPct,
+            gamesPlayed: team.gamesPlayed,
+            goalsAgainst: team.goalsAgainst,
+            goalsAgainstPerGame: team.goalsAgainstPerGame,
+            goalsFor: team.goalsFor,
+            goalsForPerGame: team.goalsForPerGame,
+            losses: team.losses,
+            otLosses: team.otLosses,
+            penaltyKillNetPct: team.penaltyKillNetPct,
+            penaltyKillPct: team.penaltyKillPct,
+            pointPct: team.pointPct,
+            points: team.points,
+            powerPlayNetPct: team.powerPlayNetPct,
+            powerPlayPct: team.powerPlayPct,
+            regulationAndOtWins: team.regulationAndOtWins,
+            seasonId: team.seasonId,
+            shotsAgainstPerGame: team.shotsAgainstPerGame,
+            shotsForPerGame: team.shotsForPerGame,
+            teamFullName: team.teamFullName,
             teamId: team.teamId,
-            teamName: team.teamName,
-            teamAbbreviation: team.teamAbbreviation,
-            teamDivision: team.teamDivision,
-            teamConference: team.teamConference,
-            teamVenue: team.teamVenue,
-            firstYearOfPlay: team.firstYearOfPlay,
-            teamLogoUrl: team.teamLogoUrl,
+            ties: team.ties,
+            wins: team.wins,
+            winsInRegulation: team.winsInRegulation,
+            winsInShootout: team.winsInShootout,
           },
         },
         { upsert: true }
@@ -39,27 +61,15 @@ const seedTeamsCollection = async () => {
   await connectToDatabase();
 
   try {
-    // get data from NHL api
-    let data: TeamDataType[] = await getTeams();
+    const data: TeamDataType[] = await getTeams();
 
-    // array to hold model of data based on Team schema for each team
     const teamData = data.map((team: TeamDataType) => {
-      return {
-        teamId: team.id,
-        teamName: team.name,
-        teamAbbreviation: team.abbreviation,
-        teamDivision: team.division,
-        teamConference: team.conference,
-        teamVenue: team.venue,
-        firstYearOfPlay: team.firstYearOfPlay,
-        teamLogoUrl: `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${team.id}.svg`,
-      };
+      return formatTeamStats(team);
     });
-    
-    // Post data to "teams" collection in mongoDB
+
     await postTeamsToMongoDB(teamData);
   } catch (err) {
-    console.log(err);
+    console.log("error in seedTeamsCollection: ", err);
   }
 };
 
