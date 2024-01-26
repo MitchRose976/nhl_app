@@ -36,6 +36,6 @@ export const TEAM_IDS = [
 export const NHL_API_BASE = "https://api-web.nhle.com/v1";
 
 // origin url for cors
-// const CLIENT_URL = "https://funny-sprinkles-f549f1.netlify.app";
+const CLIENT_URL = "https://funny-sprinkles-f549f1.netlify.app";
 // to test locally
-export const CLIENT_URL = 'http://localhost:3000';
+// export const CLIENT_URL = 'http://localhost:3000';
