@@ -65,7 +65,44 @@ const HomePage = () => {
           </p>
         </header>
         <PageDivider />
-
+        {/* Top 5 Hottest Players */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <iframe
+            title="Top 5 Points in Last 5"
+            style={{
+              background: "#21313C",
+              border: "none",
+              borderRadius: "0.5rem",
+              boxShadow: "0 2px 10px 0 rgba(70, 76, 79, .2)",
+              marginRight: "0.3rem",
+            }}
+            // style="background: #21313C;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);"
+            width="640"
+            height="480"
+            src="https://charts.mongodb.com/charts-project-0-umige/embed/charts?id=65b41f2e-18f6-4151-8dfb-2388359b2a2d&maxDataAge=300&theme=dark&autoRefresh=true"
+          />
+          <iframe
+            title="Top 5 Goals in Last 5"
+            style={{
+              background: "#21313C",
+              border: "none",
+              borderRadius: "0.5rem",
+              boxShadow: "0 2px 10px 0 rgba(70, 76, 79, .2)",
+              marginLeft: "0.3rem",
+            }}
+            width="640"
+            height="480"
+            src="https://charts.mongodb.com/charts-project-0-umige/embed/charts?id=72cce2c4-b49e-4465-8b75-a8a5b167b7cb&maxDataAge=300&theme=dark&autoRefresh=true"
+          ></iframe>
+        </div>
+        <PageDivider />
         {/* THE TECH */}
         <div className="welcome-message-header">
           <h1>The Tech</h1>

@@ -1,0 +1,44 @@
+// Top 5 points in last 5 games
+([
+  {
+    $project: {
+      playerName: {
+        $concat: [
+          "$playerInfo.firstName.default",
+          " ",
+          "$playerInfo.lastName.default",
+        ],
+      },
+      totalPoints: { $sum: "$playerStats.last5Games.points" },
+    },
+  },
+  {
+    $sort: { totalPoints: -1 },
+  },
+  {
+    $limit: 5,
+  },
+])
+
+// Top 5 goals in last 5 games
+[
+  {
+    $project: {
+      playerName: {
+        $concat: [
+          "$playerInfo.firstName.default",
+          " ",
+          "$playerInfo.lastName.default"
+        ]
+      },
+      totalGoals: { $sum: "$playerStats.last5Games.goals" }
+    }
+  },
+  {
+    $sort: { totalGoals: -1 }
+  },
+  {
+    $limit: 5
+  }
+]
+
