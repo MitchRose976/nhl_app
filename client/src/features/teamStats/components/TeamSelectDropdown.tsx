@@ -4,13 +4,11 @@ import TeamInput from "./TeamInput";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 interface TeamSelectDropdownProps {
-  fetchTeamData: any;
   setNumOfTeamsToCompare: any;
   numOfTeamsToCompare: number;
 }
 
 const TeamSelectDropdown = ({
-  fetchTeamData,
   setNumOfTeamsToCompare,
   numOfTeamsToCompare,
 }: TeamSelectDropdownProps) => {
@@ -55,7 +53,6 @@ const TeamSelectDropdown = ({
           <TeamInput
             teamInputOrder={1}
             numOfTeamsToCompare={numOfTeamsToCompare}
-            fetchTeamData={fetchTeamData}
           />
         </Grid>
         {/* SECOND TEAM */}
@@ -63,7 +60,6 @@ const TeamSelectDropdown = ({
           <TeamInput
             teamInputOrder={2}
             numOfTeamsToCompare={numOfTeamsToCompare}
-            fetchTeamData={fetchTeamData}
           />
         </Grid>
         {/* THIRD TEAM */}
@@ -71,7 +67,6 @@ const TeamSelectDropdown = ({
           <TeamInput
             teamInputOrder={3}
             numOfTeamsToCompare={numOfTeamsToCompare}
-            fetchTeamData={fetchTeamData}
           />
         </Grid>
         {/* FOURTH TEAM */}
@@ -79,7 +74,6 @@ const TeamSelectDropdown = ({
           <TeamInput
             teamInputOrder={4}
             numOfTeamsToCompare={numOfTeamsToCompare}
-            fetchTeamData={fetchTeamData}
           />
         </Grid> */}
         {/* FIFTH TEAM */}
@@ -87,7 +81,6 @@ const TeamSelectDropdown = ({
           <TeamInput
             teamInputOrder={5}
             numOfTeamsToCompare={numOfTeamsToCompare}
-            fetchTeamData={fetchTeamData}
           />
         </Grid> */}
         {/* Add and Remove Buttons */}

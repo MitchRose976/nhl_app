@@ -345,3 +345,18 @@ export interface formattedTeamStatType {
     y: number;
   }[];
 }
+
+export type TeamStatistic = {
+  x: string;
+  y: number;
+};
+
+export type FormattedTeamData = {
+  _id: string;
+  teamName: string;
+  data: TeamStatistic[];
+};
+
+export type FormattedTeamStats = {
+  [index: number]: FormattedTeamData[];
+};

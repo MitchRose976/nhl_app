@@ -588,7 +588,7 @@ router.get("/games/scores", async (req: Request, res: Response) => {
 ////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////// TEAM STATS ///////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-// POST team stats by id
+// GET team stats by id
 router.get(
   "/teams/stats",
   async (req: Request, res: Response) => {
@@ -609,5 +609,39 @@ router.get(
     }
   }
 );
+
+// GET team stats formatted for TeamStats.tsx chart
+router.get(
+  "/teams/stats/formatted",
+  async (req: Request, res: Response) => {
+    try {
+      if (collections.teams) {
+        const formattedTeamsDataCursor = collections.teams.aggregate([
+          {
+            $project: {
+              teamName: "$teamFullName",
+              data: [
+                { x: "Point %", y: "$pointPct" },
+                { x: "Faceoff %", y: "$faceoffWinPct" },
+                { x: "Goals/Game", y: "$goalsForPerGame" },
+                { x: "Goals Against/Game", y: "$goalsAgainstPerGame" },
+                { x: "PK%", y: "$penaltyKillPct" },
+                { x: "PP%", y: "$powerPlayPct" },
+                { x: "Shots/Game", y: "$shotsForPerGame" },
+                { x: "Shots Against/Game", y: "$shotsAgainstPerGame" }
+              ]
+            }
+          }
+        ])
+
+        const formattedTeamsData = await formattedTeamsDataCursor.toArray()
+
+        return res.status(200).send(formattedTeamsData)
+      }
+    } catch (error) {
+      console.log("Error @ /teams/stats/formatted: ", error);
+    }
+  }
+)
 
 export default router;

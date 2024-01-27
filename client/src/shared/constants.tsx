@@ -67,7 +67,6 @@ export const TEAM_IDS = [
   { teamID: 39, name: "Seattle Kraken", abbreviation: "SEA" },
 ];
 
-
 export const BASE_URL = "https://nhl-live-game-tracker.onrender.com/nhl-app";
 // to test locally
 // export const BASE_URL = "http://localhost:7000/nhl-app";
@@ -85,20 +84,22 @@ export const TOP_10_SHORT_HANDED_POINTS_PATH =
   "/players/top10ShortHandedPoints";
 export const TOP_10_FACE_OFF_PERCENTAGE_PATH =
   "/players/top10FaceOffPercentage";
-export const TOP_10_SHOOTING_PERCENTAGE_PATH = "/players/top10ShootingPercentage"
-export const TOP_10_SHOTS_ON_NET_PATH = "players/top10ShotsOnNet"
-export const TOP_10_GAME_WINNING_GOALS_PATH = "players/top10GameWinningGoals"
-export const TOP_10_OT_GOALS_PATH = "players/top10OtGoals"
+export const TOP_10_SHOOTING_PERCENTAGE_PATH =
+  "/players/top10ShootingPercentage";
+export const TOP_10_SHOTS_ON_NET_PATH = "players/top10ShotsOnNet";
+export const TOP_10_GAME_WINNING_GOALS_PATH = "players/top10GameWinningGoals";
+export const TOP_10_OT_GOALS_PATH = "players/top10OtGoals";
 export const TOP_10_SAVE_PERCENTAGE_PATH = "/players/top10SavePercentage";
 export const TOP_10_WINS_PATH = "/players/top10Wins";
 export const TOP_10_LOSSES_PATH = "/players/top10Losses";
-export const TOP_10_GAMES_STARTED_PATH = "/players/top10GamesStarted"
-export const TOP_10_SHUTOUTS_PATH = "/players/top10Shutouts"
+export const TOP_10_GAMES_STARTED_PATH = "/players/top10GamesStarted";
+export const TOP_10_SHUTOUTS_PATH = "/players/top10Shutouts";
 export const TOP_10_GOALS_AGAINST_AVERAGE_PATH =
   "/players/top10GoalsAgainstAverage";
 export const GET_STANDINGS_PATH = "/teams/standings";
 export const GET_SCORES_PATH = "/games/scores";
-export const GET_TEAM_STATS_PATH = "/teams/stats"
+export const GET_TEAM_STATS_PATH = "/teams/stats";
+export const TEAM_STATS_FORMATTED_PATH = "/teams/stats/formatted";
 
 export const TOP_10_STATS_CATEGORIES = [
   { label: "Points", name: "Points" },
@@ -213,7 +214,7 @@ export const statTypeMapping: {
   gameWinningGoals: {
     type: "gameWinningGoals",
     label: "GWG",
-    queryName: 'getTop10GameWinningGoals',
+    queryName: "getTop10GameWinningGoals",
     tableType: "skater",
   },
   otGoals: {

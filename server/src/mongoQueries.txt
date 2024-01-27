@@ -42,3 +42,40 @@
   }
 ]
 
+
+// Team stats data format query
+[
+  {
+    $project: {
+      teamName: "$teamFullName",
+      data: [
+        { x: "Point %", y: "$pointPct" },
+        {
+          x: "Faceoff %",
+          y: "$faceoffWinPct",
+        },
+        {
+          x: "Goals/Game",
+          y: "$goalsForPerGame",
+        },
+        {
+          x: "Goals Against/Game",
+          y: "$goalsAgainstPerGame",
+        },
+        {
+          x: "PK%",
+          y: "$penaltyKillPct",
+        },
+        { x: "PP%", y: "$powerPlayPct" },
+        {
+          x: "Shots/Game",
+          y: "$shotsForPerGame",
+        },
+        {
+          x: "Shots Against/Game",
+          y: "$shotsAgainstPerGame",
+        },
+      ],
+    },
+  },
+]

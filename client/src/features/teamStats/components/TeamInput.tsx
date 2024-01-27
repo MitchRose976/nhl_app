@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { PRE_GAME_STATS_TYPES, TEAM_IDS } from "../../../shared/constants";
-import { useGetTeamStatsByIDQuery } from "../../api/apiSlice";
+import React, { useState } from "react";
+import { TEAM_IDS } from "../../../shared/constants";
 import {
   FormControl,
   InputLabel,
@@ -12,13 +11,11 @@ import {
 interface TeamInputProps {
   teamInputOrder: number; // corresponds to the title of the select container (Team, Team 2, Team 3 etc.)
   numOfTeamsToCompare: number; // controlled by add team and subtract team buttons
-  fetchTeamData: any;
 }
 
 const TeamInput = ({
   teamInputOrder,
-  numOfTeamsToCompare,
-  fetchTeamData,
+  numOfTeamsToCompare
 }: TeamInputProps) => {
   const [teamID, setTeamID] = useState<number>(
     TEAM_IDS[teamInputOrder - 1].teamID
@@ -26,9 +23,6 @@ const TeamInput = ({
   const [teamName, setTeamName] = useState<string>(
     TEAM_IDS[teamInputOrder - 1].name
   );
-  const { data, isLoading, isSuccess, isError } = useGetTeamStatsByIDQuery({
-    teamID,
-  });
 
   const handleChange = (event: SelectChangeEvent) => {
     const selectedTeam = TEAM_IDS.find(
@@ -39,27 +33,6 @@ const TeamInput = ({
       setTeamName(selectedTeam.name);
     }
   };
-
-  useEffect(() => {
-    if (!isLoading && !isError && isSuccess && data) {
-      // format data for victory bar chart to read
-      let formattedData: { x: string; y: number }[] = [];
-      PRE_GAME_STATS_TYPES.forEach(({ statType, label }) => {
-        // find matching statType within data
-        for (const item of Object.entries(data)) {
-          if (item[0] === statType && typeof item[1] === "number") {
-            const value: number = item[1];
-            formattedData.push({
-              x: label,
-              y: value,
-            });
-          }
-        }
-      });
-      fetchTeamData(formattedData, teamInputOrder, teamName);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, teamID, teamName]);
 
   const renderTeamDropdownItems = () => {
     return TEAM_IDS.map(({ name }) => (

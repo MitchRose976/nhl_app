@@ -13,53 +13,18 @@ import "../../shared/style.scss";
 import Loader from "../../shared/components/Loader";
 import { Tooltip } from "react-tooltip";
 import "./style.scss";
+import { useGetTeamStatsFormattedQuery } from "../api/apiSlice";
 
 const TeamStats = () => {
   // variables
   const allCategories = PRE_GAME_STATS_TYPES.map((item) => item.label);
   const chartWidth = window.innerWidth < 500 ? 300 : 800;
   const chartHeight = window.innerWidth < 500 ? 400 : 600;
-  const [teamsData, setTeamsData] = useState<Array<formattedTeamStatType>>([
-    {
-      teamName: "New Jersey Devils",
-      data: [
-        {
-          x: "Point %",
-          y: 68.3,
-        },
-        {
-          x: "Faceoff %",
-          y: 51.3,
-        },
-        {
-          x: "Goals/Game",
-          y: 3.524,
-        },
-        {
-          x: "Goals Against/Game",
-          y: 2.707,
-        },
-        {
-          x: "PK%",
-          y: 82.6,
-        },
-        {
-          x: "PP%",
-          y: 21.9,
-        },
-        {
-          x: "Shots/Game",
-          y: 34.4024,
-        },
-        {
-          x: "Shots Against/Game",
-          y: 28.2317,
-        },
-      ],
-    },
-  ]);
+
+  // queries
+  const { data, isLoading, isSuccess, isError } = useGetTeamStatsFormattedQuery();
+
   // states
-  const [loadingData, setLoadingData] = useState(true);
   const [numOfTeamsToCompare, setNumOfTeamsToCompare] = useState<number>(1);
   const [sliderValues, setSliderValues] = useState<number[]>([
     0,
@@ -69,7 +34,7 @@ const TeamStats = () => {
     allCategories.slice(sliderValues[0], sliderValues[1])
   );
   const [visibleData, setVisibleData] = useState(() => {
-    const initialData = teamsData.slice(0, numOfTeamsToCompare).map((team) => {
+    const initialData = data?.slice(0, numOfTeamsToCompare).map((team) => {
       const barData = team.data.slice(sliderValues[0], sliderValues[1]);
       return { ...team, data: barData };
     });
@@ -98,27 +63,6 @@ const TeamStats = () => {
     setShowComponent(true);
   }, []);
 
-  const fetchTeamData = (
-    teamData: {
-      x: string;
-      y: number;
-    }[],
-    teamNumber: number,
-    teamName: string
-  ) => {
-    setLoadingData(true);
-    /* 
-      teamNumber is the order of the select dropdown (1, 2, or 3)
-      subtracting 1 to correctly target the corresponding index in teamsData
-    */
-    const teamDataIndex = teamNumber - 1;
-    setTeamsData((prevTeamsData) => {
-      let newData = [...prevTeamsData];
-      newData[teamDataIndex] = { teamName: teamName, data: teamData };
-      return newData;
-    });
-    setLoadingData(false);
-  };
 
   const handleSliderChange = (_event: Event, newValues: number | number[]) => {
     if (Array.isArray(newValues)) {
@@ -129,7 +73,7 @@ const TeamStats = () => {
 
   // Function to handle changes in visibleData
   const handleVisibleDataChange = () => {
-    const updatedData = teamsData.slice(0, numOfTeamsToCompare).map((team) => {
+    const updatedData = data.slice(0, numOfTeamsToCompare).map((team) => {
       const barData = team.data.slice(sliderValues[0], sliderValues[1]);
       return { ...team, data: barData };
     });
@@ -156,23 +100,24 @@ const TeamStats = () => {
     setChartKey((prevKey) => prevKey + 1);
     setBarWidth(handleBarWidth());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [teamsData, numOfTeamsToCompare, sliderValues, loadingData]);
+  }, [data, numOfTeamsToCompare, sliderValues, isLoading]);
+
+  console.log('mitch data: ', data)
 
   return (
     <div>
       <TeamSelectDropdown
-        fetchTeamData={fetchTeamData}
         setNumOfTeamsToCompare={setNumOfTeamsToCompare}
         numOfTeamsToCompare={numOfTeamsToCompare}
       />
-      {loadingData ? <Loader /> : null}
-      {/* {!loadingData && teamsData? (
+      {isLoading ? <Loader /> : null}
+      {/* {!isLoading && data? (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
           <strong>Error while fetching data</strong>
         </Alert>
       ) : null} */}
-      {teamsData && !loadingData ? (
+      {data && !isLoading ? (
         <div
           style={{
             opacity: showComponent ? 1 : 0,
@@ -180,7 +125,7 @@ const TeamStats = () => {
           }}
           className={showComponent ? "fade-in" : ""}
         >
-          <CustomLegend data={teamsData.slice(0, numOfTeamsToCompare)} />
+          <CustomLegend data={data.slice(0, numOfTeamsToCompare)} />
           <VictoryChart
             width={chartWidth}
             height={chartHeight}
