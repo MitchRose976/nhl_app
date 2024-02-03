@@ -27,7 +27,7 @@ import {
   GET_TEAM_STATS_PATH,
   TEAM_STATS_FORMATTED_PATH,
 } from "../../shared/constants";
-import type { FormattedTeamStats, PlayerDataType } from "../../shared/types";
+import type { FormattedTeamData, PlayerDataType } from "../../shared/types";
 import { StandingsFormattedType } from "../../../../server/src/types";
 
 export const apiSlice = createApi({
@@ -112,7 +112,7 @@ export const apiSlice = createApi({
         };
       },
     }),
-    getTeamStatsFormatted: builder.query<FormattedTeamStats, void>({
+    getTeamStatsFormatted: builder.query<FormattedTeamData[], void>({
       query: () => TEAM_STATS_FORMATTED_PATH,
     }),
   }),

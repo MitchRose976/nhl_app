@@ -338,25 +338,15 @@ export type GoalType = {
   emptyNet?: boolean;
 };
 
-export interface formattedTeamStatType {
-  teamName: string;
-  data: {
-    x: string;
-    y: number;
-  }[];
-}
-
-export type TeamStatistic = {
-  x: string;
-  y: number;
+export type FormattedRechartDataItem = {
+  statType: string;
+  [key: string]: number | string;
 };
 
 export type FormattedTeamData = {
   _id: string;
   teamName: string;
-  data: TeamStatistic[];
-};
-
-export type FormattedTeamStats = {
-  [index: number]: FormattedTeamData[];
+  data: {
+    [statType: string]: number;
+  };
 };

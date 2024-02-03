@@ -1,250 +1,189 @@
-import React, { useEffect, useState } from "react";
-import TeamSelectDropdown from "./components/TeamSelectDropdown";
-import { VictoryAxis, VictoryBar, VictoryChart, VictoryGroup } from "victory";
 import {
-  PRE_GAME_STATS_TYPES,
-  TEAM_STATS_BAR_COLORS,
-} from "../../shared/constants";
-import styled from "@emotion/styled";
-import { Slider } from "@mui/material";
-import CustomLegend from "./components/CustomLegend";
-import { formattedTeamStatType } from "../../shared/types";
-import "../../shared/style.scss";
-import Loader from "../../shared/components/Loader";
-import { Tooltip } from "react-tooltip";
-import "./style.scss";
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
+  ButtonGroup,
+  Container,
+} from "@mui/material";
+import TeamStatsBarChart from "../../shared/components/TeamStatsBarChart";
+import TeamStatsRadarChart from "../../shared/components/TeamStatsRadarChart";
 import { useGetTeamStatsFormattedQuery } from "../api/apiSlice";
+import { TEAM_IDS } from "../../shared/constants";
+import { useEffect, useState } from "react";
+import { FormattedRechartDataItem } from "../../shared/types";
+const TeamStats2 = () => {
+  // Query
+  const { data, isLoading, isSuccess, isError } =
+    useGetTeamStatsFormattedQuery();
 
-const TeamStats = () => {
-  // variables
-  const allCategories = PRE_GAME_STATS_TYPES.map((item) => item.label);
-  const chartWidth = window.innerWidth < 500 ? 300 : 800;
-  const chartHeight = window.innerWidth < 500 ? 400 : 600;
+  // Team Selection States
+  const [team1, setTeam1] = useState(TEAM_IDS[0].name);
+  const [team2, setTeam2] = useState(TEAM_IDS[1].name);
+  const [team3, setTeam3] = useState(TEAM_IDS[2].name);
 
-  // queries
-  const { data, isLoading, isSuccess, isError } = useGetTeamStatsFormattedQuery();
-
-  // states
-  const [numOfTeamsToCompare, setNumOfTeamsToCompare] = useState<number>(1);
-  const [sliderValues, setSliderValues] = useState<number[]>([
-    0,
-    allCategories.length,
-  ]);
-  const [activeCategories, setActiveCategories] = useState(
-    allCategories.slice(sliderValues[0], sliderValues[1])
-  );
-  const [visibleData, setVisibleData] = useState(() => {
-    const initialData = data?.slice(0, numOfTeamsToCompare).map((team) => {
-      const barData = team.data.slice(sliderValues[0], sliderValues[1]);
-      return { ...team, data: barData };
-    });
-    return initialData;
-  });
-  /*
-    used to re-render entire chart when data is changed using slider
-    or add/remove teams buttons
-  */
-  const [chartKey, setChartKey] = useState(0);
+  // Other States
+  const [numOfTeamsToCompare, setNumOfTeamsToCompare] = useState(1);
   const [showComponent, setShowComponent] = useState(false);
-  const [barWidth, setBarWidth] = useState(12);
-  const [tooltipData, setTooltipData] = useState<{
-    index: null | number;
-    x: number;
-    y: number;
-    content: string | null;
-  }>({
-    index: null,
-    x: 0,
-    y: 0,
-    content: null,
-  });
+
+  console.log("mitch data: ", data);
+
+  const renderTeamDropdownItems = () => {
+    return TEAM_IDS.map(({ name }) => {
+      return <MenuItem value={name}>{name}</MenuItem>;
+    });
+  };
+
+  const handleTeamChange = (teamNumber: number, teamName: string) => {
+    switch (teamNumber) {
+      case 1:
+        setTeam1(teamName);
+        break;
+      case 2:
+        setTeam2(teamName);
+        break;
+      default:
+        setTeam3(teamName);
+        break;
+    }
+  };
+
+  /* --------------------------------------------------------- */
+  /* -------------------Team Comparison Buttons--------------- */
+  /* --------------------------------------------------------- */
+  const addTeamToCompare = () => {
+    setNumOfTeamsToCompare((state: number) =>
+      state < 3 ? (state += 1) : state
+    );
+  };
+
+  const subtractTeamToCompare = () => {
+    setNumOfTeamsToCompare((state: number) =>
+      state > 1 ? (state -= 1) : state
+    );
+  };
+
+  const renderAddSubtractButtons = () => {
+    return (
+      <ButtonGroup variant="contained" aria-label="add/subtract team buttons">
+        <Button sx={{ backgroundColor: "#008000" }} onClick={addTeamToCompare}>
+          Add Team
+        </Button>
+        <Button
+          sx={{ backgroundColor: "#cc0000" }}
+          onClick={subtractTeamToCompare}
+        >
+          Subtract Team
+        </Button>
+      </ButtonGroup>
+    );
+  };
+
+  const formatData = () => {
+    if (data && !isLoading && !isError) {
+      const allTeams = [team1, team2, team3];
+      const matchingTeams = data.filter((team) =>
+        allTeams.includes(team.teamName)
+      );
+
+      let formattedData: FormattedRechartDataItem[] = [
+        { statType: "Point %" },
+        { statType: "Faceoff %" },
+        { statType: "Goals/Game" },
+        { statType: "Goals Against/Game" },
+        { statType: "PK%" },
+        { statType: "PP%" },
+        { statType: "Shots/Game" },
+        { statType: "Shots Against/Game" },
+      ];
+
+      matchingTeams?.forEach((teamData, index) => {
+        formattedData.forEach((stat) => {
+          stat[`team${index + 1}`] = teamData.data[stat.statType] || 0;
+        });
+      });
+
+      console.log("mitch formattedData: ", formattedData);
+      return formattedData;
+    }
+  };
 
   useEffect(() => {
     setShowComponent(true);
   }, []);
 
-
-  const handleSliderChange = (_event: Event, newValues: number | number[]) => {
-    if (Array.isArray(newValues)) {
-      setSliderValues(newValues);
-      setActiveCategories(allCategories.slice(...newValues));
-    }
-  };
-
-  // Function to handle changes in visibleData
-  const handleVisibleDataChange = () => {
-    const updatedData = data.slice(0, numOfTeamsToCompare).map((team) => {
-      const barData = team.data.slice(sliderValues[0], sliderValues[1]);
-      return { ...team, data: barData };
-    });
-    setVisibleData(updatedData);
-  };
-
-  const handleBarWidth = () => {
-    if (window.innerWidth < 500 && numOfTeamsToCompare > 1) {
-      return 3;
-    } else if (window.innerWidth > 500 && numOfTeamsToCompare > 1) {
-      return 7;
-    } else if (
-      window.innerWidth > 500 &&
-      window.innerWidth < 1000 &&
-      numOfTeamsToCompare > 1
-    ) {
-      return 9;
-    }
-    return 15;
-  };
-
-  useEffect(() => {
-    handleVisibleDataChange();
-    setChartKey((prevKey) => prevKey + 1);
-    setBarWidth(handleBarWidth());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, numOfTeamsToCompare, sliderValues, isLoading]);
-
-  console.log('mitch data: ', data)
+  console.log("mitch team1: ", team1);
+  console.log("mitch team2: ", team2);
+  console.log("mitch team3: ", team3);
 
   return (
-    <div>
-      <TeamSelectDropdown
-        setNumOfTeamsToCompare={setNumOfTeamsToCompare}
-        numOfTeamsToCompare={numOfTeamsToCompare}
-      />
-      {isLoading ? <Loader /> : null}
-      {/* {!isLoading && data? (
-        <Alert severity="error">
-          <AlertTitle>Error</AlertTitle>
-          <strong>Error while fetching data</strong>
-        </Alert>
-      ) : null} */}
-      {data && !isLoading ? (
-        <div
-          style={{
-            opacity: showComponent ? 1 : 0,
-            transition: "opacity 0.5s ease-in",
-          }}
-          className={showComponent ? "fade-in" : ""}
+    <Container
+      maxWidth="md"
+      sx={{
+        // border: "1px solid black",
+        padding: "2rem 0",
+        marginTop: "2rem",
+        opacity: showComponent ? 1 : 0,
+        transition: "opacity 0.5s ease-in",
+      }}
+      className={showComponent ? "fade-in" : ""}
+    >
+      {/* TEAM 1 */}
+      <FormControl fullWidth sx={{ marginBottom: "1rem" }}>
+        <InputLabel id="team-selection-1">Team 1</InputLabel>
+        <Select
+          autoWidth
+          labelId="team-selection-1"
+          value={team1}
+          label="Team 1"
+          onChange={(e) => handleTeamChange(1, e.target.value)}
         >
-          <CustomLegend data={data.slice(0, numOfTeamsToCompare)} />
-          <VictoryChart
-            width={chartWidth}
-            height={chartHeight}
-            padding={{ bottom: 140, right: 80, left: 50, top: 20 }}
-            key={chartKey}
+          {renderTeamDropdownItems()}
+        </Select>
+      </FormControl>
+
+      {/* TEAM 2 */}
+      {numOfTeamsToCompare > 1 ? (
+        <FormControl fullWidth sx={{ marginBottom: "1rem" }}>
+          <InputLabel id="team-selection-2">Team 2</InputLabel>
+          <Select
+            autoWidth
+            labelId="team-selection-2"
+            value={team2}
+            label="Team 2"
+            onChange={(e) => handleTeamChange(2, e.target.value)}
           >
-            {/* Y-axis */}
-            <VictoryAxis
-              dependentAxis
-              tickFormat={(tick) => `${tick}`}
-              domain={[0, 100]}
-              style={{
-                tickLabels: { fontSize: window.innerWidth < 500 ? 8 : 12 },
-              }}
-            />
-            {/* X-axis */}
-            <VictoryAxis
-              tickValues={activeCategories}
-              style={{
-                tickLabels: {
-                  fontSize: window.innerWidth < 500 ? 8 : 12,
-                  angle: 45,
-                  textAnchor: "start",
-                },
-              }}
-            />
-            <VictoryGroup
-              offset={window.innerWidth < 500 ? 3 : 12}
-              colorScale={TEAM_STATS_BAR_COLORS}
-              animate={{
-                duration: 2000,
-                onLoad: { duration: 500 },
-              }}
-            >
-              {visibleData.map((team, index) => {
-                return (
-                  <VictoryBar
-                    key={`bar-${index}`}
-                    data={team.data}
-                    x="x"
-                    y="y"
-                    labels={({ datum }) => `${datum.y}`}
-                    style={{
-                      data: { width: window.innerWidth < 500 ? 10 : 12 },
-                      labels: { fontSize: window.innerWidth < 500 ? 6 : 10 },
-                    }}
-                    alignment="middle"
-                    barWidth={barWidth}
-                    //data-tooltip-id={`tooltip-${tooltipData.index}`}
-                    data-tooltip-id={`tooltip-${tooltipData.index}`}
-                    data-tooltip-content={`${tooltipData.content}`}
-                    data-tooltip-place="top"
-                    events={[
-                      {
-                        target: "data",
-                        eventHandlers: {
-                          onMouseEnter: (event, props) => {
-                            const mouseEvent = event as unknown as MouseEvent;
-                            return [
-                              {
-                                target: "data",
-                                mutation: () => {
-                                  const xPos = mouseEvent.clientX;
-                                  const yPos = mouseEvent.clientY;
-                                  setTooltipData({
-                                    index: props.index,
-                                    x: xPos,
-                                    y: yPos,
-                                    content: `${props.datum.x}: ${props.datum.y}`,
-                                  });
-                                },
-                              },
-                            ];
-                          },
-                          onMouseLeave: () => {
-                            return [
-                              {
-                                target: "data",
-                                mutation: () => {
-                                  setTooltipData({
-                                    index: null,
-                                    x: 0,
-                                    y: 0,
-                                    content: null,
-                                  });
-                                },
-                              },
-                            ];
-                          },
-                        },
-                      },
-                    ]}
-                  />
-                );
-              })}
-            </VictoryGroup>
-          </VictoryChart>
-          <StyledSlider
-            value={sliderValues}
-            onChange={handleSliderChange}
-            valueLabelDisplay="auto"
-            min={0}
-            max={14}
-            step={1}
-          />
-          <Tooltip
-            id={`tooltip-${tooltipData.index}`}
-            position={{ x: tooltipData.x, y: tooltipData.y }}
-            className="team-stats-tooltip"
-          />
-        </div>
+            {renderTeamDropdownItems()}
+          </Select>
+        </FormControl>
       ) : null}
-    </div>
+
+      {/* TEAM 3 */}
+      {numOfTeamsToCompare > 2 ? (
+        <FormControl fullWidth sx={{ marginBottom: "1rem" }}>
+          <InputLabel id="team-selection-2">Team 3</InputLabel>
+          <Select
+            autoWidth
+            labelId="team-selection-3"
+            value={team3}
+            label="Team 3"
+            onChange={(e) => handleTeamChange(3, e.target.value)}
+          >
+            {renderTeamDropdownItems()}
+          </Select>
+        </FormControl>
+      ) : null}
+
+      {/* BUTTONS */}
+      {renderAddSubtractButtons()}
+
+      {/* CHARTS */}
+      <TeamStatsRadarChart data={formatData()} />
+      <br />
+      <TeamStatsBarChart data={formatData()} />
+    </Container>
   );
 };
 
-const StyledSlider = styled(Slider)`
-  margin-top: 20px;
-  color: #1b486a;
-`;
-
-export default TeamStats;
+export default TeamStats2;
