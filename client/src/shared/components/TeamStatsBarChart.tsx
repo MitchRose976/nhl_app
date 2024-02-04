@@ -1,7 +1,6 @@
 import {
   BarChart,
   Bar,
-  Rectangle,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -10,45 +9,77 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { FormattedRechartDataItem } from "../types";
+import { TEAM_STATS_BAR_COLORS } from "../constants";
+import { useState, useEffect } from "react";
+import { getWindowSize } from "../utils";
 
 interface TeamStatsBarChartProps {
   data: FormattedRechartDataItem[] | undefined;
+  numOfTeamsToCompare: number;
+  teamNamesInOrder: string[];
 }
 
-const TeamStatsBarChart: React.FC<TeamStatsBarChartProps> = ({ data }) => {
+const TeamStatsBarChart: React.FC<TeamStatsBarChartProps> = ({
+  data,
+  numOfTeamsToCompare,
+  teamNamesInOrder,
+}) => {
+  const [windowSize, setWindowSize] = useState(getWindowSize());
+
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setWindowSize(getWindowSize());
+    };
+    window.addEventListener("resize", handleWindowResize);
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
+
   return data !== undefined && data.length > 0 ? (
-    <ResponsiveContainer width={500} height={300}>
+    <ResponsiveContainer
+      width={
+        windowSize.innerWidth < 1000
+          ? windowSize.innerWidth - 80
+          : windowSize.innerWidth / 2 - 50
+      }
+      height={500}
+    >
       <BarChart
-        width={500}
-        height={300}
         data={data}
+        layout="vertical"
         margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
+          top: 20,
+          right: 0,
+          left: 40,
+          bottom: 0,
         }}
+        barCategoryGap="15%"
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="statType" />
-        <YAxis />
+        <XAxis type="number" domain={[0, 100]} />
+        <YAxis dataKey="statType" type="category" tick={{ fontSize: 12 }} />
         <Tooltip />
         <Legend />
         <Bar
-          dataKey="team1"
-          fill="#8884d8"
-          activeBar={<Rectangle fill="pink" stroke="blue" />}
+          dataKey={`${teamNamesInOrder[0]}`}
+          fill={TEAM_STATS_BAR_COLORS[0]}
+          label={{ fontSize: 12, fill: "#000000", position: "right" }}
         />
-        <Bar
-          dataKey="team2"
-          fill="#82ca9d"
-          activeBar={<Rectangle fill="gold" stroke="purple" />}
-        />
-        <Bar
-          dataKey="team3"
-          fill="#82ca9d"
-          activeBar={<Rectangle fill="gold" stroke="purple" />}
-        />
+        {numOfTeamsToCompare > 1 ? (
+          <Bar
+            dataKey={`${teamNamesInOrder[1]}`}
+            fill={TEAM_STATS_BAR_COLORS[1]}
+            label={{ fontSize: 12, fill: "#000000", position: "right" }}
+          />
+        ) : null}
+        {numOfTeamsToCompare > 2 ? (
+          <Bar
+            dataKey={`${teamNamesInOrder[2]}`}
+            fill={TEAM_STATS_BAR_COLORS[2]}
+            label={{ fontSize: 12, fill: "#000000", position: "right" }}
+          />
+        ) : null}
       </BarChart>
     </ResponsiveContainer>
   ) : (

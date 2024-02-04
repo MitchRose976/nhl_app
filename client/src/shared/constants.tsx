@@ -284,9 +284,7 @@ export const PRE_GAME_STATS_TYPES = [
 ];
 
 export const TEAM_STATS_BAR_COLORS = [
-  "#45B29D",
-  "#FFA5A5",
-  "#387780",
-  "#4B2B50",
-  "#5C3E0E",
+  "#226CE0",
+  "#E34A6F",
+  "#00A896",
 ];

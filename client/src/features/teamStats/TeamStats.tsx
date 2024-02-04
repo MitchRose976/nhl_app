@@ -13,7 +13,9 @@ import { useGetTeamStatsFormattedQuery } from "../api/apiSlice";
 import { TEAM_IDS } from "../../shared/constants";
 import { useEffect, useState } from "react";
 import { FormattedRechartDataItem } from "../../shared/types";
-const TeamStats2 = () => {
+import { getWindowSize } from "../../shared/utils";
+
+const TeamStats = () => {
   // Query
   const { data, isLoading, isSuccess, isError } =
     useGetTeamStatsFormattedQuery();
@@ -26,12 +28,15 @@ const TeamStats2 = () => {
   // Other States
   const [numOfTeamsToCompare, setNumOfTeamsToCompare] = useState(1);
   const [showComponent, setShowComponent] = useState(false);
-
-  console.log("mitch data: ", data);
+  const [windowSize, setWindowSize] = useState(getWindowSize());
 
   const renderTeamDropdownItems = () => {
     return TEAM_IDS.map(({ name }) => {
-      return <MenuItem value={name}>{name}</MenuItem>;
+      return (
+        <MenuItem key={name} value={name}>
+          {name}
+        </MenuItem>
+      );
     });
   };
 
@@ -81,7 +86,7 @@ const TeamStats2 = () => {
   };
 
   const formatData = () => {
-    if (data && !isLoading && !isError) {
+    if (data && !isLoading && !isError && isSuccess) {
       const allTeams = [team1, team2, team3];
       const matchingTeams = data.filter((team) =>
         allTeams.includes(team.teamName)
@@ -98,30 +103,37 @@ const TeamStats2 = () => {
         { statType: "Shots Against/Game" },
       ];
 
-      matchingTeams?.forEach((teamData, index) => {
+      matchingTeams?.forEach((teamData) => {
         formattedData.forEach((stat) => {
-          stat[`team${index + 1}`] = teamData.data[stat.statType] || 0;
+          stat[`${teamData.teamName}`] = teamData.data[stat.statType] || 0;
         });
       });
 
-      console.log("mitch formattedData: ", formattedData);
       return formattedData;
     }
   };
 
   useEffect(() => {
     setShowComponent(true);
+    const handleWindowResize = () => {
+      setWindowSize(getWindowSize());
+    };
+    window.addEventListener("resize", handleWindowResize);
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
   }, []);
 
-  console.log("mitch team1: ", team1);
-  console.log("mitch team2: ", team2);
-  console.log("mitch team3: ", team3);
+  const chartProps = {
+    data: formatData(),
+    numOfTeamsToCompare,
+    teamNamesInOrder: [team1, team2, team3],
+  };
 
   return (
     <Container
-      maxWidth="md"
+      maxWidth={false}
       sx={{
-        // border: "1px solid black",
         padding: "2rem 0",
         marginTop: "2rem",
         opacity: showComponent ? 1 : 0,
@@ -129,61 +141,80 @@ const TeamStats2 = () => {
       }}
       className={showComponent ? "fade-in" : ""}
     >
-      {/* TEAM 1 */}
-      <FormControl fullWidth sx={{ marginBottom: "1rem" }}>
-        <InputLabel id="team-selection-1">Team 1</InputLabel>
-        <Select
-          autoWidth
-          labelId="team-selection-1"
-          value={team1}
-          label="Team 1"
-          onChange={(e) => handleTeamChange(1, e.target.value)}
-        >
-          {renderTeamDropdownItems()}
-        </Select>
-      </FormControl>
-
-      {/* TEAM 2 */}
-      {numOfTeamsToCompare > 1 ? (
+      <div
+        style={{
+          width: windowSize.innerWidth < 1000 ? "75%" : "25rem",
+        }}
+      >
+        {/* TEAM 1 */}
         <FormControl fullWidth sx={{ marginBottom: "1rem" }}>
-          <InputLabel id="team-selection-2">Team 2</InputLabel>
+          <InputLabel id="team-selection-1">Team 1</InputLabel>
           <Select
             autoWidth
-            labelId="team-selection-2"
-            value={team2}
-            label="Team 2"
-            onChange={(e) => handleTeamChange(2, e.target.value)}
+            labelId="team-selection-1"
+            value={team1}
+            label="Team 1"
+            onChange={(e) => handleTeamChange(1, e.target.value)}
           >
             {renderTeamDropdownItems()}
           </Select>
         </FormControl>
-      ) : null}
 
-      {/* TEAM 3 */}
-      {numOfTeamsToCompare > 2 ? (
-        <FormControl fullWidth sx={{ marginBottom: "1rem" }}>
-          <InputLabel id="team-selection-2">Team 3</InputLabel>
-          <Select
-            autoWidth
-            labelId="team-selection-3"
-            value={team3}
-            label="Team 3"
-            onChange={(e) => handleTeamChange(3, e.target.value)}
-          >
-            {renderTeamDropdownItems()}
-          </Select>
-        </FormControl>
-      ) : null}
+        {/* TEAM 2 */}
+        {numOfTeamsToCompare > 1 ? (
+          <FormControl fullWidth sx={{ marginBottom: "1rem" }}>
+            <InputLabel id="team-selection-2">Team 2</InputLabel>
+            <Select
+              autoWidth
+              labelId="team-selection-2"
+              value={team2}
+              label="Team 2"
+              onChange={(e) => handleTeamChange(2, e.target.value)}
+            >
+              {renderTeamDropdownItems()}
+            </Select>
+          </FormControl>
+        ) : null}
+
+        {/* TEAM 3 */}
+        {numOfTeamsToCompare > 2 ? (
+          <FormControl fullWidth sx={{ marginBottom: "1rem" }}>
+            <InputLabel id="team-selection-2">Team 3</InputLabel>
+            <Select
+              autoWidth
+              labelId="team-selection-3"
+              value={team3}
+              label="Team 3"
+              onChange={(e) => handleTeamChange(3, e.target.value)}
+            >
+              {renderTeamDropdownItems()}
+            </Select>
+          </FormControl>
+        ) : null}
+        {renderAddSubtractButtons()}
+      </div>
 
       {/* BUTTONS */}
-      {renderAddSubtractButtons()}
 
       {/* CHARTS */}
-      <TeamStatsRadarChart data={formatData()} />
-      <br />
-      <TeamStatsBarChart data={formatData()} />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: windowSize.innerWidth < 1000 ? "column" : "row",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "1rem",
+        }}
+      >
+        <div style={{ margin: "0.7rem" }}>
+          <TeamStatsBarChart {...chartProps} />
+        </div>
+        <div style={{ margin: "0.7rem" }}>
+          <TeamStatsRadarChart {...chartProps} />
+        </div>
+      </div>
     </Container>
   );
 };
 
-export default TeamStats2;
+export default TeamStats;
