@@ -40,6 +40,7 @@ const GameModal = ({ game, status }: GameModalProps) => {
   const homeTeam = game.teams.home.abbreviation;
   const awayTeamID = game.teams.away.id;
   const homeTeamID = game.teams.home.id;
+  const currentPeriod = game.status.progress?.currentPeriod;
 
   const {
     data: awayTeamStats,
@@ -148,7 +149,6 @@ const GameModal = ({ game, status }: GameModalProps) => {
     } = { home: [], away: [] };
 
     if (awayTeamStats && homeTeamStats && awayIsSuccess && homeIsSuccess) {
-      // console.log("mitch awayTeamStats: ", awayTeamStats);
       PRE_GAME_STATS_TYPES.forEach(({ statType, label }) => {
         formattedData.home.push({
           x: label,
@@ -161,7 +161,6 @@ const GameModal = ({ game, status }: GameModalProps) => {
         });
       });
     }
-    // console.log("mitch formattedData: ", formattedData);
     return formattedData;
   };
 
@@ -268,22 +267,33 @@ const GameModal = ({ game, status }: GameModalProps) => {
         {firstPeriodGoals && firstPeriodGoals.length > 0
           ? firstPeriodGoals.map((goal: GoalType) => renderGoalDetails(goal))
           : NoGoalsMessage()}
+
         {/* Second Period Goals */}
-        <Typography sx={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-          2nd Period
-        </Typography>
-        <Divider />
-        {secondPeriodGoals && secondPeriodGoals.length > 0
-          ? secondPeriodGoals.map((goal: GoalType) => renderGoalDetails(goal))
-          : NoGoalsMessage()}
+        {currentPeriod && currentPeriod > 1 ? (
+          <Typography sx={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+            2nd Period
+          </Typography>
+        ) : null}
+        {currentPeriod && currentPeriod > 1 ? <Divider /> : null}
+        {currentPeriod && currentPeriod > 1
+          ? secondPeriodGoals && secondPeriodGoals.length > 0
+            ? secondPeriodGoals.map((goal: GoalType) => renderGoalDetails(goal))
+            : NoGoalsMessage()
+          : null}
+
         {/* Third Period Goals */}
-        <Typography sx={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-          3rd Period
-        </Typography>
-        <Divider />
-        {thirdPeriodGoals && thirdPeriodGoals.length > 0
-          ? thirdPeriodGoals.map((goal: GoalType) => renderGoalDetails(goal))
-          : NoGoalsMessage()}
+        {currentPeriod && currentPeriod > 2 ? (
+          <Typography sx={{ fontSize: "0.8rem", fontWeight: "bold" }}>
+            3rd Period
+          </Typography>
+        ) : null}
+        {currentPeriod && currentPeriod > 2 ? <Divider /> : null}
+        {currentPeriod && currentPeriod > 2
+          ? thirdPeriodGoals && thirdPeriodGoals.length > 0
+            ? thirdPeriodGoals.map((goal: GoalType) => renderGoalDetails(goal))
+            : NoGoalsMessage()
+          : null}
+
         {/* Overtime Goals - conditionally rendered */}
         {overTimeGoals && overTimeGoals.length > 0 ? (
           <Typography sx={{ fontSize: "0.8rem", fontWeight: "bold" }}>
