@@ -114,7 +114,6 @@ const Top10Chart = () => {
         <Container
           maxWidth="md"
           sx={{
-            border: "1px solid black",
             padding: "2rem 0",
             marginTop: "2rem",
             opacity: showComponent ? 1 : 0,
