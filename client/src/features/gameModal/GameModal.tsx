@@ -269,26 +269,34 @@ const GameModal = ({ game, status }: GameModalProps) => {
           : NoGoalsMessage()}
 
         {/* Second Period Goals */}
-        {(currentPeriod && currentPeriod > 1) || game.status.state === 'FINAL' ? (
+        {(currentPeriod && currentPeriod > 1) ||
+        game.status.state === "FINAL" ? (
           <Typography sx={{ fontSize: "0.8rem", fontWeight: "bold" }}>
             2nd Period
           </Typography>
         ) : null}
-        {(currentPeriod && currentPeriod > 1) || game.status.state === 'FINAL' ? <Divider /> : null}
-        {(currentPeriod && currentPeriod > 1) || game.status.state === 'FINAL'
+        {(currentPeriod && currentPeriod > 1) ||
+        game.status.state === "FINAL" ? (
+          <Divider />
+        ) : null}
+        {(currentPeriod && currentPeriod > 1) || game.status.state === "FINAL"
           ? secondPeriodGoals && secondPeriodGoals.length > 0
             ? secondPeriodGoals.map((goal: GoalType) => renderGoalDetails(goal))
             : NoGoalsMessage()
           : null}
 
         {/* Third Period Goals */}
-        {(currentPeriod && currentPeriod > 2) || game.status.state === 'FINAL' ? (
+        {(currentPeriod && currentPeriod > 2) ||
+        game.status.state === "FINAL" ? (
           <Typography sx={{ fontSize: "0.8rem", fontWeight: "bold" }}>
             3rd Period
           </Typography>
         ) : null}
-        {(currentPeriod && currentPeriod > 2) || game.status.state === 'FINAL' ? <Divider /> : null}
-        {(currentPeriod && currentPeriod > 2) || game.status.state === 'FINAL'
+        {(currentPeriod && currentPeriod > 2) ||
+        game.status.state === "FINAL" ? (
+          <Divider />
+        ) : null}
+        {(currentPeriod && currentPeriod > 2) || game.status.state === "FINAL"
           ? thirdPeriodGoals && thirdPeriodGoals.length > 0
             ? thirdPeriodGoals.map((goal: GoalType) => renderGoalDetails(goal))
             : NoGoalsMessage()

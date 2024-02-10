@@ -223,7 +223,6 @@ const StandingsChart = () => {
         <Container
           maxWidth="md"
           sx={{
-            border: "1px solid black",
             marginTop: "2rem",
             opacity: showComponent ? 1 : 0,
             transition: "opacity 0.5s ease-in",
