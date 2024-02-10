@@ -4,7 +4,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 
 const LoadingBar = () => {
   return (
-    <Box sx={{ width: "65%" }}>
+    <Box sx={{ width: "65%", margin: "0.4rem 0" }}>
       <LinearProgress
         color='success'
       />
