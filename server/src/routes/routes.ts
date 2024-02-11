@@ -570,11 +570,12 @@ router.get("/games/scores", async (req: Request, res: Response) => {
     .split("/")
     .reverse()
     .join("-");
+    
   try {
     await axios
       //.get(`https://nhl-score-api.herokuapp.com/api/scores?startDate=${'2023-04-10'}&endDate=${'2023-04-10'}`)
       .get(
-        `https://nhl-score-api.herokuapp.com/api/scores?startDate=${todaysDate}&endDate=${todaysDate}`
+        `https://nhl-score-api.herokuapp.com/api/scores?startDate=${todaysDate}`
       )
       .then((response) => res.status(200).send(response.data))
       .catch((error) => {

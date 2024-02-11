@@ -154,7 +154,12 @@ const TeamStatsRadarChart: React.FC<TeamStatsRadarChartProps> = ({
         cy="45%"
         outerRadius="80%"
         data={data}
-        margin={{ top: 0, right: 30, bottom: 8, left: 30 }}
+        margin={{
+          top: 0,
+          right: 30,
+          bottom: windowSize.innerWidth < 450 ? 0 : 30,
+          left: 30,
+        }}
       >
         <PolarGrid />
         <PolarAngleAxis
@@ -190,7 +195,7 @@ const TeamStatsRadarChart: React.FC<TeamStatsRadarChartProps> = ({
           />
         ) : null}
         <Tooltip />
-        <Legend />
+        <Legend verticalAlign="top" wrapperStyle={{ marginBottom: "1.5rem" }} />
       </RadarChart>
     </ResponsiveContainer>
   ) : (
