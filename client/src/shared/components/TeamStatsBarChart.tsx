@@ -49,7 +49,7 @@ const TeamStatsBarChart: React.FC<TeamStatsBarChartProps> = ({
         data={data}
         layout="vertical"
         margin={{
-          top: 20,
+          top: 0,
           right: 0,
           left: 40,
           bottom: 0,
@@ -60,7 +60,10 @@ const TeamStatsBarChart: React.FC<TeamStatsBarChartProps> = ({
         <XAxis type="number" domain={[0, 100]} />
         <YAxis dataKey="statType" type="category" tick={{ fontSize: 12 }} />
         <Tooltip />
-        <Legend />
+        <Legend
+          verticalAlign="top"
+          wrapperStyle={{ paddingBottom: "0.5rem" }}
+        />
         <Bar
           dataKey={`${teamNamesInOrder[0]}`}
           fill={TEAM_STATS_BAR_COLORS[0]}
