@@ -53,25 +53,11 @@ const HomePage = () => {
   return (
     <>
       <div className="welcome-message">
-        {/* Section One */}
-        <header className="welcome-message-header">
-          <h1>NHL Statistics Web App</h1>
-          <p className="fade-in">
-            Introducing our NHL Stats Tracker web app! It's your one-stop hub
-            for team, player, and live game statistics. Stay up-to-date with
-            comprehensive team performance insights, track individual player
-            achievements, and experience the thrill of real-time updates during
-            live games. Discover the fascinating world of NHL stats today!
-          </p>
-        </header>
-        <PageDivider />
         {/* Top 5 Hottest Players */}
         <div
+          className="flex-box-center"
           style={{
-            display: "flex",
             flexDirection: windowSize.innerWidth < 1200 ? "column" : "row",
-            justifyContent: "center",
-            alignItems: "center",
           }}
         >
           <iframe
@@ -103,6 +89,20 @@ const HomePage = () => {
           ></iframe>
         </div>
         <PageDivider />
+
+        {/* App Intro */}
+        <header className="welcome-message-header">
+          <h1>NHL Statistics Web App</h1>
+          <p className="fade-in">
+            Introducing our NHL Stats Tracker web app! It's your one-stop hub
+            for team, player, and live game statistics. Stay up-to-date with
+            comprehensive team performance insights, track individual player
+            achievements, and experience the thrill of real-time updates during
+            live games. Discover the fascinating world of NHL stats today!
+          </p>
+        </header>
+        <PageDivider />
+
         {/* THE TECH */}
         <div className="welcome-message-header">
           <h1>The Tech</h1>

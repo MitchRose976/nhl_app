@@ -16,6 +16,7 @@ import {
 import { Divider, Modal } from "@mui/material";
 import GameModal from "../../features/gameModal/GameModal";
 import "../../shared/style.scss";
+import TeamLogo from "../../shared/components/TeamLogo";
 
 interface GameCardProps {
   game: GameInterface;
@@ -64,23 +65,15 @@ const GameCard = ({ game }: GameCardProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const renderTeamLogo = (svgString: string, width: number, height: number) => {
-    return svgString !== "" ? (
-      <svg width={width} height={height}>
-        <image href={`${svgString}`} width={width} height={height} />
-      </svg>
-    ) : null;
-  };
-
   const renderScoreLine = () => {
     return (
       <>
-        {renderTeamLogo(formGetTeamLogoUrl(game.teams.home.abbreviation), 40, 40)}
+        <TeamLogo svgString={formGetTeamLogoUrl(game.teams.home.abbreviation)} width={40} height={40} />
         <strong>
           {game.scores[game.teams.home.abbreviation]} :{" "}
           {game.scores[game.teams.away.abbreviation]}
         </strong>{" "}
-        {renderTeamLogo(formGetTeamLogoUrl(game.teams.away.abbreviation), 40, 40)}
+        <TeamLogo svgString={formGetTeamLogoUrl(game.teams.away.abbreviation)} width={40} height={40} />
       </>
     );
   };

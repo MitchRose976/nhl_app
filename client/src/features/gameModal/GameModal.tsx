@@ -12,23 +12,12 @@ import {
   Typography,
 } from "@mui/material";
 import { GameInterface, GoalType, PlayerInfoType } from "../../shared/types";
-import {
-  formGetTeamLogoUrl,
-  formatBarLabelStatsForGameModal,
-} from "../../shared/utils";
+import { formGetTeamLogoUrl, formatRechartsData } from "../../shared/utils";
 import "../../shared/style.scss";
-import {
-  LIVE_GAME_STATS_TYPES,
-  PRE_GAME_STATS_TYPES,
-} from "../../shared/constants";
-import { useGetTeamStatsByIDQuery } from "../api/apiSlice";
-import {
-  VictoryChart,
-  VictoryStack,
-  VictoryBar,
-  VictoryAxis,
-  VictoryLabel,
-} from "victory";
+import { LIVE_GAME_STATS_TYPES, TEAM_IDS } from "../../shared/constants";
+import { useGetTeamStatsFormattedQuery } from "../api/apiSlice";
+import TeamStatsBarChart from "../../shared/components/TeamStatsBarChart";
+import TeamLogo from "../../shared/components/TeamLogo";
 
 interface GameModalProps {
   game: GameInterface;
@@ -36,50 +25,31 @@ interface GameModalProps {
 }
 
 const GameModal = ({ game, status }: GameModalProps) => {
-  const awayTeam = game.teams.away.abbreviation;
-  const homeTeam = game.teams.home.abbreviation;
-  const awayTeamID = game.teams.away.id;
-  const homeTeamID = game.teams.home.id;
+  const awayTeamAbbrev = game.teams.away.abbreviation;
+  const homeTeamAbbrev = game.teams.home.abbreviation;
+  const awayTeamName = TEAM_IDS.find(
+    (team) => team.abbreviation === awayTeamAbbrev
+  )?.name;
+  const homeTeamName = TEAM_IDS.find(
+    (team) => team.abbreviation === homeTeamAbbrev
+  )?.name;
   const currentPeriod = game.status.progress?.currentPeriod;
 
-  const {
-    data: awayTeamStats,
-    isLoading: awayIsLoading,
-    isSuccess: awayIsSuccess,
-    isError: awayIsError,
-  } = useGetTeamStatsByIDQuery({
-    teamID: awayTeamID ?? 0,
-  });
-
-  const {
-    data: homeTeamStats,
-    isLoading: homeIsLoading,
-    isSuccess: homeIsSuccess,
-    isError: homeIsError,
-  } = useGetTeamStatsByIDQuery({
-    teamID: homeTeamID ?? 0,
-  });
-
-  const renderTeamLogo = (svgString: string, width: number, height: number) => {
-    return svgString !== "" ? (
-      <svg width={width} height={height}>
-        <image href={`${svgString}`} width={width} height={height} />
-      </svg>
-    ) : null;
-  };
+  const { data, isLoading, isSuccess, isError } =
+    useGetTeamStatsFormattedQuery();
 
   const renderScoreLine = () => {
     return (
       <div className="flex-box-center">
         <div className="flex-box-center" style={{ padding: "0 1rem" }}>
-          {renderTeamLogo(
-            formGetTeamLogoUrl(game.teams.home.abbreviation),
-            60,
-            60
-          )}
+          <TeamLogo
+            svgString={formGetTeamLogoUrl(game.teams.home.abbreviation)}
+            width={60}
+            height={60}
+          />
           {status.status === "FINAL" || status.status === "LIVE" ? (
             <Typography sx={{ fontSize: "2rem", paddingLeft: "2rem" }}>
-              {game.scores[homeTeam]}
+              {game.scores[homeTeamAbbrev]}
             </Typography>
           ) : null}
         </div>
@@ -89,14 +59,14 @@ const GameModal = ({ game, status }: GameModalProps) => {
         <div className="flex-box-center" style={{ padding: "0 1rem" }}>
           {status.status === "FINAL" || status.status === "LIVE" ? (
             <Typography sx={{ fontSize: "2rem", paddingRight: "2rem" }}>
-              {game.scores[awayTeam]}
+              {game.scores[awayTeamAbbrev]}
             </Typography>
           ) : null}
-          {renderTeamLogo(
-            formGetTeamLogoUrl(game.teams.away.abbreviation),
-            60,
-            60
-          )}
+          <TeamLogo
+            svgString={formGetTeamLogoUrl(game.teams.away.abbreviation)}
+            width={60}
+            height={60}
+          />
         </div>
       </div>
     );
@@ -107,7 +77,7 @@ const GameModal = ({ game, status }: GameModalProps) => {
     if (headToHeadStats.playoffSeries) {
       return (
         <Typography sx={{ fontSize: "0.7rem", fontWeight: "500" }}>
-          {`Rd ${game.currentStats.playoffSeries.round} - ${homeTeam}:${game.currentStats.playoffSeries.wins[homeTeam]}   ${awayTeam}:${game.currentStats.playoffSeries.wins[awayTeam]}`}
+          {`Rd ${game.currentStats.playoffSeries.round} - ${homeTeamAbbrev}:${game.currentStats.playoffSeries.wins[homeTeamAbbrev]}   ${awayTeamAbbrev}:${game.currentStats.playoffSeries.wins[awayTeamAbbrev]}`}
         </Typography>
       );
     } else {
@@ -120,7 +90,7 @@ const GameModal = ({ game, status }: GameModalProps) => {
               paddingRight: "4rem",
             }}
           >
-            {`(${headToHeadStats.records[homeTeam].wins}-${headToHeadStats.records[homeTeam].losses}-${headToHeadStats.records[homeTeam].ot})`}
+            {`(${headToHeadStats.records[homeTeamAbbrev].wins}-${headToHeadStats.records[homeTeamAbbrev].losses}-${headToHeadStats.records[homeTeamAbbrev].ot})`}
           </Typography>
           <Typography
             sx={{
@@ -129,39 +99,11 @@ const GameModal = ({ game, status }: GameModalProps) => {
               paddingLeft: "4rem",
             }}
           >
-            {`(${headToHeadStats.records[awayTeam].wins}-${headToHeadStats.records[awayTeam].losses}-${headToHeadStats.records[awayTeam].ot})`}
+            {`(${headToHeadStats.records[awayTeamAbbrev].wins}-${headToHeadStats.records[awayTeamAbbrev].losses}-${headToHeadStats.records[awayTeamAbbrev].ot})`}
           </Typography>
         </div>
       );
     }
-  };
-
-  const formatHeadToHeadStatsInfo = () => {
-    let formattedData: {
-      home: {
-        x: string; // statType label
-        y: number; // percentage
-      }[];
-      away: {
-        x: string; // statType label
-        y: number; // percentage
-      }[];
-    } = { home: [], away: [] };
-
-    if (awayTeamStats && homeTeamStats && awayIsSuccess && homeIsSuccess) {
-      PRE_GAME_STATS_TYPES.forEach(({ statType, label }) => {
-        formattedData.home.push({
-          x: label,
-          y: homeTeamStats[statType],
-        });
-
-        formattedData.away.push({
-          x: label,
-          y: awayTeamStats[statType],
-        });
-      });
-    }
-    return formattedData;
   };
 
   const renderLiveGameStatsInfo = () => {
@@ -177,18 +119,18 @@ const GameModal = ({ game, status }: GameModalProps) => {
         >
           <Box>{`${
             statType === "powerPlay"
-              ? game.gameStats[statType][homeTeam].goals
+              ? game.gameStats[statType][homeTeamAbbrev].goals
               : statType === "faceOffWinPercentage"
-              ? Math.round(game.gameStats[statType][homeTeam]) + "%"
-              : game.gameStats[statType][homeTeam]
+              ? Math.round(game.gameStats[statType][homeTeamAbbrev]) + "%"
+              : game.gameStats[statType][homeTeamAbbrev]
           }`}</Box>
           <Typography sx={{ fontSize: "0.8rem" }}>{label}</Typography>
           <Box>{`${
             statType === "powerPlay"
-              ? game.gameStats[statType][awayTeam].goals
+              ? game.gameStats[statType][awayTeamAbbrev].goals
               : statType === "faceOffWinPercentage"
-              ? Math.round(game.gameStats[statType][awayTeam]) + "%"
-              : game.gameStats[statType][awayTeam]
+              ? Math.round(game.gameStats[statType][awayTeamAbbrev]) + "%"
+              : game.gameStats[statType][awayTeamAbbrev]
           }`}</Box>
         </TableRow>
       );
@@ -211,11 +153,7 @@ const GameModal = ({ game, status }: GameModalProps) => {
           }}
         >
           <div>
-            {renderTeamLogo(
-              formGetTeamLogoUrl(scoringTeamAbbreviation),
-              30,
-              30
-            )}
+            <TeamLogo svgString={formGetTeamLogoUrl(scoringTeamAbbreviation)} width={30} height={30} />
           </div>
           <Typography sx={{ fontSize: "0.75rem", marginLeft: "0.3rem" }}>
             {`${getTimeOfGoal(goal)}
@@ -318,62 +256,6 @@ const GameModal = ({ game, status }: GameModalProps) => {
     );
   };
 
-  const headToHeadData = formatHeadToHeadStatsInfo();
-
-  const renderHeadToHeadStatsChart = () => {
-    const width = 600;
-    const height = 700;
-    return (
-      <VictoryChart
-        horizontal
-        height={height}
-        width={width}
-        padding={{ top: 40, right: 70, left: 70, bottom: 30 }}
-      >
-        <VictoryStack
-          style={{ data: { width: 18 }, labels: { fontSize: 15 } }}
-          padding={{ top: 40 }}
-        >
-          <VictoryBar
-            style={{ data: { fill: "#12EAEA" } }}
-            data={headToHeadData.home.reverse()}
-            y={(data) => -Math.abs(data.y)}
-            labels={headToHeadData.home.map(({ x, y }) => {
-              return `${formatBarLabelStatsForGameModal(x, y)}`;
-            })}
-            animate={{
-              duration: 2000,
-              onLoad: { duration: 1000 },
-            }}
-          />
-          <VictoryBar
-            style={{ data: { fill: "#F36868" } }}
-            data={headToHeadData.away.reverse()}
-            y={(data) => Math.abs(data.y)}
-            labels={headToHeadData.away.map(({ x, y }) => {
-              return `${formatBarLabelStatsForGameModal(x, y)}`;
-            })}
-            animate={{
-              duration: 2000,
-              onLoad: { duration: 1000 },
-            }}
-          />
-        </VictoryStack>
-        <VictoryAxis
-          style={{
-            axis: { stroke: "transparent" },
-            ticks: { stroke: "transparent" },
-            tickLabels: { fontSize: 18, fill: "black" },
-          }}
-          tickLabelComponent={
-            <VictoryLabel x={width / 2} textAnchor="middle" dy={-22} />
-          }
-          tickValues={headToHeadData.home.map((point) => point.x).reverse()}
-        />
-      </VictoryChart>
-    );
-  };
-
   const gameModalBoxStyle = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -392,14 +274,14 @@ const GameModal = ({ game, status }: GameModalProps) => {
 
   return (
     <>
-      {awayIsLoading || homeIsLoading ? <CircularProgress /> : null}
-      {awayIsError || homeIsError ? (
+      {isLoading ? <CircularProgress /> : null}
+      {isError ? (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
           <strong>Error while fetching data</strong>
         </Alert>
       ) : null}
-      {homeTeamStats && awayTeamStats && headToHeadData ? (
+      {awayTeamName && homeTeamName ? (
         <Box sx={gameModalBoxStyle}>
           <Typography
             sx={{ paddingTop: "-10px", paddingBottom: "0" }}
@@ -428,10 +310,17 @@ const GameModal = ({ game, status }: GameModalProps) => {
               <div style={{ marginTop: "0.7rem" }}>{renderGoalsScored()}</div>
             </>
           ) : (
-            <>
+            <div style={{ marginTop: "0.5rem" }}>
               {/* Head to Head Stats */}
-              {renderHeadToHeadStatsChart()}
-            </>
+              <TeamStatsBarChart
+                data={formatRechartsData(data, isLoading, isError, isSuccess, [
+                  homeTeamName,
+                  awayTeamName,
+                ])}
+                numOfTeamsToCompare={2}
+                teamNamesInOrder={[homeTeamName, awayTeamName]}
+              />
+            </div>
           )}
         </Box>
       ) : null}

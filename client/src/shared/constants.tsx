@@ -272,17 +272,6 @@ export const LIVE_GAME_STATS_TYPES = [
   { statType: "takeaways", label: "Takeaways" },
 ];
 
-export const PRE_GAME_STATS_TYPES = [
-  { statType: "pointPct", label: "Point %" },
-  { statType: "faceoffWinPct", label: "Faceoff %" },
-  { statType: "goalsForPerGame", label: "Goals/Game" },
-  { statType: "goalsAgainstPerGame", label: "Goals Against/Game" },
-  { statType: "penaltyKillPct", label: "PK%" },
-  { statType: "powerPlayPct", label: "PP%" },
-  { statType: "shotsForPerGame", label: "Shots/Game" },
-  { statType: "shotsAgainstPerGame", label: "Shots Against/Game" },
-];
-
 export const TEAM_STATS_BAR_COLORS = [
   "#226CE0",
   "#E34A6F",
