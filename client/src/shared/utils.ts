@@ -1,5 +1,10 @@
 import { TeamStandingsDataObject } from "../../../server/src/types";
-import { NameType, PlayerDataType } from "../shared/types";
+import {
+  FormattedRechartDataItem,
+  NameType,
+  PlayerDataType,
+  FormattedTeamData,
+} from "../shared/types";
 import { statTypeMapping } from "./constants";
 
 export const formGetTeamLogoUrl = (teamAbbreviation: string) =>
@@ -138,27 +143,6 @@ export const splitArrayIntoEqualParts = (arr: any[], n: number) => {
   );
 };
 
-export const formatBarLabelStatsForGameModal = (
-  statType: string,
-  number: number
-) => {
-  switch (statType) {
-    case "Win% - Opponent Scores First":
-    case "Win% - Leading 2nd Period":
-    case "Win% - Outshot By Opponent":
-    case "Win% - Outshoot Opponent":
-    case "Win% - Leading 1st Period":
-    case "Win% - Scoring First":
-    case "PP%":
-    case "PK%":
-    case "Faceoff %":
-    case "Point %":
-      return `${number.toFixed(1)}%`;
-    default:
-      return `${number.toFixed(1)}`;
-  }
-};
-
 export const getWindowSize = () => {
   const { innerWidth, innerHeight } = window;
   return { innerWidth, innerHeight };
@@ -175,5 +159,38 @@ export const getCurrentSeason = (formatForApiCall: boolean) => {
     return formatForApiCall ? `${year - 1}${year}` : `${year - 1}/${year}`;
   } else {
     return formatForApiCall ? `${year}${year + 1}` : `${year}/${year + 1}`;
+  }
+};
+
+export const formatRechartsData = (
+  data: FormattedTeamData[] | undefined,
+  isLoading: boolean,
+  isError: boolean,
+  isSuccess: boolean,
+  teamsArray: string[]
+) => {
+  if (data && !isLoading && !isError && isSuccess) {
+    const matchingTeams = data.filter((team) =>
+      teamsArray.includes(team.teamName)
+    );
+
+    let formattedData: FormattedRechartDataItem[] = [
+      { statType: "Point %" },
+      { statType: "Faceoff %" },
+      { statType: "Goals/Game" },
+      { statType: "Goals Against/Game" },
+      { statType: "PK%" },
+      { statType: "PP%" },
+      { statType: "Shots/Game" },
+      { statType: "Shots Against/Game" },
+    ];
+
+    matchingTeams?.forEach((teamData) => {
+      formattedData.forEach((stat) => {
+        stat[`${teamData.teamName}`] = teamData.data[stat.statType] || 0;
+      });
+    });
+
+    return formattedData;
   }
 };
