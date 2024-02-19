@@ -3,6 +3,7 @@
 
 Your one-stop hub for team, player, and live game statistics in the NHL. Stay up-to-date with comprehensive team performance insights, track individual player stats, and get real-time score updates during live games.
 
+
 ## Authors
 
 - [@MitchRose976](https://github.com/MitchRose976)
@@ -13,6 +14,20 @@ Your one-stop hub for team, player, and live game statistics in the NHL. Stay up
 **Client:** React, TypeScript, Redux Toolkit (RTK Query), Mongoose, Material UI, Recharts
 
 **Server:** Node, TypeScript, MongoDB, Express, Nodemon, Toad Scheduler
+
+
+## Demo
+https://github.com/MitchRose976/nhl_app/assets/76877877/d91b7898-45c4-4c8f-b494-2f681d29a19e
+
+https://github.com/MitchRose976/nhl_app/assets/76877877/288c6d57-22b5-44a2-b24c-388de1781895
+
+https://github.com/MitchRose976/nhl_app/assets/76877877/efd44179-96de-49a5-8d59-f8e1b37ff0d1
+
+https://github.com/MitchRose976/nhl_app/assets/76877877/8559d71b-fed6-4721-9114-6d4212275b3f
+
+
+## About
+I chose the MERN stack for my project to enhance my Node.js skills and leverage MongoDB for its flexible database capabilities. I scrape an NHL API, format the data with TypeScript types, and use a scheduled seed file (using toad-scheduler) to keep my database up-to-date with the latest team and player statistics.
 
 
 ## Features
