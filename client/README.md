@@ -1,46 +1,181 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# NHL Hub
 
-## Available Scripts
+Your one-stop hub for team, player, and live game statistics in the NHL. Stay up-to-date with comprehensive team performance insights, track individual player stats, and get real-time score updates during live games.
 
-In the project directory, you can run:
+## Authors
 
-### `npm start`
+- [@MitchRose976](https://github.com/MitchRose976)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Tech Stack
 
-### `npm test`
+**Client:** React, TypeScript, Redux Toolkit (RTK Query), Mongoose, Material UI, Recharts
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**Server:** Node, TypeScript, MongoDB, Express, Nodemon, Toad Scheduler
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Features
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Live score tracking
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+- Pre-game matchup info and statistics
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+- Top 5 points and goals tracker for last 5 games
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+- League standings
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+- Team statistics 
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+- Top 10 player and goalie statistics
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## API Reference
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### Get todays games and scores
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```http
+  GET /nhl-app/games/scores
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### Get team stats
 
-## Learn More
+```http
+  GET /nhl-app/teams/stats/formatted
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### Get standings
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```http
+  GET /nhl-app/teams/standings
+```
+
+### Player Stats Top 10
+#### Get top 10 points
+
+```http
+  GET /nhl-app/players/top10Points
+```
+
+#### Get top 10 goals
+
+```http
+  GET /nhl-app/players/top10goals
+```
+
+#### Get top 10 assists
+
+```http
+  GET /nhl-app/players/top10assists
+```
+
+#### Get top 10 +/-
+
+```http
+  GET /nhl-app/players/top10PlusMinus
+```
+
+#### Get top 10 penalty minutes
+
+```http
+  GET /nhl-app/players/top10PenaltyMinutes
+```
+
+#### Get top 10 time on ice per game
+
+```http
+  GET /nhl-app/players/top10TimeOnIcePerGame
+```
+
+#### Get top 10 powerplay goals
+
+```http
+  GET /nhl-app/players/top10PowerplayGoals
+```
+
+#### Get top 10 shorthanded goals
+
+```http
+  GET /nhl-app/players/top10ShortHandedGoals
+```
+
+#### Get top 10 powerplay points
+
+```http
+  GET /nhl-app/players/top10PowerplayPoints
+```
+
+#### Get top 10 shorthanded points
+
+```http
+  GET /nhl-app/players/top10ShortHandedPoints
+```
+
+#### Get top 10 ot goals
+
+```http
+  GET /nhl-app/players/top10OtGoals
+```
+
+#### Get top 10 faceoff percentage
+
+```http
+  GET /nhl-app/players/top10FaceOffPercentage
+```
+
+#### Get top 10 shooting percentage
+
+```http
+  GET /nhl-app/players/top10ShootingPercentage
+```
+
+#### Get top 10 shots on net
+
+```http
+  GET /nhl-app/players/top10ShotsOnNet
+```
+
+#### Get top 10 game winning goals
+
+```http
+  GET /nhl-app/players/top10GameWinningGoals
+```
+
+### Goalie Stats Top 10
+#### Get top 10 goalie wins
+
+```http
+  GET /nhl-app/players/top10Wins
+```
+
+#### Get top 10 goalie losses
+
+```http
+  GET /nhl-app/players/top10Losses
+```
+
+#### Get top 10 goalie save percentage
+
+```http
+  GET /nhl-app/players/top10SavePercentage
+```
+
+#### Get top 10 goalie shutouts
+
+```http
+  GET /nhl-app/players/top10Shutouts
+```
+
+#### Get top 10 goalie goals against average
+
+```http
+  GET /nhl-app/players/top10GoalsAgainstAverage
+```
+
+#### Get top 10 goalie games started
+
+```http
+  GET /nhl-app/players/top10GamesStarted
+```
