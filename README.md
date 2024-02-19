@@ -18,17 +18,22 @@ Your one-stop hub for team, player, and live game statistics in the NHL. Stay up
 ## Features
 
 - Live score tracking
-![App Screenshot](https://1drv.ms/i/s!AowlbbcXWk5EisRu0SajulVJ9r9duw?e=XPCy5h)
+![nhl hub live score](https://github.com/MitchRose976/nhl_app/assets/76877877/c48df5b0-9718-4d47-8979-54ddcff34e6d)
+
 - Pre-game matchup info and statistics
-![App Screenshot](https://1drv.ms/i/s!AowlbbcXWk5EisRxAjGsxO74-LHxgg?e=syqixK)
+![nhl hub pre game matchup](https://github.com/MitchRose976/nhl_app/assets/76877877/ff936367-81b7-4317-a54f-cd54f1f1624b)
+
 - Top 5 points and goals tracker for last 5 games
-![App Screenshot](https://1drv.ms/i/s!AowlbbcXWk5EisR1jA2P7fdihqOc2g?e=OMywaD)
+![nhl hub top 5 in last 5](https://github.com/MitchRose976/nhl_app/assets/76877877/e2813506-d7f1-43d4-bdc8-12aee6a81b90)
+
 - League standings
-![App Screenshot](https://1drv.ms/i/s!AowlbbcXWk5EisRzQuvHm6N27sJ-Pw?e=DbTxEP)
+![nhl hub standings](https://github.com/MitchRose976/nhl_app/assets/76877877/16665145-803a-4205-92f7-ee8ad974a9b9)
+
 - Team statistics 
-![App Screenshot](https://1drv.ms/i/s!AowlbbcXWk5EisR052qLLPWQT4s4wg?e=CwF8mc)
+![nhl hub team stats](https://github.com/MitchRose976/nhl_app/assets/76877877/9dd7ff16-00be-45bb-8477-c175c4648d43)
+
 - Top 10 player and goalie statistics
-![App Screenshot](https://1drv.ms/i/s!AowlbbcXWk5EisRwBIIon2BNYgkmMw?e=BihmoO)
+![nhl hub player stats](https://github.com/MitchRose976/nhl_app/assets/76877877/9f5684f6-3639-4717-ab1e-a664e7f41d78)
 
 
 ## API Reference
