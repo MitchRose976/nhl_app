@@ -5,7 +5,6 @@ import PageDivider from "./components/PageDivider";
 import MernLogo from "./components/MernLogo";
 import NHL_Hub_Head_to_Head from "../../shared/assets/NHL_Hub_Head_to_Head.mp4";
 import NHL_Hub_Live_Stats from "../../shared/assets/NHL_Hub_Live_Stats.mp4";
-import NHL_Hub_Live_Stats_2 from "../../shared/assets/NHL_Hub_Live_Stats_2.mp4";
 import FeatureVideo from "./components/FeatureVideo";
 
 const HomePage = () => {
@@ -23,16 +22,10 @@ const HomePage = () => {
 
   const featureItems = [
     {
-      title: "Final Scores",
+      title: "Live Scores",
       src: NHL_Hub_Live_Stats,
       description:
         "See the final scores and statistics from today's games. Check who scored, analyze game statistics and see if your bet came through or not.",
-    },
-    {
-      title: "Games In Progress",
-      src: NHL_Hub_Live_Stats_2,
-      description:
-        "Track live game stats and goals. Stay updated on shots, faceoff wins, penalties more. Get real-time goal scoring details, including player names, goal times, and assists. Never miss a moment with accurate and comprehensive data.",
     },
     {
       title: "Head-to-Head Stats",

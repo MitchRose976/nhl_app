@@ -18,17 +18,17 @@ Your one-stop hub for team, player, and live game statistics in the NHL. Stay up
 ## Features
 
 - Live score tracking
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://1drv.ms/i/s!AowlbbcXWk5EisRu0SajulVJ9r9duw?e=XPCy5h)
 - Pre-game matchup info and statistics
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://1drv.ms/i/s!AowlbbcXWk5EisRxAjGsxO74-LHxgg?e=syqixK)
 - Top 5 points and goals tracker for last 5 games
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://1drv.ms/i/s!AowlbbcXWk5EisR1jA2P7fdihqOc2g?e=OMywaD)
 - League standings
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://1drv.ms/i/s!AowlbbcXWk5EisRzQuvHm6N27sJ-Pw?e=DbTxEP)
 - Team statistics 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://1drv.ms/i/s!AowlbbcXWk5EisR052qLLPWQT4s4wg?e=CwF8mc)
 - Top 10 player and goalie statistics
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://1drv.ms/i/s!AowlbbcXWk5EisRwBIIon2BNYgkmMw?e=BihmoO)
 
 
 ## API Reference
