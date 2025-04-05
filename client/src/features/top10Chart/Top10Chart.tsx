@@ -110,7 +110,13 @@ const Top10Chart = () => {
           <strong>Error while fetching data</strong>
         </Alert>
       ) : null}
-      {chartData.isSuccess ? (
+      {chartData.isSuccess && chartData.data && chartData.data.length === 0 ? (
+        <Alert severity="warning">
+          <AlertTitle>Warning</AlertTitle>
+          <strong>There is no data to display</strong>
+        </Alert>
+      ) : null}
+      {chartData.isSuccess && chartData.data && chartData.data.length > 0 ? (
         <Container
           maxWidth="md"
           sx={{
@@ -138,10 +144,12 @@ const Top10Chart = () => {
               alignItems: "center",
             }}
           >
-            <MiniPlayerCard
-              player={chartData.data[activeCard]}
-              statType={statType}
-            />
+            {chartData.data && chartData.data[activeCard] && (
+              <MiniPlayerCard
+                player={chartData.data[activeCard]}
+                statType={statType}
+              />
+            )}
             <TableContainer
               sx={{
                 maxWidth: windowSize.current[0] < 500 ? "45%" : "40%",
