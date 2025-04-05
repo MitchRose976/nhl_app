@@ -9,7 +9,7 @@ import { gameCardSXProps, gameCardContentSXProps } from "../styles";
 import { GameInterface } from "../../shared/types";
 import { Divider } from "@mui/material";
 import "../../shared/style.scss";
-import { useGameStatus, GameStatus } from "./game-card/useGameStatus";
+import { useGameStatus } from "./game-card/useGameStatus";
 import ScoreLine from "./game-card/ScoreLine";
 import MatchupInfo from "./game-card/MatchupInfo";
 import GameCardModal from "./game-card/GameCardModal";
