@@ -43,27 +43,41 @@ const App = () => {
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <Routes>
-          <Route
-            path="/"
-            element={<PageTemplate isHomePage={true} child={<HomePage />} />}
-          />
-          <Route
-            path="/standings"
-            element={
-              <PageTemplate isHomePage={false} child={<StandingsChart />} />
-            }
-          />
-          <Route
-            path="/playerStats"
-            element={<PageTemplate isHomePage={false} child={<Top10Chart />} />}
-          />
-          <Route
-            path="/teamStats"
-            element={<PageTemplate isHomePage={false} child={<TeamStats />} />}
-          />
-          <Route />
-        </Routes>
+        <React.Profiler
+          id="App"
+          onRender={(id, phase, actualDuration, baseDuration, startTime, commitTime) => {
+            console.log({
+              id,
+              phase,
+              actualDuration,
+              baseDuration,
+              startTime,
+              commitTime,
+            });
+          }}
+        >
+          <Routes>
+            <Route
+              path="/"
+              element={<PageTemplate isHomePage={true} child={<HomePage />} />}
+            />
+            <Route
+              path="/standings"
+              element={
+                <PageTemplate isHomePage={false} child={<StandingsChart />} />
+              }
+            />
+            <Route
+              path="/playerStats"
+              element={<PageTemplate isHomePage={false} child={<Top10Chart />} />}
+            />
+            <Route
+              path="/teamStats"
+              element={<PageTemplate isHomePage={false} child={<TeamStats />} />}
+            />
+            <Route />
+          </Routes>
+        </React.Profiler>
       </ThemeProvider>
     </BrowserRouter>
   );
