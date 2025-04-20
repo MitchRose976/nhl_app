@@ -1,5 +1,11 @@
 import React from "react";
-import { Table, TableContainer, TableRow, TableCell, TableBody } from "@mui/material";
+import {
+  Table,
+  TableContainer,
+  TableRow,
+  TableCell,
+  TableBody,
+} from "@mui/material";
 import { PlayerDataType } from "../../../shared/types";
 import { formatStat } from "../../../shared/utils";
 
@@ -20,7 +26,11 @@ const PlayerTable: React.FC<PlayerTableProps> = ({
     <Table size="small">
       <TableBody>
         {players.map((player, index) => (
-          <TableRow key={index} onMouseEnter={() => onPlayerHover(index)}>
+          <TableRow
+            key={index}
+            onMouseEnter={() => onPlayerHover(index)}
+            sx={{ cursor: "pointer" }}
+          >
             <TableCell
               size="small"
               sx={{ fontSize: windowWidth < 500 ? "0.65rem" : "0.85rem" }}
@@ -35,4 +45,4 @@ const PlayerTable: React.FC<PlayerTableProps> = ({
   </TableContainer>
 );
 
-export default PlayerTable; 
+export default PlayerTable;

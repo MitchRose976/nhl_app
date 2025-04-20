@@ -11,35 +11,46 @@ import { useTop10Queries, QueryType } from "./hooks/useTop10Queries";
 import PlayerTable from "./components/PlayerTable";
 import StatusAlerts from "./components/StatusAlerts";
 
+interface ChartState {
+  queryType: QueryType;
+  statType: string;
+  activeCard: number;
+  showComponent: boolean;
+}
+
+const initialState: ChartState = {
+  queryType: "getTop10Points",
+  statType: statTypeMapping.points.type,
+  activeCard: 0,
+  showComponent: false,
+};
+
 const Top10Chart = () => {
   const queryHooks = useTop10Queries();
-  const [queryType, setQueryType] = useState<QueryType>("getTop10Points");
-  const [activeCard, setActiveCard] = useState(0);
-  const [statType, setStatType] = useState<string>(statTypeMapping.points.type);
-  const [showComponent, setShowComponent] = useState(false);
+  const [state, setState] = useState<ChartState>(initialState);
   const windowSize = useWindowSize();
 
-  const chartData = queryHooks[queryType];
+  const chartData = queryHooks[state.queryType];
 
   useEffect(() => {
-    setShowComponent(true);
+    setState(prev => ({ ...prev, showComponent: true }));
   }, []);
 
   useEffect(() => {
     const newStat = Object.values(statTypeMapping).find(
-      ({ type }) => statType === type
+      ({ type }) => state.statType === type
     );
     if (newStat) {
-      setQueryType(newStat.queryName as QueryType);
+      setState(prev => ({ ...prev, queryType: newStat.queryName as QueryType }));
     }
-  }, [statType]);
+  }, [state.statType]);
 
   const handleTabChange = (event: React.SyntheticEvent, value: string) => {
     const newStatType = Object.values(statTypeMapping).find(
       ({ label }) => value === label
     );
     if (newStatType) {
-      setStatType(newStatType.type);
+      setState(prev => ({ ...prev, statType: newStatType.type }));
     }
   };
 
@@ -53,10 +64,10 @@ const Top10Chart = () => {
       sx={{
         padding: "2rem 0",
         marginTop: "2rem",
-        opacity: showComponent ? 1 : 0,
+        opacity: state.showComponent ? 1 : 0,
         transition: "opacity 0.5s ease-in",
       }}
-      className={showComponent ? "fade-in" : ""}
+      className={state.showComponent ? "fade-in" : ""}
     >
       <Tabs
         value={false}
@@ -77,16 +88,16 @@ const Top10Chart = () => {
           alignItems: "center",
         }}
       >
-        {chartData.data[activeCard] && (
+        {chartData.data[state.activeCard] && (
           <MiniPlayerCard
-            player={chartData.data[activeCard]}
-            statType={statType}
+            player={chartData.data[state.activeCard]}
+            statType={state.statType}
           />
         )}
         <PlayerTable
           players={chartData.data}
-          statType={statType}
-          onPlayerHover={setActiveCard}
+          statType={state.statType}
+          onPlayerHover={(index) => setState(prev => ({ ...prev, activeCard: index }))}
           windowWidth={windowSize.width}
         />
       </Box>
