@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import GameCard from "./components/GameCard";
 import Carousel from "react-material-ui-carousel";
 import "./style.scss";
@@ -16,42 +16,11 @@ const getMaxGameCards = (windowWidth: number): number => {
   return 7;
 };
 
-const NoGamesMessage = () => (
-  <div
-    className="game-card-slide-div"
-    style={{
-      display: "flex",
-      justifyContent: "space-around",
-      alignItems: "center",
-      flexDirection: "row",
-      marginTop: "1rem",
-      height: "9rem",
-    }}
-  >
-    <Typography sx={{ color: "#fff" }}>No Games Today</Typography>
-  </div>
-);
-
-const LoadingState = () => (
-  <div
-    className="game-card-slide-div"
-    style={{
-      borderBottom: "1rem solid #c60c30",
-      height: "12.5rem",
-      backgroundColor: "#141414",
-      padding: "0.5rem, 0.5rem, 0, 0.5rem",
-      marginTop: "0",
-    }}
-  >
-    <CircularProgress sx={{ color: "secondary.main" }} />
-  </div>
-);
-
 const ErrorState = () => (
   <div className="game-card-slide-div">
     <Alert severity="error">
       <AlertTitle>Error</AlertTitle>
-      <strong>Error while fetching data</strong>
+      <strong>Failed to fetch data</strong>
     </Alert>
   </div>
 );
@@ -60,8 +29,8 @@ const LiveScoreBar = () => {
   const {
     data: scoresData,
     isLoading,
-    isSuccess,
     isError,
+    isSuccess,
   } = useGetScoresQuery();
 
   const [maxGameCards, setMaxGameCards] = useState(
@@ -77,24 +46,43 @@ const LiveScoreBar = () => {
     return () => window.removeEventListener("resize", handleWindowResize);
   }, []);
 
-  if (isLoading) return <LoadingState />;
-  if (isError) return <ErrorState />;
-  if (!isSuccess || !scoresData || scoresData.length === 0)
-    return <NoGamesMessage />;
+  const renderContent = () => {
+    if (isLoading) return <CircularProgress sx={{ color: "secondary.main" }} />;
+    if (isError) return <ErrorState />;
+    if (!isSuccess || !scoresData || scoresData.length === 0)
+      return <Typography sx={{ color: "#fff" }}>No Games Today</Typography>;
 
-  const cardsArray = scoresData[0].games.map(
-    (game: GameInterface, index: number) => <GameCard key={index} game={game} />
+    const cardsArray = scoresData[0].games.map(
+      (game: GameInterface, index: number) => (
+        <GameCard key={index} game={game} />
+      )
+    );
+
+    const gameCardSlides = splitArrayIntoEqualParts(cardsArray, maxGameCards)
+      .map((arrayOfGames, index) => (
+        <div className="game-card-slide-div" key={index}>
+          {arrayOfGames}
+        </div>
+      ))
+      .filter((gameCard) => gameCard.props.children.length > 0);
+
+    return <Carousel className="live-game-carousel">{gameCardSlides}</Carousel>;
+  };
+
+  return (
+    <div
+      style={{
+        height: "15rem",
+        backgroundColor: '#141414',
+        borderBottom: "1rem solid #c60c30",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {renderContent()}
+    </div>
   );
-
-  const gameCardSlides = splitArrayIntoEqualParts(cardsArray, maxGameCards)
-    .map((arrayOfGames, index) => (
-      <div className="game-card-slide-div" key={index}>
-        {arrayOfGames}
-      </div>
-    ))
-    .filter((gameCard) => gameCard.props.children.length > 0);
-
-  return <Carousel className="live-game-carousel">{gameCardSlides}</Carousel>;
 };
 
 export default LiveScoreBar;

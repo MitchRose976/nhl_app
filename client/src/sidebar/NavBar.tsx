@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { AppBar, Toolbar, Stack, Button } from "@mui/material";
 import Logo from "./components/Logo";
 import HamburgerDropdown from "./components/HamburgerDropdown";
@@ -27,7 +27,7 @@ const Navbar = () => {
     };
   }, []);
 
-  const renderFullMenu = () => {
+  const FullMenu = () => {
     return (
       <Stack
         direction="row"
@@ -59,7 +59,7 @@ const Navbar = () => {
         }}
       >
         <Logo />
-        {windowSize.innerWidth > 790 ? renderFullMenu() : <HamburgerDropdown />}
+        {windowSize.innerWidth > 790 ? <FullMenu /> : <HamburgerDropdown />}
       </Toolbar>
     </AppBar>
   );
