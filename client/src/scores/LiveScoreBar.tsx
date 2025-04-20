@@ -1,19 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import GameCard from "./components/GameCard";
 import Carousel from "react-material-ui-carousel";
 import "./style.scss";
 import { useGetScoresQuery } from "../features/api/apiSlice";
 import { GameInterface } from "../shared/types";
 import { Alert, AlertTitle, CircularProgress, Typography } from "@mui/material";
-import { splitArrayIntoEqualParts } from "../shared/utils";
+
+// Each GameCard has a fixed width of 8.5rem (136px at default 16px root font size)
+const GAME_CARD_WIDTH = 8.5; // in rem
+const MIN_CARD_SPACING = 1; // in rem, minimum space between cards
+const CAROUSEL_PADDING = 2; // in rem, total padding on both sides
 
 const getMaxGameCards = (windowWidth: number): number => {
-  if (windowWidth > 1466) return 2;
-  if (windowWidth > 990) return 3;
-  if (windowWidth > 800) return 4;
-  if (windowWidth > 600) return 5;
-  if (windowWidth > 450) return 6;
-  return 7;
+  // Convert window width from pixels to rem (assuming 16px root font size)
+  const windowWidthInRem = windowWidth / 16;
+  
+  // Calculate available width for cards (accounting for padding)
+  const availableWidth = windowWidthInRem - CAROUSEL_PADDING;
+  
+  // Calculate how many cards can fit with minimum spacing
+  const maxCards = Math.floor(availableWidth / (GAME_CARD_WIDTH + MIN_CARD_SPACING)) - 1;
+  
+  // Ensure we have at least 1 card and at most 7 cards
+  return Math.max(1, Math.min(7, maxCards));
 };
 
 const ErrorState = () => (
@@ -33,18 +42,31 @@ const LiveScoreBar = () => {
     isSuccess,
   } = useGetScoresQuery();
 
-  const [maxGameCards, setMaxGameCards] = useState(
-    getMaxGameCards(window.innerWidth)
-  );
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  console.log("LiveScoreBar windowWidth: ", windowWidth)
+
+  // Debounce the resize handler to improve performance
+  const debouncedHandleResize = useCallback(() => {
+    let timeoutId: NodeJS.Timeout;
+    return () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setWindowWidth(window.innerWidth);
+      }, 150); // 150ms debounce delay
+    };
+  }, []);
 
   useEffect(() => {
-    const handleWindowResize = () => {
-      setMaxGameCards(getMaxGameCards(window.innerWidth));
+    const handleResize = debouncedHandleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
     };
+  }, [debouncedHandleResize]);
 
-    window.addEventListener("resize", handleWindowResize);
-    return () => window.removeEventListener("resize", handleWindowResize);
-  }, []);
+  // Memoize the maxGameCards calculation
+  const maxGameCards = useMemo(() => getMaxGameCards(windowWidth), [windowWidth]);
+  console.log("LiveScoreBar maxGameCards: ", maxGameCards)
 
   const renderContent = () => {
     if (isLoading) return <CircularProgress sx={{ color: "secondary.main" }} />;
@@ -58,13 +80,15 @@ const LiveScoreBar = () => {
       )
     );
 
-    const gameCardSlides = splitArrayIntoEqualParts(cardsArray, maxGameCards)
-      .map((arrayOfGames, index) => (
-        <div className="game-card-slide-div" key={index}>
-          {arrayOfGames}
+    // Create slides with maxGameCards number of cards per slide
+    const gameCardSlides = [];
+    for (let i = 0; i < cardsArray.length; i += maxGameCards) {
+      gameCardSlides.push(
+        <div className="game-card-slide-div" key={i}>
+          {cardsArray.slice(i, i + maxGameCards)}
         </div>
-      ))
-      .filter((gameCard) => gameCard.props.children.length > 0);
+      );
+    }
 
     return <Carousel className="live-game-carousel">{gameCardSlides}</Carousel>;
   };
