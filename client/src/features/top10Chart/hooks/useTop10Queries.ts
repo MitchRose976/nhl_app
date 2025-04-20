@@ -1,7 +1,5 @@
 import { apiSlice } from "../../api/apiSlice";
 
-type QueryHookResult = ReturnType<typeof apiSlice.endpoints.getTop10Points.useQuery>;
-
 export const useTop10Queries = () => {
   const queries = {
     // PLAYERS
