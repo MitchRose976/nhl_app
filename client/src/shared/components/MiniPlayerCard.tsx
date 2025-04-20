@@ -145,7 +145,9 @@ const MiniPlayerCard = ({ player, statType }: MiniPlayerCardProps) => {
       <Card
         raised={true}
         sx={{
-          maxWidth: "13rem",
+          maxWidth: "14rem",
+          width: "14rem",
+          minWidth: "14rem",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
