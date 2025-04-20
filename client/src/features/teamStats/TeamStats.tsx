@@ -6,6 +6,7 @@ import { TEAM_IDS } from "../../shared/constants";
 import { useEffect, useState } from "react";
 import { formatRechartsData, getWindowSize } from "../../shared/utils";
 import TeamSelector from "../../shared/components/TeamSelector";
+import FeatureContainer from "../../shared/components/FeatureContainer";
 
 const TeamStats = () => {
   // Query
@@ -46,45 +47,38 @@ const TeamStats = () => {
   };
 
   return (
-    <Container
-      maxWidth={false}
-      sx={{
-        padding: "2rem 0",
-        marginTop: "2rem",
-        opacity: showComponent ? 1 : 0,
-        transition: "opacity 0.5s ease-in",
-      }}
-      className={showComponent ? "fade-in" : ""}
-    >
-      <Box
-        sx={{
-          width: windowSize.innerWidth < 1000 ? "75%" : "25rem",
-        }}
-      >
-        <TeamSelector
-          selectedTeams={selectedTeams}
-          onTeamChange={setSelectedTeams}
-        />
-      </Box>
+    <FeatureContainer showComponent={showComponent}>
+      <>
+        <Box
+          sx={{
+            width: windowSize.innerWidth < 1000 ? "75%" : "25rem",
+          }}
+        >
+          <TeamSelector
+            selectedTeams={selectedTeams}
+            onTeamChange={setSelectedTeams}
+          />
+        </Box>
 
-      {/* CHARTS */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: windowSize.innerWidth < 1000 ? "column" : "row",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "1rem",
-        }}
-      >
-        <Box sx={{ margin: "0.7rem" }}>
-          <TeamStatsBarChart {...chartProps} />
+        {/* CHARTS */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: windowSize.innerWidth < 1000 ? "column" : "row",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "1rem",
+          }}
+        >
+          <Box sx={{ margin: "0.7rem" }}>
+            <TeamStatsBarChart {...chartProps} />
+          </Box>
+          <Box sx={{ margin: "0.7rem" }}>
+            <TeamStatsRadarChart {...chartProps} />
+          </Box>
         </Box>
-        <Box sx={{ margin: "0.7rem" }}>
-          <TeamStatsRadarChart {...chartProps} />
-        </Box>
-      </Box>
-    </Container>
+      </>
+    </FeatureContainer>
   );
 };
 

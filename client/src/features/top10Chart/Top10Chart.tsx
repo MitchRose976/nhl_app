@@ -10,6 +10,7 @@ import { useWindowSize } from "../../shared/hooks/useWindowSize";
 import { useTop10Queries, QueryType } from "./hooks/useTop10Queries";
 import PlayerTable from "./components/PlayerTable";
 import StatusAlerts from "./components/StatusAlerts";
+import FeatureContainer from "../../shared/components/FeatureContainer";
 
 interface ChartState {
   queryType: QueryType;
@@ -33,7 +34,7 @@ const Top10Chart = () => {
   const chartData = queryHooks[state.queryType];
 
   useEffect(() => {
-    setState(prev => ({ ...prev, showComponent: true }));
+    setState((prev) => ({ ...prev, showComponent: true }));
   }, []);
 
   useEffect(() => {
@@ -41,7 +42,10 @@ const Top10Chart = () => {
       ({ type }) => state.statType === type
     );
     if (newStat) {
-      setState(prev => ({ ...prev, queryType: newStat.queryName as QueryType }));
+      setState((prev) => ({
+        ...prev,
+        queryType: newStat.queryName as QueryType,
+      }));
     }
   }, [state.statType]);
 
@@ -50,7 +54,7 @@ const Top10Chart = () => {
       ({ label }) => value === label
     );
     if (newStatType) {
-      setState(prev => ({ ...prev, statType: newStatType.type }));
+      setState((prev) => ({ ...prev, statType: newStatType.type }));
     }
   };
 
@@ -59,49 +63,44 @@ const Top10Chart = () => {
   }
 
   return (
-    <Container
-      maxWidth="md"
-      sx={{
-        padding: "2rem 0",
-        marginTop: "2rem",
-        opacity: state.showComponent ? 1 : 0,
-        transition: "opacity 0.5s ease-in",
-      }}
-      className={state.showComponent ? "fade-in" : ""}
-    >
-      <Tabs
-        value={false}
-        onChange={handleTabChange}
-        variant="scrollable"
-        scrollButtons="auto"
-        aria-label="Tabs for player stat types"
-      >
-        {TOP_10_STATS_CATEGORIES.map((category, index) => (
-          <Tab key={index} label={category.label} value={category.label} />
-        ))}
-      </Tabs>
-      <Divider />
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
-        {chartData.data[state.activeCard] && (
-          <MiniPlayerCard
-            player={chartData.data[state.activeCard]}
+    <FeatureContainer showComponent={state.showComponent}>
+      <>
+        <Tabs
+          value={false}
+          onChange={handleTabChange}
+          variant="scrollable"
+          scrollButtons="auto"
+          aria-label="Tabs for player stat types"
+        >
+          {TOP_10_STATS_CATEGORIES.map((category, index) => (
+            <Tab key={index} label={category.label} value={category.label} />
+          ))}
+        </Tabs>
+        <Divider />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+          }}
+        >
+          {chartData.data[state.activeCard] && (
+            <MiniPlayerCard
+              player={chartData.data[state.activeCard]}
+              statType={state.statType}
+            />
+          )}
+          <PlayerTable
+            players={chartData.data}
             statType={state.statType}
+            onPlayerHover={(index) =>
+              setState((prev) => ({ ...prev, activeCard: index }))
+            }
+            windowWidth={windowSize.width}
           />
-        )}
-        <PlayerTable
-          players={chartData.data}
-          statType={state.statType}
-          onPlayerHover={(index) => setState(prev => ({ ...prev, activeCard: index }))}
-          windowWidth={windowSize.width}
-        />
-      </Box>
-    </Container>
+        </Box>
+      </>
+    </FeatureContainer>
   );
 };
 

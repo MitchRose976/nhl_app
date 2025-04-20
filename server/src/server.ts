@@ -11,7 +11,7 @@ const port: number = 7000;
 // middleware
 server.use((req: Request, res: Response, next) => {
   res.on("finish", () => {
-    console.log(req.path, req.method, res.statusCode);
+    console.info(req.path, req.method, res.statusCode);
   });
   next();
 });
@@ -34,7 +34,7 @@ connectToDatabase()
     server.use("/nhl-app", router);
 
     server.listen(port, () => {
-      console.log(`Server started at http://localhost:${port}`);
+      console.info(`Server started at http://localhost:${port}`);
     });
   })
   .catch((error: Error) => {

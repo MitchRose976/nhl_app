@@ -46,7 +46,7 @@ const App = () => {
         <React.Profiler
           id="App"
           onRender={(id, phase, actualDuration, baseDuration, startTime, commitTime) => {
-            console.log({
+            console.info({
               id,
               phase,
               actualDuration,

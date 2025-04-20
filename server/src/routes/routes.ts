@@ -37,7 +37,7 @@ router.get("/players/top10Points", async (req: Request, res: Response) => {
       return res.status(200).send(top10PointsPlayers);
     }
   } catch (error) {
-    console.log("Error @ /players/top10Points: ", error);
+    console.error("Error @ /players/top10Points: ", error);
   }
 });
 
@@ -53,7 +53,7 @@ router.get("/players/top10Goals", async (req: Request, res: Response) => {
       return res.status(200).send(top10GoalsPlayers);
     }
   } catch (error) {
-    console.log("Error @ /players/top10Goals: ", error);
+    console.error("Error @ /players/top10Goals: ", error);
   }
 });
 
@@ -69,7 +69,7 @@ router.get("/players/top10Assists", async (req: Request, res: Response) => {
       return res.status(200).send(top10AssistsPlayers);
     }
   } catch (error) {
-    console.log("Error @ /players/top10Assists: ", error);
+    console.error("Error @ /players/top10Assists: ", error);
   }
 });
 
@@ -85,7 +85,7 @@ router.get("/players/top10PlusMinus", async (req: Request, res: Response) => {
       return res.status(200).send(top10PlusMinusPlayers);
     }
   } catch (error) {
-    console.log("Error @ /players/top10PlusMinus: ", error);
+    console.error("Error @ /players/top10PlusMinus: ", error);
   }
 });
 
@@ -103,7 +103,7 @@ router.get(
         return res.status(200).send(top10PenaltyMinutesPlayers);
       }
     } catch (error) {
-      console.log("Error @ /players/top10PenaltyMinutes: ", error);
+      console.error("Error @ /players/top10PenaltyMinutes: ", error);
     }
   }
 );
@@ -146,7 +146,7 @@ router.get(
         return res.status(200).send(top10TimeOnIcePerGamePlayers);
       }
     } catch (error) {
-      console.log("Error @ /players/top10TimeOnIcePerGame: ", error);
+      console.error("Error @ /players/top10TimeOnIcePerGame: ", error);
     }
   }
 );
@@ -167,7 +167,7 @@ router.get(
         return res.status(200).send(top10PowerplayGoalsPlayers);
       }
     } catch (error) {
-      console.log("Error @ /players/top10PowerplayGoals: ", error);
+      console.error("Error @ /players/top10PowerplayGoals: ", error);
     }
   }
 );
@@ -188,7 +188,7 @@ router.get(
         return res.status(200).send(top10ShortHandedGoalsPlayers);
       }
     } catch (error) {
-      console.log("Error @ /players/top10ShortHandedGoals: ", error);
+      console.error("Error @ /players/top10ShortHandedGoals: ", error);
     }
   }
 );
@@ -209,7 +209,7 @@ router.get(
         return res.status(200).send(top10PowerplayPointsPlayers);
       }
     } catch (error) {
-      console.log("Error @ /players/top10PowerplayPoints: ", error);
+      console.error("Error @ /players/top10PowerplayPoints: ", error);
     }
   }
 );
@@ -230,7 +230,7 @@ router.get(
         return res.status(200).send(top10ShortHandedPointsPlayers);
       }
     } catch (error) {
-      console.log("Error @ /players/top10ShortHandedPoints: ", error);
+      console.error("Error @ /players/top10ShortHandedPoints: ", error);
     }
   }
 );
@@ -273,7 +273,7 @@ router.get(
         return res.status(200).send(top10FaceOffPercentagePlayers);
       }
     } catch (error) {
-      console.log("Error @ /players/top10FaceOffPercentage: ", error);
+      console.error("Error @ /players/top10FaceOffPercentage: ", error);
     }
   }
 );
@@ -295,7 +295,7 @@ router.get(
         return res.status(200).send(top10ShootingPercentage);
       }
     } catch (error) {
-      console.log("Error @ /players/top10ShootingPercentage: ", error);
+      console.error("Error @ /players/top10ShootingPercentage: ", error);
     }
   }
 );
@@ -314,7 +314,7 @@ router.get("/players/top10ShotsOnNet", async (req: Request, res: Response) => {
       return res.status(200).send(top10ShotsOnNet);
     }
   } catch (error) {
-    console.log("Error @ /players/top10ShotsOnNet: ", error);
+    console.error("Error @ /players/top10ShotsOnNet: ", error);
   }
 });
 
@@ -334,7 +334,7 @@ router.get(
         return res.status(200).send(top10GameWinningGoals);
       }
     } catch (error) {
-      console.log("Error @ /players/top10GameWinningGoals: ", error);
+      console.error("Error @ /players/top10GameWinningGoals: ", error);
     }
   }
 );
@@ -353,7 +353,7 @@ router.get("/players/top10OtGoals", async (req: Request, res: Response) => {
       return res.status(200).send(top10OtGoals);
     }
   } catch (error) {
-    console.log("Error @ /players/top10OtGoals: ", error);
+    console.error("Error @ /players/top10OtGoals: ", error);
   }
 });
 
@@ -381,7 +381,7 @@ router.get(
         return res.status(200).send(top10SavePercentagePlayers);
       }
     } catch (error) {
-      console.log("Error @ /players/top10SavePercentage: ", error);
+      console.error("Error @ /players/top10SavePercentage: ", error);
     }
   }
 );
@@ -405,7 +405,7 @@ router.get("/players/top10Wins", async (req: Request, res: Response) => {
       return res.status(200).send(top10WinsPlayers);
     }
   } catch (error) {
-    console.log("Error @ /players/top10Wins: ", error);
+    console.error("Error @ /players/top10Wins: ", error);
   }
 });
 
@@ -427,7 +427,7 @@ router.get("/players/top10Losses", async (req: Request, res: Response) => {
       return res.status(200).send(top10Losses);
     }
   } catch (error) {
-    console.log("Error @ /players/top10Losses: ", error);
+    console.error("Error @ /players/top10Losses: ", error);
   }
 });
 
@@ -469,7 +469,7 @@ router.get(
         return res.status(200).send(top10GamesStarted);
       }
     } catch (error) {
-      console.log("Error @ /players/top10GamesStarted: ", error);
+      console.error("Error @ /players/top10GamesStarted: ", error);
     }
   }
 );
@@ -510,7 +510,7 @@ router.get("/players/top10Shutouts", async (req: Request, res: Response) => {
       return res.status(200).send(top10Shutouts);
     }
   } catch (error) {
-    console.log("Error @ /players/top10Shutouts: ", error);
+    console.error("Error @ /players/top10Shutouts: ", error);
   }
 });
 
@@ -535,7 +535,7 @@ router.get(
         return res.status(200).send(top10GoalsAgainstAveragePlayers);
       }
     } catch (error) {
-      console.log("Error @ /players/top10GoalsAgainstAverage: ", error);
+      console.error("Error @ /players/top10GoalsAgainstAverage: ", error);
     }
   }
 );
@@ -553,10 +553,10 @@ router.get("/teams/standings", async (req: Request, res: Response) => {
         res.status(200).send(formattedStandings);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   } catch (error) {
-    console.log("Error @ /teams/standings: ", error);
+    console.error("Error @ /teams/standings: ", error);
   }
 });
 
@@ -579,10 +579,10 @@ router.get("/games/scores", async (req: Request, res: Response) => {
       )
       .then((response) => res.status(200).send(response.data))
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   } catch (error) {
-    console.log("Error @ /teams/standings: ", error);
+    console.error("Error @ /teams/standings: ", error);
   }
 });
 
@@ -604,7 +604,7 @@ router.get("/teams/stats", async (req: Request, res: Response) => {
       return res.status(200).send(teamStats[0]);
     }
   } catch (error) {
-    console.log("Error @ /teams/stats: ", error);
+    console.error("Error @ /teams/stats: ", error);
   }
 });
 
@@ -635,7 +635,7 @@ router.get("/teams/stats/formatted", async (req: Request, res: Response) => {
       return res.status(200).send(formattedTeamsData);
     }
   } catch (error) {
-    console.log("Error @ /teams/stats/formatted: ", error);
+    console.error("Error @ /teams/stats/formatted: ", error);
   }
 });
 

@@ -29,7 +29,7 @@ export const connectToDatabase = async () => {
   collections.teams = teamsCollection;
   collections.players = playersCollection;
 
-  console.log(
+  console.info(
     `Successfully connected to database: ${process.env.MONGO_DB_NAME} and collections: ${process.env.MONGO_TEAMS_COLLECTION}, ${process.env.MONGO_PLAYERS_COLLECTION}`
   );
 };
@@ -43,7 +43,7 @@ export const closeConnection = async () => {
 
   await client.close();
 
-  console.log(
+  console.info(
     `Successfully closed connection to database: ${process.env.MONGO_DB_NAME}`
   );
 };

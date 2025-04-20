@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import LiveScoreBar from "../scores/LiveScoreBar";
 import Navbar from "../sidebar/NavBar";
 import { Grid } from "@mui/material";
 import Footer from "../features/footer/Footer";
@@ -12,6 +11,7 @@ interface PageTemplateProps {
 
 const PageTemplate = ({ isHomePage, child }: PageTemplateProps) => {
   const [windowSize, setWindowSize] = useState(getWindowSize());
+  const [isScoreBarOpen, setIsScoreBarOpen] = useState(true);
 
   useEffect(() => {
     const handleWindowResize = () => {
@@ -35,22 +35,15 @@ const PageTemplate = ({ isHomePage, child }: PageTemplateProps) => {
   return (
     <Grid
       container
-      sx={{ backgroundColor: isHomePage ? "primary.light" : "" }}
-      style={{
-        position: "relative",
+      sx={{
+        backgroundColor: isHomePage ? "primary.light" : "",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <Grid item {...largeBreakPointsProps}>
-        <Navbar />
-      </Grid>
-      <Grid
-        item
-        {...largeBreakPointsProps}
-        style={{
-          margin: "3.5rem 0 1rem 0",
-        }}
-      >
-        <LiveScoreBar />
+        <Navbar onScoreBarToggle={setIsScoreBarOpen} />
       </Grid>
 
       <Grid
@@ -73,7 +66,11 @@ const PageTemplate = ({ isHomePage, child }: PageTemplateProps) => {
               ? "3rem"
               : "1rem",
           backgroundColor: "primary.main",
-          paddingBottom: "13rem",
+          flex: 1,
+          paddingBottom: "3rem",
+          paddingTop: "2rem",
+          marginTop: isScoreBarOpen ? "21rem" : "6rem",
+          transition: "margin-top 0.3s ease-in-out", // Smooth transition
         }}
       >
         {child}
@@ -82,8 +79,6 @@ const PageTemplate = ({ isHomePage, child }: PageTemplateProps) => {
         item
         style={{
           width: "100%",
-          position: "absolute",
-          bottom: 0,
           height: "10rem",
         }}
       >
