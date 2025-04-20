@@ -46,7 +46,9 @@ const PageTemplate = ({ isHomePage, child }: PageTemplateProps) => {
       <Grid
         item
         {...largeBreakPointsProps}
-        style={{ margin: "3.5rem 0 2rem 0" }}
+        style={{
+          margin: "3.5rem 0 1rem 0",
+        }}
       >
         <LiveScoreBar />
       </Grid>
