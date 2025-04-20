@@ -18,6 +18,7 @@ import {
 import { formGetTeamLogoUrl, getTeamStat } from "../../shared/utils";
 import Loader from "../../shared/components/Loader";
 import { TeamStandingsDataObject } from "../../../../server/src/types";
+import FeatureContainer from "../../shared/components/FeatureContainer";
 
 const standingsTableHeaders = [
   { label: "Team", type: "Team", stat: "team.name" }, // must render with func
@@ -220,52 +221,46 @@ const StandingsChart = () => {
         </Alert>
       ) : null}
       {isSuccess ? (
-        <Container
-          maxWidth="md"
-          sx={{
-            marginTop: "2rem",
-            opacity: showComponent ? 1 : 0,
-            transition: "opacity 0.5s ease-in",
-          }}
-          className={showComponent ? "fade-in" : ""}
-        >
-          <Tabs
-            variant={"fullWidth"}
-            value={false}
-            scrollButtons="auto"
-            aria-label="Tabs for player stat types"
-          >
-            <Tab
-              key={standingsMapping["Eastern Conference"].label}
-              label={standingsMapping["Eastern Conference"].label}
-              value={standingsMapping["Eastern Conference"].label}
-              onClick={() =>
-                setConference(standingsMapping["Eastern Conference"].label)
-              }
-            />
-            <Tab
-              key={standingsMapping["Western Conference"].label}
-              label={standingsMapping["Western Conference"].label}
-              value={standingsMapping["Western Conference"].label}
-              onClick={() =>
-                setConference(standingsMapping["Western Conference"].label)
-              }
-            />
-          </Tabs>
-          <Divider />
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-around",
-              alignItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            {standingsMapping[conference].divisions.map((division: string) =>
-              renderDivisionTable(division)
-            )}
-          </Box>
-        </Container>
+        <FeatureContainer maxWidth="md" showComponent={showComponent}>
+          <>
+            <Tabs
+              variant={"fullWidth"}
+              value={false}
+              scrollButtons="auto"
+              aria-label="Tabs for player stat types"
+            >
+              <Tab
+                key={standingsMapping["Eastern Conference"].label}
+                label={standingsMapping["Eastern Conference"].label}
+                value={standingsMapping["Eastern Conference"].label}
+                onClick={() =>
+                  setConference(standingsMapping["Eastern Conference"].label)
+                }
+              />
+              <Tab
+                key={standingsMapping["Western Conference"].label}
+                label={standingsMapping["Western Conference"].label}
+                value={standingsMapping["Western Conference"].label}
+                onClick={() =>
+                  setConference(standingsMapping["Western Conference"].label)
+                }
+              />
+            </Tabs>
+            <Divider />
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              {standingsMapping[conference].divisions.map((division: string) =>
+                renderDivisionTable(division)
+              )}
+            </Box>
+          </>
+        </FeatureContainer>
       ) : null}
     </>
   );

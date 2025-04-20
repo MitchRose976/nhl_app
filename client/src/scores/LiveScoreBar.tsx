@@ -43,7 +43,6 @@ const LiveScoreBar = () => {
   } = useGetScoresQuery();
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  console.log("LiveScoreBar windowWidth: ", windowWidth)
 
   // Debounce the resize handler to improve performance
   const debouncedHandleResize = useCallback(() => {
@@ -66,7 +65,6 @@ const LiveScoreBar = () => {
 
   // Memoize the maxGameCards calculation
   const maxGameCards = useMemo(() => getMaxGameCards(windowWidth), [windowWidth]);
-  console.log("LiveScoreBar maxGameCards: ", maxGameCards)
 
   const renderContent = () => {
     if (isLoading) return <CircularProgress sx={{ color: "secondary.main" }} />;
@@ -98,7 +96,6 @@ const LiveScoreBar = () => {
       style={{
         height: "15rem",
         backgroundColor: '#141414',
-        borderBottom: "1rem solid #c60c30",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",

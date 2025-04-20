@@ -16,24 +16,23 @@ const StatusAlerts: React.FC<StatusAlertsProps> = ({
   isSuccess,
   data,
 }) => {
-  if (isLoading) return <Loader />;
-  if (isError) {
-    return (
-      <Alert severity="error">
-        <AlertTitle>Error</AlertTitle>
-        <strong>Error while fetching data</strong>
-      </Alert>
-    );
-  }
-  if (isSuccess && data && data.length === 0) {
-    return (
-      <Alert severity="warning">
-        <AlertTitle>Warning</AlertTitle>
-        <strong>There is no data to display</strong>
-      </Alert>
-    );
-  }
-  return null;
+  return (
+    <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      {isLoading && <Loader />}
+      {isError && (
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          <strong>Error while fetching data</strong>
+        </Alert>
+      )}
+      {isSuccess && data && data.length === 0 && (
+        <Alert severity="warning">
+          <AlertTitle>Warning</AlertTitle>
+          <strong>There is no data to display</strong>
+        </Alert>
+      )}
+    </div>
+  );
 };
 
 export default StatusAlerts; 
