@@ -1,4 +1,4 @@
-import { Container, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import TeamStatsBarChart from "../../shared/components/TeamStatsBarChart";
 import TeamStatsRadarChart from "../../shared/components/TeamStatsRadarChart";
 import { useGetTeamStatsFormattedQuery } from "../api/apiSlice";

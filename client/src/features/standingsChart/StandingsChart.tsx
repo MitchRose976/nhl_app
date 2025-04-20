@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetStandingsQuery } from "../api/apiSlice";
 import {
   Alert,
   AlertTitle,
   Box,
-  Container,
   Divider,
   Tab,
   Table,

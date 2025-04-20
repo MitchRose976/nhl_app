@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Container } from "@mui/system";
 import { Box, Tab, Tabs, Divider } from "@mui/material";
 import {
   statTypeMapping,
