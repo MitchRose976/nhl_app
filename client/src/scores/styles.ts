@@ -14,6 +14,8 @@ export const gameCardSXProps: SxProps = {
   alignItems: "center",
   padding: "0 1rem",
   maxWidth: "8.5rem",
+  width: "8.5rem",
+  minWidth: "8.5rem",
   cursor: "pointer",
   boxShadow: 3,
   "&:hover": {
