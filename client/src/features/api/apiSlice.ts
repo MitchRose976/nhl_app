@@ -23,7 +23,6 @@ import {
   TOP_10_SHUTOUTS_PATH,
   TOP_10_GOALS_AGAINST_AVERAGE_PATH,
   GET_STANDINGS_PATH,
-  GET_SCORES_PATH,
   GET_TEAM_STATS_PATH,
   TEAM_STATS_FORMATTED_PATH,
 } from "../../shared/constants";
@@ -101,7 +100,17 @@ export const apiSlice = createApi({
       query: () => GET_STANDINGS_PATH,
     }),
     getScores: builder.query<any, void>({
-      query: () => GET_SCORES_PATH,
+      query: () => {
+        const todaysDate = new Date()
+          .toLocaleDateString("pt-br")
+          .split("/")
+          .reverse()
+          .join("-");
+        return {
+          url: `https://nhl-score-api.herokuapp.com/api/scores?startDate=${todaysDate}`,
+          method: 'GET',
+        };
+      },
     }),
     getTeamStatsByID: builder.query<any, { teamID: number }>({
       query: (args) => {

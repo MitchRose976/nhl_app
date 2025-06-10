@@ -68,8 +68,8 @@ const LiveScoreBar = () => {
 
   const renderContent = () => {
     if (isLoading) return <CircularProgress sx={{ color: "secondary.main" }} />;
-    if (isError) return <ErrorState />;
-    if (!isSuccess || !scoresData || scoresData.length === 0)
+    if (isError || !isSuccess || !scoresData) return <ErrorState />;
+    if (scoresData[0].games?.length === 0)
       return <Typography sx={{ color: "#fff" }}>No Games Today</Typography>;
 
     const cardsArray = scoresData[0].games.map(
